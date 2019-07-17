@@ -10,7 +10,11 @@ export const constantRouterMap = [{
     path: '/',
     name: '首页',
     component: _import_('index/Home')
-}, {
+},{
+    path: '/WxAuth',
+    name: '授权',
+    component: _import_('auth/WxAuth')
+},  {
     path: '/xfdt',
     name: '西府动态',
     meta: {

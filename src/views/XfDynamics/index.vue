@@ -1,6 +1,6 @@
 <template>
     <section class="box-wrapper">
-        <van-nav-bar
+        <van-nav-bar swipeable
             title="西府动态"
             left-arrow
             fixed
@@ -23,37 +23,37 @@
                 </van-tab>
             </van-tabs>
         </section>
-        
+
     </section>
 </template>
 <script>
-    import { mapGetters } from 'vuex'
-    export default {
-        data() {
-            return {
-                zindex:999,
-                active: 0,
-                count: 0,
-                isLoading: true
-            };
-        },
-        created () {
-            this.$store.dispatch('getHomeList')
-		},
-        methods: {
-            onRefresh(index) {
-                setTimeout(() => {
-                    this.xfTabTitleInfo[index].refreshing = false;
-                }, 500);
-            }
-        },
-        computed: {
-            ...mapGetters([
-                'xfTabTitleInfo',
-                'newsList'
-            ])
-        }
+import { mapGetters } from 'vuex'
+export default {
+  data () {
+    return {
+      zindex: 999,
+      active: 0,
+      count: 0,
+      isLoading: true
     }
+  },
+  created () {
+    this.$store.dispatch('getHomeList')
+  },
+  methods: {
+    onRefresh (index) {
+      setTimeout(() => {
+        this.xfTabTitleInfo[index].refreshing = false
+      }, 500)
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'xfTabTitleInfo',
+      'newsList'
+    ])
+  }
+}
 </script>
 <style lang="stylus" scoped>
 .wes-3 {

@@ -2,11 +2,12 @@ import {
     NavBar,
     Tab,
     Tabs,
-    PullRefresh
+    PullRefresh,
+    Toast
 } from 'vant'
 
 const components = [
-    NavBar, Tab, Tabs, PullRefresh
+    NavBar, Tab, Tabs, PullRefresh,Toast
 ];
 
 const install = Vue => {
