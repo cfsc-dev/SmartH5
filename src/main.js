@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/permission'
-import store from './store/index'
+import store from './store'
 
 
 // style
