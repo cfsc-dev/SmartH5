@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/permission'
-import store from './store'
+import store from './store/index'
 
 
 // style
@@ -21,7 +21,12 @@ import { Cookie } from '@/utils/storage'
 Vue.prototype.Cookie = Cookie
 
 // tools
+import '@/utils/iconfont.js'
 import '@/utils/rem.js'
+
+// Global Components 
+import customComponents from './custom-components.js'
+Vue.use(customComponents)
 
 // back
 Vue.prototype.back = (route) => {
