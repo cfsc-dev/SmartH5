@@ -22,6 +22,10 @@ export const constantRouterMap = [{
         login: true
     },
     component: _import_('XfDynamics/index')
+},{
+    path: '/detail',
+    name: '最新动态详情',
+    component: _import_('XfDynamics/detail')
 }]
 
 export const router = new Router({

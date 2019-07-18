@@ -12,13 +12,16 @@
                 <van-tab v-for="(tab,index) in xfTabTitleInfo" :title="tab.title" :key="index">
                     <div v-if="index === 0" :title="tab.refreshing">
                         <van-pull-refresh v-model="tab.refreshing" @refresh="onRefresh(index)">
-                        <section class="swiper-box">
-                            {{newsList.scope}}
-                        </section>
-                            </van-pull-refresh>
+                            <section class="swiper-box">
+                                {{newsList.scope}}
+                            </section>
+                        </van-pull-refresh>
                     </div>
                     <div v-else>
                         {{tab.title}}
+                        <div @click="jump">
+                            跳转详情
+                        </div>
                     </div>
                 </van-tab>
             </van-tabs>
@@ -45,7 +48,10 @@ export default {
       setTimeout(() => {
         this.xfTabTitleInfo[index].refreshing = false
       }, 500)
-    }
+    },
+      jump(){
+        this.$router.push({path:'/detail',query:{id:123}})
+      }
   },
   computed: {
     ...mapGetters([
