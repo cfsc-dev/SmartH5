@@ -1,8 +1,7 @@
 import { router } from './index'
 
 router.beforeEach((to, from, next) => {
-
-
+    console.log(234)
     next()
 })
 
