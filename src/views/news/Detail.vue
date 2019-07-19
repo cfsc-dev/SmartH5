@@ -18,7 +18,7 @@
             </div>
             <div class="detail-action">
                 <span><Icon name="iconview"></Icon>{{detail.reads}}</span>
-                <span><Icon @click.native="thumbsUpEdit" :name="detail.thumbsUp===1?'iconzanpress':'iconzannormal'"></Icon>{{detail.praises}}</span>
+                <span><Icon @click.native="thumbsUpEdit" name="iconzan" :class="{thumbsUp: detail.thumbsUp===1}"></Icon>{{detail.praises}}</span>
                 <span><Icon @click.native="share" name="iconshare" ></Icon></span>
             </div>
         </section>
@@ -65,11 +65,14 @@
             //获取最新动态详情
             getData(){
                 console.log(this.$route.params.id)
-                this.getHtml()
-            },
-            //获取文章内容
-            getHtml(){
-
+                let params={id:this.$route.params.id}
+                axios.get('/notices/selectNotices.action',params).then(
+                    res=>{
+                        console.log(res)
+                    }
+                ).catch(err=>{
+                    console.log(err)
+                })
             },
             //关注/取消关注
             thumbsUpEdit(){
@@ -111,6 +114,9 @@
         float:right;
         span{
             margin:0.1rem;
+            .thumbsUp{
+                color: #1a6dbd;
+            }
         }
         .icon{
             position:relative;

@@ -78,7 +78,7 @@
                 }, 500);
             },
             detail (id) {
-                this.$router.push({path:'/detail', query:{ id:id }})
+                this.$router.push({name:'最新动态详情', params:{ id:id }})
             }
         },
         computed: {
