@@ -35,7 +35,7 @@ function checkCode(res) {
     return res
 }
 
-// const baseURL = 'https://easy-mock.com/mock/5c9c457d537b38624dcfaa60/example/'
+//const baseURL = 'https://easy-mock.com/mock/5c9c457d537b38624dcfaa60/example/'
 const baseURL = '/smartxd/smartxd/api/'
 export default {
     get(url, params) {
@@ -43,9 +43,6 @@ export default {
         return axios({
             method: 'get',
             url: baseURL + url,
-            headers: {
-                Accept: 'application/json'
-            },
             params,
             timeout: 30000
         }).then(checkStatus).then(checkCode)

@@ -16,7 +16,7 @@ export const constantRouterMap = [{
     component: _import_('auth/WxAuth')
 },  {
     path: '/xfdt',
-    name: '西府动态',
+    name: '最新动态',
     meta: {
         slide: 1,
         login: true
@@ -29,6 +29,6 @@ export const constantRouterMap = [{
 }]
 
 export const router = new Router({
-    mode: 'history',
+    // mode: 'history',
     routes: constantRouterMap
 })

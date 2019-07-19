@@ -1,28 +1,40 @@
 <template>
     <section class="box-wrapper">
-        <van-nav-bar swipeable
-            title="西府动态"
+        <van-nav-bar
+            title="最新动态"
             left-arrow
             fixed
             :z-index=zindex
             @click-left="back($router)"
         />
         <section class="main-content">
-            <van-tabs v-model="active" animated swipeable>
-                <van-tab v-for="(tab,index) in xfTabTitleInfo" :title="tab.title" :key="index">
-                    <div v-if="index === 0" :title="tab.refreshing">
-                        <van-pull-refresh v-model="tab.refreshing" @refresh="onRefresh(index)">
-                            <section class="swiper-box">
-                                {{newsList.scope}}
-                            </section>
-                        </van-pull-refresh>
-                    </div>
-                    <div v-else>
-                        {{tab.title}}
-                        <div @click="jump">
-                            跳转详情
-                        </div>
-                    </div>
+            <van-tabs v-model="active" swipeable>
+                <van-tab v-for="(tab, index) in xfTabTitleInfo" :title="tab.title" :key="index">
+                    <van-pull-refresh v-model="tab.refreshing" @refresh="onRefresh(index)">
+                        <van-list
+                            v-model="tab.loading"
+                            :error.sync="tab.error"
+                            :error-text="errorText"
+                            :finished="tab.finished"
+                            :finished-text="finishedText"
+                            :offset="offset"
+                            @load="onLoad(index)"
+                        >
+                            <ul>
+                                <li v-for="(item, index) in tab.newsList" @click="detail(item.noticeId)" class="item" :key="index">
+                                    <van-row gutter="10">
+                                        <van-col span="16">
+                                            <h4>{{item.title}}</h4>
+                                            <p>{{item.remark}}</p>
+                                        </van-col>
+                                        <van-col span="8">
+                                            <img :src="`${item.noticeImgUrl ? 'smartxd/smartxd/' + item.noticeImgUrl : require('@/assets/img/no-img.png')}`" alt="">
+                                        </van-col>
+                                    </van-row>
+                                </li>
+                            </ul>
+                        </van-list>
+                    </van-pull-refresh>
                 </van-tab>
             </van-tabs>
         </section>
@@ -30,78 +42,76 @@
     </section>
 </template>
 <script>
-import { mapGetters } from 'vuex'
-export default {
-  data () {
-    return {
-      zindex: 999,
-      active: 0,
-      count: 0,
-      isLoading: true
+    import { mapGetters } from 'vuex'
+    export default {
+        data() {
+            return {
+                zindex: 999,
+                active: 0,
+                offset: 150,
+                finishedText: '没有更多了',
+                errorText: '请求失败，点击重新加载'
+            };
+        },
+        methods: {
+            onLoad (index, isRefresh) {
+                setTimeout(() => {
+                    if (isRefresh) this.xfTabTitleInfo[index].newsList = []
+                    return new Promise ( async (resolve, reject) => {
+                        await this.$store.dispatch('getHomeList', {
+                            id: index,
+                            receive: 1,
+                            currentPage: isRefresh ? 1 : this.xfTabTitleInfo[index].currentPage ++,
+                            projectid: 0,
+                            pageSize: this.xfTabTitleInfo[index].pageSize
+                        })
+                        resolve()
+                    })
+                }, 500);
+            },
+            onRefresh (index) {
+                setTimeout(() => {
+                    this.xfTabTitleInfo[index].error = false
+                    this.xfTabTitleInfo[index].finished = false
+                    this.xfTabTitleInfo[index].refreshing = false
+                    this.onLoad(index, true);
+                }, 500);
+            },
+            detail (id) {
+                this.$router.push({path:'/detail', query:{ id:id }})
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'xfTabTitleInfo',
+                'newsList'
+            ])
+        }
     }
-  },
-  created () {
-    this.$store.dispatch('getHomeList')
-  },
-  methods: {
-    onRefresh (index) {
-      setTimeout(() => {
-        this.xfTabTitleInfo[index].refreshing = false
-      }, 500)
-    },
-      jump(){
-        this.$router.push({name:'最新动态详情',params:{id:'123'}})
-      }
-  },
-  computed: {
-    ...mapGetters([
-      'xfTabTitleInfo',
-      'newsList'
-    ])
-  }
-}
 </script>
 <style lang="stylus" scoped>
-.wes-3 {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
-}
-.df-sb {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
 .item {
     padding: 0.2rem 0.1rem;
     h4 {
         color: black;
         font-size: 0.16rem;
+        word-break: break-all;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
     }
     p {
         font-size: 0.16rem;
         line-height: 0.2rem;
         margin: 0.1rem 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
-    .small-box {
-        >* {
-            display: inline-block;
-            vertical-align: middle;
-            font-size: 0.1rem;
-            margin-right: 0.04rem;
-            color: #999;
-        }
-    }
-}
-.item-l {
-    width: 70%;
-    padding-right: 10px;
-}
-.item-r {
-    width: 30%;
     img {
-        width: 100%;
+        width: 100%;height .58rem
     }
 }
 </style>
