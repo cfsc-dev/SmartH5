@@ -17,9 +17,9 @@
                 我是详情
             </div>
             <div class="detail-action">
-                <span>浏览：28</span>
-                <span>点赞：22</span>
-                <span>分享</span>
+                <span><Icon name="iconview"></Icon>{{detail.reads}}</span>
+                <span><Icon @click.native="thumbsUpEdit" :name="detail.thumbsUp===1?'iconzanpress':'iconzannormal'"></Icon>{{detail.praises}}</span>
+                <span><Icon @click.native="share" name="iconshare" ></Icon></span>
             </div>
         </section>
     </section>
@@ -53,7 +53,8 @@
                     "resources":null,
                     "resourcesToadd":null,
                     "resourceList":null,
-                    "noticeType":1
+                    "noticeType":1,
+                    "thumbsUp":1,
                 }
             }
         },
@@ -63,12 +64,25 @@
         methods:{
             //获取最新动态详情
             getData(){
-                console.log(this.$route.query.id)
+                console.log(this.$route.params.id)
                 this.getHtml()
             },
             //获取文章内容
             getHtml(){
 
+            },
+            //关注/取消关注
+            thumbsUpEdit(){
+                this.detail.thumbsUp=this.detail.thumbsUp===0?1:0
+                if(this.detail.thumbsUp===0){
+                    this.$toast('取消点赞')
+                }else{
+                    this.$toast('点赞')
+                }
+            },
+            //分享
+            share(){
+                this.$toast('分享');
             }
 
         }
@@ -97,6 +111,11 @@
         float:right;
         span{
             margin:0.1rem;
+        }
+        .icon{
+            position:relative;
+            top:-2px;
+            margin:0 5px;
         }
     }
 </style>

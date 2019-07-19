@@ -1,5 +1,5 @@
 module.exports = {
-  publicPath: './',
+  publicPath: '/',
   productionSourceMap: false,
   css: {
     extract: false

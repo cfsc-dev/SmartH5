@@ -23,7 +23,7 @@ export const constantRouterMap = [{
     },
     component: _import_('XfDynamics/index')
 },{
-    path: '/detail',
+    path: '/detail/:id',
     name: '最新动态详情',
     component: _import_('XfDynamics/detail')
 }]

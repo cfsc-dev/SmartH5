@@ -50,7 +50,7 @@ export default {
       }, 500)
     },
       jump(){
-        this.$router.push({path:'/detail',query:{id:123}})
+        this.$router.push({name:'最新动态详情',params:{id:'123'}})
       }
   },
   computed: {
