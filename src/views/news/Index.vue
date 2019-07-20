@@ -78,13 +78,12 @@
                 }, 500);
             },
             detail (id) {
-                this.$router.push({name:'最新动态详情', params:{ id:id }})
+                this.$router.push('/news/Detail/' + id)
             }
         },
         computed: {
             ...mapGetters([
-                'xfTabTitleInfo',
-                'newsList'
+                'xfTabTitleInfo'
             ])
         }
     }

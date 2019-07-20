@@ -1,7 +1,9 @@
 const getters = {
-    /*西府动态*/
-    xfTabTitleInfo: state => state.xfdynamics.xfTabTitleInfo,
-    newsList: state => state.xfdynamics.newsList,
+    // 首页
+    footerBarList: state => state.index.footerBarList,
+    centerIcon: state => state.index.centerIcon,
+    // 最新动态
+    xfTabTitleInfo: state => state.xfdynamics.xfTabTitleInfo
 }
 
 export default getters

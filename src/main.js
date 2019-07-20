@@ -34,6 +34,7 @@ Vue.prototype.back = (route) => {
     history.go(-1)
 }
 
+
 Vue.config.devtools = true
 Vue.config.productionTip = false
 
