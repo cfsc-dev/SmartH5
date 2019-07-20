@@ -3,17 +3,19 @@
         <section class="content">
             <img :src="`${require('@/assets/img/banner.png')}`" class="banner" alt="">
             <centerContent></centerContent>
+            <news></news>
         </section>
         <footerBar></footerBar>
     </section>
 </template>
 <script>
-import { centerContent, footerBar } from './index'
+import { centerContent, footerBar, news } from './index'
 export default {
     name: 'index',
     components: {
         centerContent,
-        footerBar
+        footerBar,
+        news
     }
 }
 </script>
