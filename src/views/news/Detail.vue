@@ -13,9 +13,7 @@
                 <span v-text="detail.publisherName"></span>
                 <span v-text="detail.publishTime"></span>
             </div>
-            <div class="detail-content">
-                我是详情
-            </div>
+            <div v-html="detail.content" class="detail-content"></div>
             <div class="detail-action">
                 <span><Icon name="iconview"></Icon>{{detail.reads}}</span>
                 <span><Icon @click.native="thumbsUpEdit" name="iconzan" :class="{thumbsUp: detail.thumbsUp===1}"></Icon>{{detail.praises}}</span>
@@ -33,42 +31,31 @@
             return{
                 zindex:999,
                 height:0,
-                detail:{
-                    "noticeId":23,
-                    "title":"中国房地产百强企业-长房集团",
-                    "content":null,
-                    "publishTime":"2019-07-01 10:06:37",
-                    "publisherName":"测试更新",
-                    "publisher":1,
-                    "upNO":0,
-                    "readedNO":0,
-                    "detailUrl":"/upload/notice_html/html/20190531/171516.html",
-                    "coverImgUrl":null,
-                    "remark":"中国房地产百强企业-长房集团",
-                    "receive":1,
-                    "noticeImgUrl":"upload/notice_html/image/20190531/20190531171450_257.png",
-                    "praises":1,
-                    "reads":31,
-                    "projectid":null,
-                    "resources":null,
-                    "resourcesToadd":null,
-                    "resourceList":null,
-                    "noticeType":1,
-                    "thumbsUp":1,
-                }
+                id:0,
+                detail:{},
             }
         },
         created(){
+            this.id=this.$route.params.id
             this.getData()
+
+        },
+        watch:{
+            '$route'(to,from){
+               if(to.params.id&&this.id !== to.params.id){
+                   this.id=this.$route.params.id
+                   this.getData()
+               }
+            }
         },
         methods:{
             //获取最新动态详情
             getData(){
-                console.log(this.$route.params.id)
-                let params={id:this.$route.params.id}
-                axios.get('/notices/selectNotices.action',params).then(
+                let params={noticeId:this.id}
+                axios.get('/selectNotices.action',params).then(
                     res=>{
                         console.log(res)
+                        this.detail=res.data
                     }
                 ).catch(err=>{
                     console.log(err)

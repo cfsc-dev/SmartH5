@@ -1,4 +1,10 @@
 import {
+    Picker,
+    Popup,
+    DatetimePicker,
+    CellGroup,
+    Cell,
+    Field,
     Button,
     Row,
     Col,
@@ -10,7 +16,7 @@ import {
 } from 'vant'
 
 const components = [
-    NavBar, Tab, Tabs, PullRefresh, List, Row, Col,Button
+    NavBar, Tab, Tabs, PullRefresh, List, Row, Col,Button,Field,Cell,CellGroup,DatetimePicker,Popup,Picker
 ];
 
 const install = Vue => {

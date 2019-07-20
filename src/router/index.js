@@ -35,7 +35,7 @@ export const constantRouterMap = [{
     name: '新增访客',
     component: _import_('visitor/Add')
 },{
-    path: '/visitor/detail/:id',
+    path: '/visitor/detail',
     name: '访客详情',
     component: _import_('visitor/Detail')
 }
