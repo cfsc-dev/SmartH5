@@ -83,8 +83,7 @@
         },
         computed: {
             ...mapGetters([
-                'xfTabTitleInfo',
-                'newsList'
+                'xfTabTitleInfo'
             ])
         }
     }

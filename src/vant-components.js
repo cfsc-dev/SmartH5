@@ -6,11 +6,14 @@ import {
     Tab,
     Tabs,
     PullRefresh,
-    List
+    List,
+    Tabbar,
+    TabbarItem,
+    Dialog
 } from 'vant'
 
 const components = [
-    NavBar, Tab, Tabs, PullRefresh, List, Row, Col,Button
+    NavBar, Tab, Tabs, PullRefresh, List, Row, Col, Button, Tabbar, TabbarItem, Dialog
 ];
 
 const install = Vue => {
