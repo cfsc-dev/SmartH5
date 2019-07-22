@@ -5,32 +5,32 @@
             left-arrow
             fixed
             :z-index=zindex
-            @click-left="back($router)"
-        />
+            @click-left="back($router)">
+            <van-icon name="plus" slot="right" @click="$router.push('/visitor/add')"/>
+        </van-nav-bar>
         <section class="main-content">
-            <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-                <van-list
-                    :style="{height:listHeight}"
-                    v-model="loading"
-                    :finished="finished"
-                    :finished-text="finishedText"
-                    @load="onLoad">
-                    <van-row v-for="item in list" @click.native="$router.push({name:'访客详情',params:{visitor:item}})" class="visitor-list">
-                        <van-col span="16">
-                            <div class="_list-li">{{item.visitorName}}</div>
-                            <div class="_list-li">{{item.applyTime}}</div>
-                        </van-col>
-                        <van-col span="8">
-                            <div class="_list-li-arrow">
-                               <span v-text="isValid(item)"></span>
-                                <Icon name="iconnext"></Icon>
-                            </div>
-                        </van-col>
-                    </van-row>
-                </van-list>
-            </van-pull-refresh>
-            <div class="visitor-add">
-                <van-button type="primary" size="large" @click="$router.push('/visitor/add')">添加新邀请</van-button>
+            <div :style="{height:listHeight}">
+                <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+                    <van-list
+                        v-model="loading"
+                        :finished="finished"
+                        :finished-text="finishedText"
+                        :offset="80"
+                        @load="onLoad">
+                        <van-row v-for="item in list" @click.native="$router.push({name:'访客详情',params:{visitor:item}})" class="visitor-list">
+                            <van-col span="16">
+                                <div class="_list-li">{{item.visitorName}}</div>
+                                <div class="_list-li">{{item.applyTime}}</div>
+                            </van-col>
+                            <van-col span="8">
+                                <div class="_list-li-arrow">
+                                    <span v-text="isValid(item)"></span>
+                                    <Icon name="iconnext"></Icon>
+                                </div>
+                            </van-col>
+                        </van-row>
+                    </van-list>
+                </van-pull-refresh>
             </div>
         </section>
     </section>
@@ -52,18 +52,18 @@
                 finished: false,
                 page:0,
                 pageSize:10,
-
             }
         },
         created(){
             this.title=this.$route.name
-            this.listHeight=(document.documentElement.clientHeight-96)+'px'
+            this.listHeight=(document.documentElement.clientHeight-116)+'px'
         },
         methods: {
             //下拉刷新
             onRefresh(){
                 this.list.splice(0,this.list.length)
                 this.page=1
+                this.finished=false
                 this.getData()
             },
             //上拉加载---自动加载，默认进来就要加载一次
@@ -73,11 +73,13 @@
             },
             //获取访客列表
             getData(){
+                this.loading=true
                 let params={
                     userId:'4541',
                     pageNo:this.page,
                     pageSize:this.pageSize
                 }
+                console.log(params)
                 axios.post('getVisitorRecord.action',params).then(
                     res=>{
                         console.log(res)
@@ -88,8 +90,10 @@
                                 this.finishedText='没有更多了'
                             }
                         }
-                        this.loading=false
-                        this.refreshing=false
+                        setTimeout(()=>{
+                            this.loading=false
+                            this.refreshing=false
+                        },1000)
                     }
                 ).catch(err=>{
                     console.log(err)
@@ -108,7 +112,6 @@
 
 <style lang="stylus" scoped>
     .main-content{
-        position:relative;
         .visitor-list{
             padding:10px;
             border-bottom:1px solid #f0f0f0;
@@ -125,12 +128,5 @@
                 }
             }
         }
-    }
-    .visitor-add{
-        position:fixed;
-        width:100%;
-        left:0;
-        bottom:0;
-        padding:10px;
     }
 </style>

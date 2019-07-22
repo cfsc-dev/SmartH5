@@ -69,7 +69,7 @@
                 />
             </van-popup>
             <div class="visitor-add">
-                <van-button type="primary" size="large" @click="visitorAddSubmit">生成邀请二维码</van-button>
+                <van-button type="primary" size="large" :loading="loading" loading-text="加载中..." @click="visitorAddSubmit">生成邀请二维码</van-button>
             </div>
         </section>
     </section>
@@ -95,6 +95,7 @@
                 maxDate: new Date(2030,1,1),
                 countShow:false,
                 validCount:'',
+                loading:false,
             }
         },
         methods:{
@@ -157,22 +158,32 @@
                     this.$toast('失效时间和生效时间的间隔不能大于48小时')
                     return
                 }
+                this.loading=true
                 let param={
-                    userId:'',
-                    cardNo:'',
+                    userId:'4541',
+                    cardNo:'10000031',
                     visitorName:this.visitorName,
-                    effectTime:dateTool.format(this.startTimePicker,'yyyyMMddHHmm'),
-                    expireTime:dateTool.format(this.endTimePicker,'yyyyMMddHHmm'),
+                    effectTime:dateTool.format(this.startTimePicker,'yyMMddHHmmss'),
+                    expireTime:dateTool.format(this.endTimePicker,'yyMMddHHmmss'),
                     openTimes:this.validCount
                 }
                 console.log(param)
-                // axios.post('getHIKVisionVisitorQRcode.action',param).then(
-                //     res=>{
-                //         console.log(res)
-                //     }
-                // ).catch(err=>{
-                //     console.log(err)
-                // })
+                axios.post('getHIKVisionVisitorQRcode.action',param).then(
+                    res=>{
+                        console.log(res)
+                        if(res.code==='200'){
+                            let visitor={
+                                expireTime: dateTool.format(this.endTimePicker,'yyyy-MM-dd HH:mm'),
+                                openTimes: this.validCount===''?4:this.validCount,
+                                qrCodeUrl: res.data.qrCodeUrl,
+                                visitorName: this.visitorName
+                            }
+                            this.$router.replace({name:'访客详情',params:{visitor:visitor}})
+                        }
+                    }
+                ).catch(err=>{
+                    console.log(err)
+                })
             }
         }
     }

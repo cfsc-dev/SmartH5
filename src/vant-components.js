@@ -1,4 +1,6 @@
 import {
+    SwitchCell,
+    Icon,
     Picker,
     Popup,
     DatetimePicker,
@@ -19,7 +21,9 @@ import {
 } from 'vant'
 
 const components = [
-    NavBar, Tab, Tabs, PullRefresh, List, Row, Col,Button,Field,Cell,CellGroup,DatetimePicker,Popup,Picker,Tabbar, TabbarItem, Dialog
+    NavBar, Tab, Tabs, PullRefresh, List, Row, Col,Button,
+    Field,Cell,CellGroup,DatetimePicker,Popup,Picker,Tabbar,
+    TabbarItem, Dialog,Icon,SwitchCell
 ];
 
 const install = Vue => {

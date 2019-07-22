@@ -39,7 +39,7 @@
                 visitor:{}
             }
         },
-        created() {
+        created(){
             console.log(this.$route.params.visitor)
             if(this.$route.params.visitor){
                 this.visitor=this.$route.params.visitor

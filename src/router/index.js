@@ -19,25 +19,49 @@ export const constantRouterMap = [{
     name: '最新动态',
     meta: {
         slide: 1,
-        login: true
+        login: false
     },
     component: _import_('news/Index')
 }, {
     path: '/news/detail/:id',
     name: '最新动态详情',
+    meta: {
+        slide: 1,
+        login: false
+    },
     component: _import_('news/Detail')
 }, {
     path: '/visitor',
     name: '访客邀约',
+    meta: {
+        slide: 1,
+        login: true
+    },
     component: _import_('visitor/Index'),
 }, {
     path: '/visitor/add',
     name: '新增访客',
+    meta: {
+        slide: 1,
+        login: true
+    },
     component: _import_('visitor/Add')
 }, {
     path: '/visitor/detail',
     name: '访客详情',
+    meta: {
+        slide: 1,
+        login: true
+    },
     component: _import_('visitor/Detail')
+}, {
+    path: '/car/lock',
+    name: '智能锁车',
+    meta: {
+        slide: 1,
+        login: true
+    },
+    component: _import_('car/Lock')
 }]
 
 export const router = new Router({

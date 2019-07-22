@@ -26,32 +26,26 @@
 <script>
     import axios from '@/utils/fetch'
     export default {
-        name: "detail",
+        name: "newsDetail",
         data(){
             return{
                 zindex:999,
                 height:0,
-                id:0,
                 detail:{},
             }
         },
         created(){
-            this.id=this.$route.params.id
-            this.getData()
-
-        },
-        watch:{
-            '$route'(to,from){
-               if(to.params.id&&this.id !== to.params.id){
-                   this.id=this.$route.params.id
-                   this.getData()
-               }
+            console.log(this.$route.params.id)
+            if(this.$route.params.id){
+                this.getData()
+            }else{
+                this.$router.replace('/news')
             }
         },
         methods:{
             //获取最新动态详情
             getData(){
-                let params={noticeId:this.id}
+                let params={noticeId:this.$route.params.id}
                 axios.get('/selectNotices.action',params).then(
                     res=>{
                         console.log(res)
@@ -63,7 +57,19 @@
             },
             //关注/取消关注
             thumbsUpEdit(){
-                this.detail.thumbsUp=this.detail.thumbsUp===0?1:0
+                // let params={
+                //     noticeId:this.$route.params.id
+                // }
+                // axios.post('/pointNumber.action',params).then(
+                //     res=>{
+                //         console.log(res)
+                //     }
+                // ).catch(
+                //     err=>{
+                //         console.log(err)
+                //     }
+                // )
+                this.$set(this.detail,'thumbsUp',this.detail.thumbsUp===0?1:0)
                 if(this.detail.thumbsUp===0){
                     this.$toast('取消点赞')
                 }else{
@@ -99,6 +105,7 @@
     }
     .detail-action{
         float:right;
+        margin:0 0 20px 0;
         span{
             margin:0.1rem;
             .thumbsUp{
@@ -107,6 +114,7 @@
         }
         .icon{
             position:relative;
+            font-size:20px;
             top:-2px;
             margin:0 5px;
         }

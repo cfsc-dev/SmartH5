@@ -4,8 +4,8 @@ const index = {
         centerIcon: [
             { title: '最新动态', path: '/news', icon: 'news.png' },
             { title: '门禁开锁', path: '', icon: 'unlocking.png' },
-            { title: '访客邀约', path: '', icon: 'visitor.png' },
-            { title: '智能锁车', path: '', icon: 'lock.png' },
+            { title: '访客邀约', path: '/visitor', icon: 'visitor.png' },
+            { title: '智能锁车', path: '/car/lock', icon: 'lock.png' },
             { title: '投诉建议', path: '', icon: 'complaint.png' },
             { title: '报事报修', path: '', icon: 'repair.png' },
             { title: '生活缴费', path: '', icon: 'life.png' },
