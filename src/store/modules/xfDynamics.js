@@ -60,15 +60,16 @@ const xfdynamics = {
                 axios.get(list.action, params)
                     .then(res => {
                         list.loading = true
+                        list.finished = false
                         if (res.resultCode === 0 && !list.error) {
                             list.error = true
                         } else {
                             list.error = false
                         }
                         res.data.noticeList = res.data.noticeList.filter(item => {
-                            return item.noticeType === list.noticeType
-                        })
-                        console.log(res.data.noticeList)
+                                return item.noticeType === list.noticeType
+                            })
+                            //console.log(params)
                         if (res.data.noticeList.length < 10) {
                             list.finished = true
                         }

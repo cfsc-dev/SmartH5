@@ -18,8 +18,7 @@ export const constantRouterMap = [{
     path: '/news',
     name: '最新动态',
     meta: {
-        slide: 1,
-        login: true
+        slide: 1
     },
     component: _import_('news/Index')
 }, {
@@ -38,6 +37,13 @@ export const constantRouterMap = [{
     path: '/visitor/detail',
     name: '访客详情',
     component: _import_('visitor/Detail')
+}, {
+    path: '/complaint',
+    name: '投诉建议',
+    meta: {
+        slide: 1
+    },
+    component: _import_('complaint/Index')
 }]
 
 export const router = new Router({

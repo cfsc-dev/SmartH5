@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import index from './modules/index'
 import xfdynamics from './modules/xfDynamics'
+import complaint from './modules/complaint'
 import getters from './getters'
 
 Vue.use(Vuex)
@@ -9,7 +10,8 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     modules: {
         index,
-        xfdynamics
+        xfdynamics,
+        complaint
     },
     getters
 })

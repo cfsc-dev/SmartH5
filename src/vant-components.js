@@ -15,11 +15,13 @@ import {
     List,
     Tabbar,
     TabbarItem,
-    Dialog
+    Dialog,
+    DropdownMenu,
+    DropdownItem
 } from 'vant'
 
 const components = [
-    NavBar, Tab, Tabs, PullRefresh, List, Row, Col,Button,Field,Cell,CellGroup,DatetimePicker,Popup,Picker,Tabbar, TabbarItem, Dialog
+    NavBar, Tab, Tabs, PullRefresh, List, Row, Col, Button, Field, Cell, CellGroup, DatetimePicker, Popup, Picker, Tabbar, TabbarItem, Dialog, DropdownMenu, DropdownItem
 ];
 
 const install = Vue => {
