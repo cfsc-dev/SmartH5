@@ -2,7 +2,7 @@
     <section class="main-content-center">
         <h4 class="active">社区活动</h4>
         <ul>
-            <li v-for="(item, index) in xfTabTitleInfo[0].newsList" @click="detail(item.noticeId)" class="item" :key="index">
+            <li v-for="(item, index) in filteredItems" @click="detail(item.noticeId)" class="item" :key="index">
                 <van-row gutter="10">
                     <van-col span="8">
                         <img :src="`${item.noticeImgUrl ? 'smartxd/smartxd/' + item.noticeImgUrl : require('@/assets/img/no-img.png')}`" alt="">
@@ -36,7 +36,10 @@
         computed: {
             ...mapGetters([
                 'xfTabTitleInfo'
-            ])
+            ]),
+            filteredItems: function () {
+                return this.xfTabTitleInfo[0].newsList.slice(0, 3)
+            }
         }
     }
 </script>
@@ -64,7 +67,7 @@
         p {
             font-size: 0.16rem;
             line-height: 0.2rem;
-            margin: 0.1rem 0;
+            margin: 0.05rem 0;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;

@@ -56,7 +56,10 @@
         methods: {
             onLoad (index, isRefresh) {
                 setTimeout(() => {
-                    if (isRefresh) this.xfTabTitleInfo[index].newsList = []
+                    if (isRefresh) {
+                        this.xfTabTitleInfo[index].newsList = []
+                        this.xfTabTitleInfo[index].currentPage = 0
+                    } 
                     return new Promise ( async (resolve, reject) => {
                         await this.$store.dispatch('getHomeList', {
                             id: index,
@@ -72,7 +75,7 @@
             onRefresh (index) {
                 setTimeout(() => {
                     this.xfTabTitleInfo[index].error = false
-                    this.xfTabTitleInfo[index].finished = false
+                    this.xfTabTitleInfo[index].finished = true
                     this.xfTabTitleInfo[index].refreshing = false
                     this.onLoad(index, true);
                 }, 500);
@@ -89,6 +92,12 @@
     }
 </script>
 <style lang="stylus" scoped>
+.box-wrapper{
+    .van-list{
+        min-height 100vh
+    }
+}
+
 .item {
     padding: 0.2rem 0.1rem;
     h4 {
@@ -104,7 +113,7 @@
     p {
         font-size: 0.16rem;
         line-height: 0.2rem;
-        margin: 0.1rem 0;
+        margin: 0.05rem 0;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
