@@ -10,7 +10,14 @@ const complaint = {
             pageSize: 10,
             list: []
         },
-        complainType: []
+        complainType: [],
+        complainEmerg: [
+            { text: '非常紧急', id: 1 },
+            { text: '紧急', id: 2 },
+            { text: '一般', id: 3 },
+            { text: '低', id: 4 },
+            { text: '可以忽略', id: 5 },
+        ]
     },
     actions: {
         getComplainType({ commit, state }, params) {

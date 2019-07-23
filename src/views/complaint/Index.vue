@@ -5,12 +5,13 @@
             left-arrow
             fixed
             :z-index=zindex
-            @click-left="back($router)"
-        />
+            @click-left="back($router)">
+            <van-icon name="plus" slot="right" @click="$router.push('/complaint/add')"/>
+        </van-nav-bar>
         <section class="main-content">
             <van-dropdown-menu>
-                <van-dropdown-item title="投诉类别" v-model="valueType" :options="complainType" />
-                <van-dropdown-item title="状态" ref="item" v-model="valueStatus" :options="disposeStatus">
+                <van-dropdown-item title="投诉类别" v-model="valueType" :options="complainType" @change="changeType"/>
+                <van-dropdown-item title="状态" ref="item" v-model="valueStatus" :options="disposeStatus" @change="changeState">
                 </van-dropdown-item>
             </van-dropdown-menu>
             <section class="list-item">
@@ -44,16 +45,17 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+    name: 'complaintIndex',
     data() {
         return {
             zindex: 999,
             valueType: 0,
-            valueStatus: 1,
+            valueStatus: 0,
             offset: 200,
             finishedText: '没有更多了',
             errorText: '请求失败，点击重新加载',
             disposeStatus: [
-                { text: '进行中', value: 0 },
+                { text: '进行中', value: 1 },
                 { text: '已完成', value: 2 }
             ]
         };
@@ -62,18 +64,21 @@ export default {
         this.$store.dispatch('getComplainType')
     },
     methods: {
-        onLoad(isRefresh) {
+        onLoad(isRefresh, type, value) {
             setTimeout(() => {
                 return new Promise ( async (resolve, reject) => {
+                    let params = {
+                        userId: this.userInfo.userInfo.userId,
+                        page: isRefresh ? 1 : this.complainList.page ++,
+                        pageSize: this.complainList.pageSize,
+                        disposeStatus : (type === 'state') ? value : 0
+                    }
                     if (isRefresh) {
                         this.complainList.list = []
                         this.complainList.page = 0
-                    } 
-                    await this.$store.dispatch('getComplainList', {
-                        userId: this.userInfo.userId,
-                        page: isRefresh ? 1 : this.complainList.page ++,
-                        pageSize: this.complainList.pageSize
-                    })
+                    }
+                    if(type === 'type') params.complainTypeId = value
+                    await this.$store.dispatch('getComplainList', params)
                     resolve()
                 })
             }, 500);
@@ -85,6 +90,12 @@ export default {
                 this.complainList.refreshing = false
                 this.onLoad(true);
             }, 500);
+        },
+        changeType(value) {
+            this.onLoad(true, 'type', value)
+        },
+        changeState(value) {
+            this.onLoad(true, 'state', value)
         }
     },
     computed: {
@@ -116,7 +127,7 @@ export default {
             overflow: hidden;
         }
         .state{
-            padding 10px
+            padding 10px;font-size 14px
         }
     }
 }

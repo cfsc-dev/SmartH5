@@ -1,11 +1,11 @@
 <template>
     <section class="box-wrapper">
-        <van-nav-bar swipeable
-                     title="智能锁车"
-                     left-arrow
-                     fixed
-                     :z-index=zindex
-                     @click-left="back($router)"
+        <van-nav-bar 
+            title="智能锁车"
+            left-arrow
+            fixed
+            :z-index=zindex
+            @click-left="back($router)"
         />
         <section class="main-content">
             <van-cell-group>
@@ -44,7 +44,7 @@
                     :finished="finished"
                     :finished-text="finishedText"
                     @load="onLoad">
-                    <div v-for="(item,index) in currentCarCrossList" class="cross-record-list">
+                    <div v-for="(item,index) in currentCarCrossList" class="cross-record-list" :key="index">
                         <div class="_list-li">
                             <label>车牌号码 : </label>
                             <span v-text="item.plateNo"></span>

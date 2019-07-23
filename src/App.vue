@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <transition :name="animate">
-            <keep-alive exclude="VisitorAdd,newsDetail,VisitorDetail">
+            <keep-alive exclude="VisitorAdd,newsDetail,VisitorDetail,complaintIndex,complaintAdd">
                 <router-view id="view"></router-view>
             </keep-alive>
         </transition>
@@ -57,10 +57,7 @@
 <style lang="stylus">
 #app{
     width: 100%;
-    height 100%;
-}
-.test{
-    background blue;color #fff;font-size 0.16rem
+    min-height 100vh;
 }
 #view {
     position: absolute;

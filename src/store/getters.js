@@ -7,7 +7,8 @@ const getters = {
     xfTabTitleInfo: state => state.xfdynamics.xfTabTitleInfo,
     //投诉建议
     complainType: state => state.complaint.complainType,
-    complainList: state => state.complaint.complainList
+    complainList: state => state.complaint.complainList,
+    complainEmerg: state => state.complaint.complainEmerg
 }
 
 export default getters
