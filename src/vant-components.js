@@ -1,5 +1,5 @@
 import {
-    SwitchCell,
+    Switch,
     Icon,
     Picker,
     Popup,
@@ -25,7 +25,7 @@ import {
 const components = [
     NavBar, Tab, Tabs, PullRefresh, List, Row, Col,Button,
     Field,Cell,CellGroup,DatetimePicker,Popup,Picker,Tabbar,
-    TabbarItem, Dialog,Icon,SwitchCell,DropdownMenu, DropdownItem
+    TabbarItem, Dialog,Icon,Switch,DropdownMenu, DropdownItem
 ];
 
 const install = Vue => {

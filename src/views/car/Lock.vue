@@ -16,8 +16,20 @@
                     placeholder="请选择车辆"
                     @click="carSelectClick"
                 />
-                <van-switch-cell v-model="currentCarLock" active-color="#07c160"
-                                 inactive-color="#f44" :disabled="lockDisabled" title="锁车状态" />
+                <van-cell title="锁车状态">
+                    <div :class="['_content-switch-lock',{locked:lockedClass}]">
+                        <Icon :name="currentCarLockIcon"></Icon>
+                        <span v-text="currentCarLockText"></span>
+                    </div>
+                    <van-switch
+                        v-model="currentCarLock"
+                        :disabled="lockDisabled"
+                        @change="currentCarLockChange"
+                        active-color="#07c160"
+                        inactive-color="#f44"
+                        size="24px"
+                    />
+                </van-cell>
             </van-cell-group>
             <van-popup v-model="carSelectShow" position="bottom">
                 <van-picker
@@ -52,7 +64,6 @@
                     </div>
                 </van-list>
             </div>
-
         </section>
     </section>
 </template>
@@ -69,6 +80,9 @@
                 carList:[],
                 currentCar:'',
                 currentCarLock:true,
+                currentCarLockText:'',
+                currentCarLockIcon:'',
+                lockedClass:false,
                 currentCarAlarmSyscode:'',
                 currentCarCrossList:[],
                 loading:false,
@@ -82,6 +96,7 @@
           this.getCarList()
         },
         methods:{
+            //获取车辆信息
             getCarList(){
                 let params={
                     ownerid:4541
@@ -108,6 +123,7 @@
                     }
                 )
             },
+            //车辆选择点击
             carSelectClick(){
                 if(this.carList.length>0){
                     this.carSelectShow=true
@@ -115,12 +131,14 @@
                     this.$toast('没有获取到车辆信息')
                 }
             },
+            //车辆选择
             currentCarChange(picker, value, index){
                 this.currentCar=value
                 this.getCarAlarm()
                 this.getCarCrossRecord()
                 this.carSelectShow=false
             },
+            //获取车辆布控信息
             getCarAlarm(){
                 let params={
                     searchKey:this.currentCar,
@@ -133,10 +151,10 @@
                         if(res.code==='0'){
                             if(res.data.list.length>0){
                                 this.currentCarAlarmSyscode=res.data.list[0].alarmSyscode
-                                this.currentCarLock=false
+                                this.carAlarm(false)
                             }else{
                                 this.currentCarAlarmSyscode=''
-                                this.currentCarLock=true
+                                this.carAlarm(true)
                             }
                         }else{
                             this.$toast(res.msg)
@@ -148,10 +166,24 @@
                     }
                 )
             },
+            //布控状态切换，flag->false:锁车，true:解锁
+            carAlarm(flag){
+                this.currentCarLock=flag
+                this.lockedClass=!flag
+                if(flag){
+                    this.currentCarLockText='解锁'
+                    this.currentCarLockIcon='iconkaisuo'
+                }else{
+                    this.currentCarLockText='锁车'
+                    this.currentCarLockIcon='iconsuo'
+                }
+            },
+            //车辆出入记录加载更多
             onLoad(){
                 this.page++
                 this.getCarCrossRecord()
             },
+            //获取车辆出入记录
             getCarCrossRecord(){
                 this.loading=true
                 let params={
@@ -181,9 +213,10 @@
                     console.log(err)
                 })
             },
+            //获取车辆出入记录中出场记录的停车时长
             getParkingTime(index){
                 let parkingTimeLength=''
-                let crossTime=this.IOSTimeFormat(this.currentCarCrossList[index].createTime)
+                let crossTime=this.IOSTimeFormat(this.currentCarCrossList[index].crossTime)
                 let lastIntime=this.IOSTimeFormat(this.getLastIntime(index))
                 if(lastIntime!==''){
                     let in_date=new Date(lastIntime)
@@ -197,20 +230,73 @@
                 }
                 return parkingTimeLength
             },
+            //获取车辆出入记录中出场记录对应的入场记录
             getLastIntime(index){
                 let result="";
                 if(index<this.currentCarCrossList.length-1){
                     if(this.currentCarCrossList[index].vehicleOut===0){
-                        result=this.currentCarCrossList[index].createTime
+                        result=this.currentCarCrossList[index].crossTime
                     }else{
                         result=this.getLastIntime(index+1)
                     }
                 }
                 return result
             },
+            //IOS标准时间格式转换
             IOSTimeFormat(timeString){
                 return timeString.replace('T',' ').replace('+08:00','')
-            }
+            },
+            //布控开关切换
+            currentCarLockChange(checked){
+                this.carAlarm(checked)
+                if(checked){
+                    this.carAlarmDeletion(checked)
+                }else{
+                    this.carAlarmAddition(checked)
+                }
+            },
+            //车辆布控
+            carAlarmAddition(flag){
+                let params={
+                    plateNo:this.currentCar
+                }
+                axios.post('/isc/alarmCar/addition.action',params).then(
+                    res=>{
+                        console.log(res)
+                        if(res.code === '0'){
+                            this.currentCarAlarmSyscode=res.data.alarmSyscode
+                        }else{
+                            this.carAlarm(!flag)
+                            this.$toast(res.msg)
+                        }
+                    }
+                ).catch(
+                    err=>{
+                        console.log(err)
+                    }
+                )
+            },
+            //车辆取消布控
+            carAlarmDeletion(flag){
+                let params={
+                    alarmSyscodes:this.currentCarAlarmSyscode
+                }
+                axios.post('/isc/alarmCar/deletion.action',params).then(
+                    res=>{
+                        console.log(res)
+                        if(res.code === '0'){
+                            this.currentCarAlarmSyscode=''
+                        }else{
+                            this.carAlarm(!flag)
+                            this.$toast(res.msg)
+                        }
+                    }
+                ).catch(
+                    err=>{
+                        console.log(err)
+                    }
+                )
+            },
         }
     }
 </script>
@@ -218,6 +304,25 @@
 <style lang="stylus" scoped>
     .box-wrapper{
         background:#f0f0f0;
+        ._content-switch-lock{
+            display:inline-block;
+            position :relative;
+            top:-7px;
+            font-size :16px;
+            margin-right :10px;
+            color:#07c160;
+            .icon{
+                width :1.3em;
+                height:1.3em;
+                vertical-align :-.25em;
+            }
+            span{
+                margin-left :3px;
+            }
+        }
+        ._content-switch-lock.locked{
+            color:#f44;
+        }
         ._content-cross-record{
             background:#fff;
             .cross-record-title{
