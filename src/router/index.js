@@ -83,6 +83,27 @@ export const constantRouterMap = [{
         slide: 1
     },
     component: _import_('complaint/Detail')
+}, {
+    path: '/repair',
+    name: '报事报修',
+    meta: {
+        slide: 1
+    },
+    component: _import_('repair/Index')
+}, {
+    path: '/repair/add',
+    name: '报修',
+    meta: {
+        slide: 1
+    },
+    component: _import_('repair/Add')
+}, {
+    path: '/repair/detail/:id',
+    name: '报修详情',
+    meta: {
+        slide: 1
+    },
+    component: _import_('repair/Detail')
 }]
 
 export const router = new Router({

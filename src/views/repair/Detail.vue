@@ -31,10 +31,11 @@
                 position="right"
                 :duration=0.4
                 :style="{ width: '70%', minHeight:'100vh' }">
-                <van-steps direction="vertical" :active="complainDetailSteps.length - 1" active-color="#1A6DBD">
-                    <van-step v-for="(item, index) in complainDetailSteps" :key="index">
+                <van-steps direction="vertical" :active="repairDetailSteps.length - 1" active-color="#1A6DBD">
+                    <van-step v-for="(item, index) in repairDetailSteps" :key="index">
                         <h4>{{item.planName}}</h4>
-                        <p>{{item.planDateTime}}</p>
+                        <p>{{item.remark}}</p>
+                        <p class="ptime">{{item.planDateTime}}</p>
                     </van-step>
                 </van-steps>
             </van-popup>
@@ -51,12 +52,12 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('getComplainSteps',{complainId: this.$route.params.id})
+        this.$store.dispatch('getRepairSteps',{repairsId: this.$route.params.id})
     },
     computed: {
         ...mapGetters([
             'userInfo',
-            'complainDetailSteps'
+            'repairDetailSteps'
         ])
     }
 }
@@ -86,6 +87,9 @@ export default {
         }
         p{
             font-size 12px
+            &.ptime{
+                color #969799
+            }
         }
     }
 }

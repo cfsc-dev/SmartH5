@@ -7,7 +7,7 @@ const index = {
             { title: '访客邀约', path: '/visitor', icon: 'visitor.png' },
             { title: '智能锁车', path: '/car/lock', icon: 'lock.png' },
             { title: '投诉建议', path: '/complaint', icon: 'complaint.png' },
-            { title: '报事报修', path: '', icon: 'repair.png' },
+            { title: '报事报修', path: '/repair', icon: 'repair.png' },
             { title: '生活缴费', path: '', icon: 'life.png' },
             { title: '全部功能', path: '', icon: 'all.png' }
         ],
@@ -37,7 +37,7 @@ const index = {
             "thirdInfo": [],
             "userInfo": {
                 "receiptAddress": null,
-                "headImageUrl": "upload/ownerFace/201907201013522545_4538.png",
+                "headImageUrl": "http://222.240.37.83:9082/smartxd/upload/ownerFace/201907241709597576_4541.png",
                 "faceDisTime": "2019-05-09 08:50:28",
                 "projectId": 1,
                 "cardNo": "10000028",
