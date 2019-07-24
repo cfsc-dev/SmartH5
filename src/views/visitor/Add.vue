@@ -99,22 +99,27 @@
             }
         },
         methods:{
+            //选择生效时间
             confirmStartTime(value){
                 this.startTime=dateTool.format(value,'yyyy-MM-dd HH:mm')
                 this.startShow=false
             },
+            //取消生效时间
             cancelStartTime(){
                 this.startTime=''
                 this.startShow=false
             },
+            //选择失效时间
             confirmEndTime(value){
                 this.endTime=dateTool.format(value,'yyyy-MM-dd HH:mm')
                 this.endShow=false
             },
+            //取消时间选择
             cancelEndTime(){
                 this.endTime=''
                 this.endShow=false
             },
+            //时间选择器格式化
             formatter(type, value) {
                 if (type === 'year') {
                     return `${value} 年`;
@@ -129,10 +134,12 @@
                 }
                 return value;
             },
+            //选择失效次数
             changeValidCount(picker, value, index){
                 this.validCount=value
                 this.countShow=false
             },
+            //新增访客并跳转到详情页
             visitorAddSubmit(){
                 if(this.visitorName===''){
                     this.$toast('请输入访客姓名')
@@ -167,7 +174,6 @@
                     expireTime:dateTool.format(this.endTimePicker,'yyMMddHHmmss'),
                     openTimes:this.validCount
                 }
-                console.log(param)
                 axios.post('getHIKVisionVisitorQRcode.action',param).then(
                     res=>{
                         console.log(res)
