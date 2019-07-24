@@ -22,7 +22,6 @@ export default {
 <style lang="stylus" scoped>
 .box-wrapper{
     width 100%;
-    height 100%;
     .content{
         padding-bottom 50px
         .banner{

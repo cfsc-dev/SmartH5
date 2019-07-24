@@ -15,7 +15,6 @@
     export default {
         methods: {
             skip (path) {
-                console.log(path)
                 if (path) {
                     this.$router.push(path)
                 } else {

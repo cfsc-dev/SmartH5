@@ -61,7 +61,7 @@ const xfdynamics = {
                     .then(res => {
                         list.loading = true
                         list.finished = false
-                        if (res.resultCode === 0 && !list.error) {
+                        if (res.resultCode !== '0' && !list.error) {
                             list.error = true
                         } else {
                             list.error = false
@@ -69,7 +69,7 @@ const xfdynamics = {
                         res.data.noticeList = res.data.noticeList.filter(item => {
                                 return item.noticeType === list.noticeType
                             })
-                            //console.log(params)
+                            //console.log(res)
                         if (res.data.noticeList.length < 10) {
                             list.finished = true
                         }

@@ -1,12 +1,12 @@
 <template>
     <section class="box-wrapper">
         <van-nav-bar
-            title="我的投诉"
+            title="我的报修"
             left-arrow
             fixed
-            :z-index=zindex
+            :z-index="999"
             @click-left="back($router)">
-            <van-icon name="plus" slot="right" @click="$router.push('/complaint/add')"/>
+            <van-icon name="plus" slot="right" @click="$router.push('/repair/add')"/>
         </van-nav-bar>
         <section class="main-content">
             <van-sticky :offset-top="46">
@@ -17,17 +17,17 @@
                 </van-dropdown-menu>
             </van-sticky>
             <section class="list-item">
-                <van-pull-refresh v-model="complainList.refreshing" @refresh="onRefresh()">
+                <van-pull-refresh v-model="repairList.refreshing" @refresh="onRefresh()">
                     <van-list
-                        v-model="complainList.loading"
-                        :error.sync="complainList.error"
+                        v-model="repairList.loading"
+                        :error.sync="repairList.error"
                         :error-text="errorText"
-                        :finished="complainList.finished"
+                        :finished="repairList.finished"
                         :finished-text="finishedText"
                         :offset="offset"
                         @load="onLoad()"
                     >
-                        <div class="item" v-for="(item, index) in complainList.list" :key="index" @click="detail(item.complainId)">
+                        <div class="item" v-for="(item, index) in repairList.list" :key="index" @click="detail(item.complainId)">
                             <van-row gutter="10">
                                 <van-col span="18">
                                     <h4>{{item.complainTitle}}</h4>
@@ -47,10 +47,9 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-    name: 'complaintIndex',
+    name: 'repairIndex',
     data() {
         return {
-            zindex: 999,
             valueType: 0,
             valueStatus: 0,
             offset: 200,
@@ -71,25 +70,25 @@ export default {
                 return new Promise ( async (resolve, reject) => {
                     let params = {
                         userId: this.userInfo.userInfo.userId,
-                        page: isRefresh ? 1 : this.complainList.page ++,
-                        pageSize: this.complainList.pageSize,
+                        page: isRefresh ? 1 : this.repairList.page ++,
+                        pageSize: this.repairList.pageSize,
                         disposeStatus : (type === 'state') ? value : 0
                     }
                     if (isRefresh) {
-                        this.complainList.list = []
-                        this.complainList.page = 0
+                        this.repairList.list = []
+                        this.repairList.page = 0
                     }
                     if(type === 'type') params.complainTypeId = value
-                    await this.$store.dispatch('getComplainList', params)
+                    await this.$store.dispatch('getRepairList', params)
                     resolve()
                 })
             }, 500);
         },
         onRefresh () {
             setTimeout(() => {
-                this.complainList.error = false
-                this.complainList.finished = true
-                this.complainList.refreshing = false
+                this.repairList.error = false
+                this.repairList.finished = true
+                this.repairList.refreshing = false
                 this.onLoad(true);
             }, 500);
         },
@@ -100,14 +99,14 @@ export default {
             this.onLoad(true, 'state', value)
         },
         detail(id) {
-            this.$router.push('/complaint/detail/' + id)
+            this.$router.push('/repair/detail/' + id)
         }
     },
     computed: {
         ...mapGetters([
             'userInfo',
             'complainType',
-            'complainList'
+            'repairList'
         ])
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <transition :name="animate">
-            <keep-alive exclude="VisitorAdd,newsDetail,VisitorDetail,complaintIndex,complaintAdd">
+            <keep-alive exclude="VisitorAdd,newsDetail,VisitorDetail,complaintIndex,complaintAdd,complaintDetail,repairIndex,repairAdd,repairDetail">
                 <router-view id="view"></router-view>
             </keep-alive>
         </transition>
@@ -64,7 +64,7 @@
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%;
+    min-height 100vh;
     -webkit-transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
 }

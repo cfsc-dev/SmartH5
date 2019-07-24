@@ -46,7 +46,7 @@
             //获取最新动态详情
             getData(){
                 let params={noticeId:this.$route.params.id}
-                axios.get('/selectNotices.action',params).then(
+                axios.get('selectNotices.action',params).then(
                     res=>{
                         console.log(res)
                         this.detail=res.data

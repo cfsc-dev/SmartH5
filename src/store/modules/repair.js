@@ -1,7 +1,7 @@
 import axios from '@/utils/fetch'
-const complaint = {
+const repair = {
     state: {
-        complainList: {
+        repairList: {
             refreshing: false,
             loading: false,
             error: false,
@@ -10,7 +10,7 @@ const complaint = {
             pageSize: 10,
             list: []
         },
-        complainType: [],
+        repairType: [],
         complainEmerg: [
             { text: '非常紧急', id: 1 },
             { text: '紧急', id: 2 },
@@ -18,22 +18,23 @@ const complaint = {
             { text: '低', id: 4 },
             { text: '可以忽略', id: 5 },
         ],
-        complainDetailSteps: []
+        repairDetailSteps: []
     },
     actions: {
-        getComplainType({ commit, state }, params) {
+        getRepairType({ commit, state }, params) {
             return new Promise((resolve, reject) => {
-                axios.get('owner/getComplainType.action', params)
+                axios.get('owner/getRepairsType.action', params)
                     .then(res => {
-                        commit('GETCOMPLAINTYPE', res.data.addressEntityList)
-                        resolve(res.data.addressEntityList)
+                        console.log(res)
+                            //commit('GETREPAIRTYPE', res.data.addressEntityList)
+                            //resolve(res.data.addressEntityList)
                     }).catch(err => {
                         reject(err)
                     })
             })
         },
-        getComplainList({ commit, state }, params) {
-            const list = state.complainList
+        getRepairList({ commit, state }, params) {
+            const list = state.repairList
             return new Promise((resolve, reject) => {
                 axios.get('owner/complains/queryMyComplainList.action', params)
                     .then(res => {
@@ -49,18 +50,18 @@ const complaint = {
                             list.finished = true
                         }
                         list.loading = false
-                        commit('GETCOMPLAINLIST', res.data.complainEntityList)
+                        commit('GETREPAIRLIST', res.data.complainEntityList)
                         resolve(res.data.complainEntityList)
                     }).catch(err => {
                         reject(err)
                     })
             })
         },
-        getComplainSteps({ commit, state }, params) {
+        getRepairSteps({ commit, state }, params) {
             return new Promise((resolve, reject) => {
-                axios.get('owner/complains/queryMyComplainPlan.action', params)
+                axios.get('job/queryJobDetailProcessInfo.action', params)
                     .then(res => {
-                        commit('GETCOMPLAINSTEPS', res.data)
+                        commit('GETREPAIRSTEPS', res.data)
                         resolve(res.data)
                     }).catch(err => {
                         reject(err)
@@ -69,20 +70,20 @@ const complaint = {
         }
     },
     mutations: {
-        GETCOMPLAINTYPE(state, list) {
-            state.complainType = list.map(function(item) {
+        GETREPAIRTYPE(state, list) {
+            state.repairType = list.map(function(item) {
                 return {
                     text: item.name,
                     value: item.id
                 }
             })
         },
-        GETCOMPLAINLIST(state, list) {
-            state.complainList.list = state.complainList.list.concat(list)
+        GETREPAIRLIST(state, list) {
+            state.repairList.list = state.repairList.list.concat(list)
         },
-        GETCOMPLAINSTEPS(state, list) {
-            state.complainDetailSteps = list
+        GETREPAIRSTEPS(state, list) {
+            state.repairDetailSteps = list
         }
     }
 }
-export default complaint
+export default repair
