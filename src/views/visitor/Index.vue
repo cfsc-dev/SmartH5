@@ -51,7 +51,7 @@
                 loading: false,
                 finished: false,
                 page:0,
-                pageSize:10,
+                pageSize:8,
             }
         },
         created(){

@@ -52,7 +52,16 @@ const index = {
             }
         }
     },
-    actions: {},
-    mutations: {}
+    actions: {
+
+    },
+    mutations: {
+        SET_ISAUTH(state,isAuth){
+            state.isAuth=isAuth
+        },
+        SET_USERINFO(state,userInfo){
+            state.userInfo=userInfo
+        }
+    }
 }
 export default index

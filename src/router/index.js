@@ -79,6 +79,6 @@ export const constantRouterMap = [{
 }]
 
 export const router = new Router({
-    // mode: 'history',
+    mode: 'history',
     routes: constantRouterMap
 })

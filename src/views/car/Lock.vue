@@ -43,6 +43,7 @@
                     v-model="loading"
                     :finished="finished"
                     :finished-text="finishedText"
+                    :offset="500"
                     @load="onLoad">
                     <div v-for="(item,index) in currentCarCrossList" class="cross-record-list" :key="index">
                         <div class="_list-li">
@@ -89,7 +90,7 @@
                 finished:false,
                 finishedText:'',
                 page:0,
-                pageSize:10,
+                pageSize:6,
             }
         },
         created(){
@@ -137,6 +138,9 @@
                 this.getCarAlarm()
                 this.getCarCrossRecord()
                 this.carSelectShow=false
+                this.page=1
+                this.loading=false
+                this.finished=false
             },
             //获取车辆布控信息
             getCarAlarm(){

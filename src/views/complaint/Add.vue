@@ -39,7 +39,7 @@
             <div class="subBtn" @click="subInfo">
                 <van-button type="info" size="large">提交</van-button>
             </div>
-            
+
             <van-popup v-model="emergSelectShow" position="bottom">
                 <van-picker
                     show-toolbar
@@ -103,7 +103,7 @@ export default {
                 ).catch(err => {
                     console.log(err)
                 })
-                
+
             } else {
                 this.errorMessage = '投诉内容不能为空'
             }
