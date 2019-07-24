@@ -55,6 +55,7 @@
 </template>
 <script>
 import axios from '@/utils/fetch'
+import qs from 'qs'
 import { mapGetters } from 'vuex'
 export default {
     name: "complaintAdd",
@@ -80,6 +81,7 @@ export default {
             if(this.content) {
                 this.errorMessage = ''
                 let pic = []
+                let data = new FormData()
                 let params = {
                     roomid: this.userInfo.roominfo[0].roomId,
                     ownerId: this.userInfo.userInfo.userId,
@@ -91,14 +93,23 @@ export default {
                 }
                 if(this.fileList.length > 0){
                     this.fileList.forEach(item => {
-                        pic.push(item.file)
+                        data.append('pic', item.file)
                     })
-                    params.pic = pic
                 }
-                console.log(params)
-                axios.post('owner/complains/complainInfoCommit.action',params)
+                data.append('roomid',params.roomid);
+                data.append('ownerId',params.ownerId);
+                data.append('content',params.content);
+                data.append('emerg',params.emerg);
+                axios.postFile('owner/complains/complainInfoCommit.action', data)
                     .then(res => {
                         console.log(res)
+                        if(res.resultCode === '0'){
+                            this.$dialog.alert({
+                                message: res.msg
+                            }).then(() => {
+                                this.$router.push('/complaint')
+                            })
+                        }
                     }
                 ).catch(err => {
                     console.log(err)

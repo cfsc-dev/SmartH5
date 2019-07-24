@@ -1,21 +1,22 @@
 module.exports = {
-  publicPath: './',
-  productionSourceMap: false,
-  css: {
-    extract: false
-  },
-  devServer: {
-      disableHostCheck: true,
-      proxy: {
-          '/smartxd': {
+    publicPath: './',
+    productionSourceMap: false,
+    css: {
+        extract: false
+    },
+    devServer: {
+        disableHostCheck: true,
+        proxy: {
+            '/smartxd': {
                 // target: 'http://172.19.13.242:8000',
+                //target: 'http://172.19.13.196:8080',
                 target: 'http://dev.chanfine.com:9082',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
-                  '^/smartxd': ''
+                    '^/smartxd': ''
                 }
-          }
-      }
-  }
+            }
+        }
+    }
 }

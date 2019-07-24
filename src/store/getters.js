@@ -8,7 +8,8 @@ const getters = {
     //投诉建议
     complainType: state => state.complaint.complainType,
     complainList: state => state.complaint.complainList,
-    complainEmerg: state => state.complaint.complainEmerg
+    complainEmerg: state => state.complaint.complainEmerg,
+    complainDetailSteps: state => state.complaint.complainDetailSteps
 }
 
 export default getters

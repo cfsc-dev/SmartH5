@@ -17,7 +17,8 @@ const complaint = {
             { text: '一般', id: 3 },
             { text: '低', id: 4 },
             { text: '可以忽略', id: 5 },
-        ]
+        ],
+        complainDetailSteps: []
     },
     actions: {
         getComplainType({ commit, state }, params) {
@@ -38,18 +39,29 @@ const complaint = {
                     .then(res => {
                         list.loading = true
                         list.finished = false
-                        if (res.resultCode === 0 && !list.error) {
+                        if (res.resultCode !== '0' && !list.error) {
                             list.error = true
                         } else {
                             list.error = false
                         }
-                        console.log(params)
+                        //console.log(res)
                         if (res.data.complainEntityList.length < 10) {
                             list.finished = true
                         }
                         list.loading = false
                         commit('GETCOMPLAINLIST', res.data.complainEntityList)
                         resolve(res.data.complainEntityList)
+                    }).catch(err => {
+                        reject(err)
+                    })
+            })
+        },
+        getComplainSteps({ commit, state }, params) {
+            return new Promise((resolve, reject) => {
+                axios.get('owner/complains/queryMyComplainPlan.action', params)
+                    .then(res => {
+                        commit('GETCOMPLAINSTEPS', res.data)
+                        resolve(res.data)
                     }).catch(err => {
                         reject(err)
                     })
@@ -67,6 +79,9 @@ const complaint = {
         },
         GETCOMPLAINLIST(state, list) {
             state.complainList.list = state.complainList.list.concat(list)
+        },
+        GETCOMPLAINSTEPS(state, list) {
+            state.complainDetailSteps = list
         }
     }
 }

@@ -18,7 +18,7 @@ const index = {
         ],
         userInfo: {
             "roominfo": [{
-                "cellId": 2,
+                "cellId": 19,
                 "address": "小区A 1栋 1单元 1203",
                 "name": "1203",
                 "roomId": 21,
@@ -42,7 +42,7 @@ const index = {
                 "projectId": 1,
                 "cardNo": "10000028",
                 "nickName": "业主3",
-                "userId": 4538,
+                "userId": 4536,
                 "vehicleCode": "湘A9P00J,陕A55554",
                 "gender": 0,
                 "userName": "业主3",

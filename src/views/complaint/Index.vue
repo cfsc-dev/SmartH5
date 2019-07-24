@@ -9,11 +9,13 @@
             <van-icon name="plus" slot="right" @click="$router.push('/complaint/add')"/>
         </van-nav-bar>
         <section class="main-content">
-            <van-dropdown-menu>
-                <van-dropdown-item title="投诉类别" v-model="valueType" :options="complainType" @change="changeType"/>
-                <van-dropdown-item title="状态" ref="item" v-model="valueStatus" :options="disposeStatus" @change="changeState">
-                </van-dropdown-item>
-            </van-dropdown-menu>
+            <van-sticky :offset-top="46">
+                <van-dropdown-menu>
+                    <van-dropdown-item title="投诉类别" v-model="valueType" :options="complainType" @change="changeType"/>
+                    <van-dropdown-item title="状态" ref="item" v-model="valueStatus" :options="disposeStatus" @change="changeState">
+                    </van-dropdown-item>
+                </van-dropdown-menu>
+            </van-sticky>
             <section class="list-item">
                 <van-pull-refresh v-model="complainList.refreshing" @refresh="onRefresh()">
                     <van-list
@@ -25,7 +27,7 @@
                         :offset="offset"
                         @load="onLoad()"
                     >
-                        <div class="item" v-for="(item, index) in complainList.list" :key="index">
+                        <div class="item" v-for="(item, index) in complainList.list" :key="index" @click="detail(item.complainId)">
                             <van-row gutter="10">
                                 <van-col span="18">
                                     <h4>{{item.complainTitle}}</h4>
@@ -96,6 +98,9 @@ export default {
         },
         changeState(value) {
             this.onLoad(true, 'state', value)
+        },
+        detail(id) {
+            this.$router.push('/complaint/detail/' + id)
         }
     },
     computed: {
@@ -113,21 +118,22 @@ export default {
         padding 10px;position relative
         border-bottom 1px solid #f2f3f5
         h4{
-            line-height 26px;
+            line-height .26rem;
+            font-size .16rem;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
         }
         p{
-            line-height 26px;
-            font-size 14px;
+            line-height .26rem;
+            font-size .14rem;
             color #7d7e80;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
         }
         .state{
-            padding 10px;font-size 14px
+            padding 10px;font-size .14rem
         }
     }
 }
