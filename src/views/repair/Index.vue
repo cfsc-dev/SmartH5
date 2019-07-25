@@ -11,7 +11,7 @@
         <section class="main-content">
             <van-sticky :offset-top="46">
                 <van-dropdown-menu>
-                    <van-dropdown-item title="投诉类别" v-model="valueType" :options="complainType" @change="changeType"/>
+                    <van-dropdown-item title="投诉类别" v-model="valueType" :options="repairType" @change="changeType"/>
                     <van-dropdown-item title="状态" ref="item" v-model="valueStatus" :options="disposeStatus" @change="changeState">
                     </van-dropdown-item>
                 </van-dropdown-menu>
@@ -62,7 +62,7 @@ export default {
         };
     },
     created(){
-        this.$store.dispatch('getComplainType')
+        this.$store.dispatch('getRepairType',{appMobile: this.userInfo.userInfo.mobileNumber})
     },
     methods: {
         onLoad(isRefresh, type, value) {
@@ -105,7 +105,7 @@ export default {
     computed: {
         ...mapGetters([
             'userInfo',
-            'complainType',
+            'repairType',
             'repairList'
         ])
     }

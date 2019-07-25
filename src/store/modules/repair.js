@@ -25,9 +25,8 @@ const repair = {
             return new Promise((resolve, reject) => {
                 axios.get('owner/getRepairsType.action', params)
                     .then(res => {
-                        console.log(res)
-                            //commit('GETREPAIRTYPE', res.data.addressEntityList)
-                            //resolve(res.data.addressEntityList)
+                        commit('GETREPAIRTYPE', res.data.repairsTypeEntityList)
+                        resolve(res.data.repairsTypeEntityList)
                     }).catch(err => {
                         reject(err)
                     })

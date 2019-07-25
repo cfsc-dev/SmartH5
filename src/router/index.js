@@ -8,7 +8,7 @@ const _import_ = file => () =>
 
 export const constantRouterMap = [{
     path: '/',
-    name: '首页',
+    name: '智慧社区',
     component: _import_('index/Index')
 }, {
     path: '/auth',

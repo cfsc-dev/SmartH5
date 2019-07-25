@@ -19,12 +19,12 @@ router.beforeEach((to, from, next) => {
         //请求微信授权,并跳转到 /WxAuth 路由
         let appId = 'wx89b7e6f058aca118'
         let redirectUrl = encodeURIComponent(`http://3ibz2a.natappfree.cc/auth`)
-        //判断是否为正式环境
+            //判断是否为正式环境
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect`
     } else {
         next()
     }
-    if(to.meta.login){
+    if (to.meta.login) {
 
     }
 
