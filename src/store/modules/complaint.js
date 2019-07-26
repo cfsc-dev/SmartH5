@@ -44,11 +44,11 @@ const complaint = {
                         } else {
                             list.error = false
                         }
-                        //console.log(res)
                         if (res.data.complainEntityList.length < 10) {
                             list.finished = true
                         }
                         list.loading = false
+                        console.log(res.data.complainEntityList)
                         commit('GETCOMPLAINLIST', res.data.complainEntityList)
                         resolve(res.data.complainEntityList)
                     }).catch(err => {

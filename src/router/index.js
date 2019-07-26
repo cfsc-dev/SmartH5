@@ -77,7 +77,7 @@ export const constantRouterMap = [{
     },
     component: _import_('complaint/Add')
 }, {
-    path: '/complaint/detail/:id',
+    path: '/complaint/detail',
     name: '投诉详情',
     meta: {
         slide: 1
