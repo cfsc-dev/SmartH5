@@ -1,3 +1,4 @@
+import { Cookie } from '@/utils/storage'
 const index = {
     state: {
         isAuth: false,
@@ -50,17 +51,27 @@ const index = {
                 "faceDisUrl": "http://dev.chanfine.com:9082/smartxd/api/getFaceImageProcess.action?id=201905090850246289",
                 "commonAddress": null
             }
-        }
+        },
+        wxInfo: []
     },
     actions: {
 
     },
     mutations: {
-        SET_ISAUTH(state,isAuth){
-            state.isAuth=isAuth
+        SET_ISAUTH(state, isAuth) {
+            state.isAuth = isAuth
         },
-        SET_USERINFO(state,userInfo){
-            state.userInfo=userInfo
+        SET_WXINFO(state, info) {
+            state.wxInfo = info
+            Cookie.set({
+                wxInfo: info
+            })
+        },
+        SET_USERINFO(state, userInfo) {
+            state.userInfo = userInfo
+            Cookie.set({
+                userInfo: userInfo
+            })
         }
     }
 }

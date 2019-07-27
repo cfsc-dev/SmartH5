@@ -3,6 +3,7 @@ const getters = {
     footerBarList: state => state.index.footerBarList,
     centerIcon: state => state.index.centerIcon,
     userInfo: state => state.index.userInfo,
+    wxInfo: state => state.index.wxInfo,
     // 最新动态
     xfTabTitleInfo: state => state.xfdynamics.xfTabTitleInfo,
     //投诉建议

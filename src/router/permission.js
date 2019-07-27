@@ -1,29 +1,33 @@
 import { router } from './index'
-
+import store from '../store'
 router.beforeEach((to, from, next) => {
+    const ua = navigator.userAgent;
     //不要对 WxAuth 路由进行拦截，不进入 WxAuth 路由就拿不到微信返回的授权 code
-    if (to.name === '授权') {
+    /* if (to.meta.wxAuth === 'wxAuth') {
         next()
-        return
-    }
+    } */
+
+    if (!!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) || /android/i.test(ua) || /Linux/i.test(ua)) {}
+
     //判断是否微信浏览器
-    if (!/micromessenger/i.test(navigator.userAgent)) {
-        next()
-        return
-    }
-    //判断是否存在用户信息
-    let userInfo = localStorage.getItem('userInfo')
-    if (!userInfo) {
-        //保存当前路由地址，授权后还会跳到此地址
-        // sessionStorage.setItem('wxRedirectUrl', to.fullPath)
-        //请求微信授权,并跳转到 /WxAuth 路由
-        let appId = 'wx89b7e6f058aca118'
-        let redirectUrl = encodeURIComponent(`http://ykrx64.natappfree.cc/auth`)
-        //判断是否为正式环境
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect`
+    if (/micromessenger/i.test(ua) && to.meta.wxAuth) {
+        //判断是否存在用户信息
+        if (store.state.index.userInfo.userId) {
+            console.log(store.state.index.userInfo, 'cookie')
+            next()
+        } else {
+            //保存当前路由地址，授权后还会跳到此地址
+            //请求微信授权,并跳转到 /WxAuth 路由
+            let appId = 'wx89b7e6f058aca118'
+            let redirectUrl = encodeURIComponent(`http://bns8iv.natappfree.cc/auth`)
+                //判断是否为正式环境
+            window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect`
+        }
+
     } else {
         next()
     }
+
     if (to.meta.login) {
 
     }

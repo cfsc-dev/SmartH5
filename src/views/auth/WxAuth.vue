@@ -12,18 +12,16 @@
             if (this.$route.query.code) {
                 console.log(this.$route.query.code)
                 //请求接口获取用户信息
-                let params={code: this.$route.query.code}
+                let params = { code: this.$route.query.code }
                 axios.get('WeChatToken/getSnsToken.action', params)
                     .then(res => {
                         console.log(res)
-                        if(res.resultCode==="0"){
-                            console.log(res.data)
+                        if(res.resultCode === "0"){
                             this.$store.commit('SET_ISAUTH',true)
                             this.$store.commit('SET_USERINFO',res.data)
+                        }else{
+                            this.$store.commit('SET_WXINFO',res.data.user)
                         }
-                        localStorage.setItem('userInfo', JSON.stringify(res.data))
-                        // let redirectUrl = sessionStorage.getItem('wxRedirectUrl')
-                        // this.$router.replace(redirectUrl)
                         this.$router.replace('/')
                     }).catch(err => {
                         console.log(err)
