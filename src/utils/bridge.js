@@ -1,4 +1,4 @@
-var ua = navigator.userAgent;
+const ua = navigator.userAgent;
 // methods for public
 export default {
     callhandler(name, data, callback) {

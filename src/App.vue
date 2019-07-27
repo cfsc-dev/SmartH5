@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <transition :name="animate">
-            <keep-alive exclude="VisitorAdd,newsDetail,VisitorDetail,complaintIndex,complaintAdd,complaintDetail,repairIndex,repairAdd,repairDetail">
+            <keep-alive exclude="VisitorAdd,newsDetail,Unlock,VisitorDetail,complaintIndex,complaintAdd,complaintDetail,repairIndex,repairAdd,repairDetail">
                 <router-view id="view"></router-view>
             </keep-alive>
         </transition>
@@ -17,8 +17,13 @@
             }
         },
         created () {
+
         },
         methods: {
+            setUserInfo(userInfoStr){
+                this.$store.commit('SET_ISAUTH',true)
+                this.$store.commit('SET_USERINFO',JSON.parse(userInfoStr))
+            },
             reward() {
                 this.$bridge.callhandler('showToast', 'ios-app-toast');
             },
@@ -49,7 +54,7 @@
         },
         mounted () {
             window['testFun'] = this.testFun
-            
+            window['setUserInfo']=this.setUserInfo
         }
     }
 </script>

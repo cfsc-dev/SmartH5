@@ -23,6 +23,7 @@
 <script>
     import axios from '@/utils/fetch'
     import dateTool from '@/utils/dateformat'
+    import { mapGetters } from 'vuex'
     export default {
         name: "Unlock",
         data(){
@@ -33,14 +34,30 @@
                 timeOut:0,
             }
         },
+        computed: {
+            ...mapGetters([
+                'isAuth','userInfo'
+            ])
+        },
+        watch:{
+            isAuth(val){
+                if(val){
+                    this.getQrCode()
+                }
+            }
+        },
         created() {
-            this.getQrCode()
+            if(this.isAuth){
+                this.getQrCode()
+            }
         },
         methods:{
             getQrCode(){
                 let param={
-                    userId:'4541',
-                    cardNo:'10000031',
+                    userId:this.userInfo.userInfo.userId,
+                    cardNo:this.userInfo.userInfo.cardNo,
+                    // userId:'4541',
+                    // cardNo:'10000031',
                     effectTime:dateTool.format(new Date(),'yyMMddHHmmss'),
                     expireTime:dateTool.format(new Date(new Date().getTime()+60*1000),'yyMMddHHmmss'),
                     openTimes:1
