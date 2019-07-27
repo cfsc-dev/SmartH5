@@ -55,7 +55,6 @@
 </template>
 <script>
 import axios from '@/utils/fetch'
-import qs from 'qs'
 import { mapGetters } from 'vuex'
 export default {
     name: "complaintAdd",

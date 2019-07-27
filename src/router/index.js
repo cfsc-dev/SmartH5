@@ -9,10 +9,16 @@ const _import_ = file => () =>
 export const constantRouterMap = [{
     path: '/',
     name: '智慧社区',
+    meta: {
+        wxAuth: true
+    },
     component: _import_('index/Index')
 }, {
     path: '/auth',
     name: '授权',
+    meta: {
+        wxAuth: true
+    },
     component: _import_('auth/WxAuth')
 }, {
     path: '/news',
@@ -31,14 +37,14 @@ export const constantRouterMap = [{
     },
     component: _import_('news/Detail')
 }, {
-    path:'/unlock',
-    name:'门禁开锁',
-    meta:{
+    path: '/unlock',
+    name: '门禁开锁',
+    meta: {
         slide: 1,
         login: true
     },
     component: _import_('door/Unlock')
-},{
+}, {
     path: '/visitor',
     name: '访客邀约',
     meta: {
@@ -112,6 +118,13 @@ export const constantRouterMap = [{
         slide: 1
     },
     component: _import_('repair/Detail')
+}, {
+    path: '/auth/getLoginInfo',
+    name: '绑定信息',
+    meta: {
+        slide: 1
+    },
+    component: _import_('auth/Login')
 }]
 
 export const router = new Router({

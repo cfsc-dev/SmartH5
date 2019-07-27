@@ -1,3 +1,4 @@
+import { Cookie } from '@/utils/storage'
 const index = {
     state: {
         isAuth: false,
@@ -16,17 +17,27 @@ const index = {
             { title: '邻里圈', icon: 'iconfaxian', name: 'discover', path: '' },
             { title: '我的', icon: 'iconmine-gray', name: 'self', path: '' }
         ],
-        userInfo: {}
+        userInfo: {},
+        wxInfo: []
     },
     actions: {
 
     },
     mutations: {
-        SET_ISAUTH(state,isAuth){
-            state.isAuth=isAuth
+        SET_ISAUTH(state, isAuth) {
+            state.isAuth = isAuth
         },
-        SET_USERINFO(state,userInfo){
-            state.userInfo=userInfo
+        SET_WXINFO(state, info) {
+            state.wxInfo = info
+            Cookie.set({
+                wxInfo: info
+            })
+        },
+        SET_USERINFO(state, userInfo) {
+            state.userInfo = userInfo
+            Cookie.set({
+                userInfo: userInfo
+            })
         }
     }
 }
