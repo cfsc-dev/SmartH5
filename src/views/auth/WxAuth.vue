@@ -17,6 +17,7 @@
                     .then(res => {
                         console.log(res)
                         if(res.resultCode==="0"){
+                            console.log(res.data)
                             this.$store.commit('SET_ISAUTH',true)
                             this.$store.commit('SET_USERINFO',res.data)
                         }
