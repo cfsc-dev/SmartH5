@@ -31,6 +31,14 @@ export const constantRouterMap = [{
     },
     component: _import_('news/Detail')
 }, {
+    path:'/unlock',
+    name:'门禁开锁',
+    meta:{
+        slide: 1,
+        login: true
+    },
+    component: _import_('door/Unlock')
+},{
     path: '/visitor',
     name: '访客邀约',
     meta: {
@@ -47,11 +55,11 @@ export const constantRouterMap = [{
     },
     component: _import_('visitor/Add')
 }, {
-    path: '/visitor/detail',
+    path: '/visitor/detail/:id',
     name: '访客详情',
     meta: {
         slide: 1,
-        login: true
+        login: false
     },
     component: _import_('visitor/Detail')
 }, {

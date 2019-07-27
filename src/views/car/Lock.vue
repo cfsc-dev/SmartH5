@@ -94,7 +94,7 @@
             }
         },
         created(){
-          this.getCarList()
+            this.getCarList()
         },
         methods:{
             //获取车辆信息

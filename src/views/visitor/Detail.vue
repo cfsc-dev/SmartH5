@@ -30,6 +30,8 @@
 </template>
 
 <script>
+    import axios from '@/utils/fetch'
+    import weixin from '@/utils/weixinHelper'
     export default {
         name: "VisitorDetail",
         data(){
@@ -40,16 +42,35 @@
             }
         },
         created(){
-            console.log(this.$route.params.visitor)
-            if(this.$route.params.visitor){
-                this.visitor=this.$route.params.visitor
+            if(this.$route.params.id){
+                this.getVisitor()
             }else{
                 this.$router.replace('/visitor')
             }
+            weixin.wxConfig(['onMenuShareAppMessage'])
         },
         methods:{
+            getVisitor(){
+                let params={
+                    id:this.$route.params.id
+                }
+                axios.get('getVisitorRecordById.action',params).then(
+                    res=>{
+                        console.log(res)
+                        if(res.resultCode==='0'){
+                            this.visitor=res.data
+                        }else{
+                            this.$toast(res.msg)
+                        }
+                    }
+                ).catch(
+                    err=>{
+                        console.log(err)
+                    }
+                )
+            },
             visitorShare(){
-
+                weixin.shareToWeixin({title:'邀请码',desc:'邀请码',link:'',imgUrl:this.visitor.qrCodeUrl})
             }
         }
     }

@@ -17,7 +17,7 @@
                         :finished-text="finishedText"
                         :offset="80"
                         @load="onLoad">
-                        <van-row v-for="(item, index) in list" @click.native="$router.push({name:'访客详情',params:{visitor:item}})" :key="index" class="visitor-list">
+                        <van-row v-for="(item, index) in list" @click.native="$router.push({name:'访客详情',params:{id:item.id}})" :key="index" class="visitor-list">
                             <van-col span="16">
                                 <div class="_list-li">{{item.visitorName}}</div>
                                 <div class="_list-li">{{item.applyTime}}</div>

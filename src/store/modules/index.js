@@ -3,7 +3,7 @@ const index = {
         isAuth: false,
         centerIcon: [
             { title: '最新动态', path: '/news', icon: 'news.png' },
-            { title: '门禁开锁', path: '', icon: 'unlocking.png' },
+            { title: '门禁开锁', path: '/unlock', icon: 'unlocking.png' },
             { title: '访客邀约', path: '/visitor', icon: 'visitor.png' },
             { title: '智能锁车', path: '/car/lock', icon: 'lock.png' },
             { title: '投诉建议', path: '/complaint', icon: 'complaint.png' },
