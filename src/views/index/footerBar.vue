@@ -28,6 +28,7 @@
                 if (path) {
                     this.$router.push(path)
                 } else {
+                    this.active = 0
                     this.$dialog.alert({
                         message: '该功能暂未开放，敬请期待'
                     })

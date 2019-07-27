@@ -6,12 +6,12 @@ router.beforeEach((to, from, next) => {
         next()
         return
     }
-    // //判断是否微信浏览器
+    //判断是否微信浏览器
     if (!/micromessenger/i.test(navigator.userAgent)) {
         next()
         return
     }
-    // //判断是否存在用户信息
+    //判断是否存在用户信息
     let userInfo = localStorage.getItem('userInfo')
     if (!userInfo) {
         //保存当前路由地址，授权后还会跳到此地址
@@ -24,6 +24,10 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
+    if (to.meta.login) {
+
+    }
+
 })
 
 router.afterEach((to, from) => {

@@ -27,7 +27,7 @@
                         :offset="offset"
                         @load="onLoad()"
                     >
-                        <div class="item" v-for="(item, index) in complainList.list" :key="index" @click="detail(item.complainId)">
+                        <div class="item" v-for="(item, index) in complainList.list" :key="index" @click="detail(item)">
                             <van-row gutter="10">
                                 <van-col span="18">
                                     <h4>{{item.complainTitle}}</h4>
@@ -99,8 +99,16 @@ export default {
         changeState(value) {
             this.onLoad(true, 'state', value)
         },
-        detail(id) {
-            this.$router.push('/complaint/detail/' + id)
+        detail(item) {
+            this.$router.push({
+                path: '/complaint/detail', 
+                query: {
+                    complainId: item.complainId,
+                    piid: item.piid,
+                    taskid: item.taskid,
+                    jbpmOutcomes: item.jbpmOutcomes
+                }
+            })
         }
     },
     computed: {

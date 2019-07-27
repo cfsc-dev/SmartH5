@@ -43,6 +43,7 @@
                 <van-field
                     v-model="mobile"
                     type="tel"
+                    clearable
                     label="联系电话"
                     left-icon="phone"
                     placeholder="请输入电话"
@@ -51,13 +52,13 @@
             </van-cell-group>
             <van-cell-group>
                 <van-field
-                    v-model="emergValue"
+                    v-model="repairValue"
                     readonly
                     label="维修类别"
                     placeholder="请选择维修类别"
                     left-icon="label"
                     right-icon="arrow"
-                    @click="emergSelectShow = true"
+                    @click="repairSelectShow = true"
                 />
             </van-cell-group>
             <van-cell-group>
@@ -65,6 +66,7 @@
                     v-model="content"
                     label="问题描述"
                     required
+                    clearable
                     type="textarea"
                     left-icon="info"
                     placeholder="请输入您需要报修的具体信息"
@@ -93,14 +95,14 @@
                 />
             </van-popup>
             
-            <van-popup v-model="emergSelectShow" position="bottom">
+            <van-popup v-model="repairSelectShow" position="bottom">
                 <van-picker
                     show-toolbar
                     :columns="repairType"
                     :default-index="0"
-                    @cancel="emergSelectShow = false"
+                    @cancel="repairSelectShow = false"
                     @confirm="onConfirm"
-                    ref="emerg"
+                    ref="repairType"
                 />
             </van-popup>
         </section>
@@ -114,7 +116,7 @@ export default {
     name: "complaintAdd",
     data() {
         return {
-            emergValue: '',
+            repairValue: '',
             address: '',
             username: '',
             mobile: '',
@@ -126,7 +128,7 @@ export default {
             minDate: new Date(),
             maxDate: new Date(2025,1,1),
             timeSelectShow: false,
-            emergSelectShow: false,
+            repairSelectShow: false,
             errorName: '',
             errorMobile: '',
             errorContent:"",
@@ -134,12 +136,18 @@ export default {
         }
     },
     created(){
-        this.emergValue = this.repairType[0].text
+        this.$store.dispatch('getRepairType',{appMobile: this.userInfo.userInfo.mobileNumber})
+        setTimeout(() => {
+            this.repairValue = this.repairType[0].text
+            this.address = this.userInfo.roominfo[0].address
+            this.username = this.userInfo.userInfo.userName
+            this.mobile = this.userInfo.userInfo.mobileNumber
+        },500)
     },
     methods: {
         onConfirm(value, index) {
-            this.emergValue = value.text
-            this.emergSelectShow = false
+            this.repairValue = value.text
+            this.repairSelectShow = false
         },
         confirmStartTime(value){
             this.timeValue = dateTool.format(value,'yyyy-MM-dd HH:mm')
@@ -161,44 +169,44 @@ export default {
         },
         subInfo() {
             if(this.content) {
-                this.errorMessage = ''
+                this.errorContent = ''
                 let pic = []
                 let data = new FormData()
                 let params = {
-                    roomid: this.userInfo.roominfo[0].roomId,
-                    ownerId: this.userInfo.userInfo.userId,
-                    content: this.content,
-                    emerg: this.emergValue === '紧急' ?  2 :
-                        this.emergValue === '一般' ?  3 :
-                        this.emergValue === '低' ?  4 :
-                        this.emergValue === '可以忽略'?  5 : 1
+                    userId: this.userInfo.userInfo.userId,
+                    address: this.address,
+                    plandate: this.timeValue,
+                    mobile: this.mobile,
+                    problemdesc: this.content,
+                    ownerName: this.username,
+                    createusertype: 0,
+                    jobtypeid: this.emergValue === '公共区域维修' ?  5 :
+                        this.emergValue === '遗留问题' ?  9 :
+                        this.emergValue === '其他类'?  14 : 1
+                }
+                for(let i in params){
+                    data.append(i, params[i])
                 }
                 if(this.fileList.length > 0){
                     this.fileList.forEach(item => {
                         data.append('pic', item.file)
                     })
                 }
-                data.append('roomid',params.roomid);
-                data.append('ownerId',params.ownerId);
-                data.append('content',params.content);
-                data.append('emerg',params.emerg);
-                axios.postFile('job/add.action', data)
+                
+                axios.postFile('owner/addJob.action', data)
                     .then(res => {
-                        console.log(res)
-                        if(res.resultCode === '0'){
-                            this.$dialog.alert({
-                                message: res.msg
-                            }).then(() => {
-                                this.$router.push('/repair')
-                            })
-                        }
+                        this.$dialog.alert({
+                            message: res.msg
+                        }).then(() => {
+                            this.$router.push('/repair')
+                        })
                     }
                 ).catch(err => {
                     console.log(err)
                 })
                 
             } else {
-                this.errorMessage = '投诉内容不能为空'
+                this.errorContent = '投诉内容不能为空'
             }
         }
     },

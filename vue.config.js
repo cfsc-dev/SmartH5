@@ -14,9 +14,9 @@ module.exports = {
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
-                  '^/smartxd': ''
+                    '^/smartxd': ''
                 }
-          }
-      }
-  }
+            }
+        }
+    }
 }
