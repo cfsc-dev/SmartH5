@@ -9,48 +9,77 @@
             <span class="r-text" slot="right" @click="stepShow = true">进度</span>
         </van-nav-bar>
         <section class="main-content">
-            <div class="complainList" v-if="complainList">
-                <van-row gutter="10">
-                    <van-col span="4">
-                        <div class="headFace"><img :src="userInfo.userInfo.headImageUrl" alt=""></div>
-                    </van-col>
-                    <van-col span="16">
-                        <div class="userName">业主5</div>
-                        <p class="userLocation"><van-icon name="location" color="#1A6DBD"/>一栋一单元</p>
-                    </van-col>
-                    <van-col span="4">
-                        <a :href="'tel:' + userInfo.userInfo.mobileNumber">
-                            <van-icon name="phone" color="#1A6DBD" size="0.4rem"/>
-                        </a>
-                    </van-col>
-                </van-row>
-                <van-row gutter="10">
-                    <van-col span="6">
-                        <div>投诉类型：</div>
-                    </van-col>
-                    <van-col span="18">
-                        <div>不接</div>
-                    </van-col>
-                    <van-col span="6">
-                        <div>紧急程度：</div>
-                    </van-col>
-                    <van-col span="18">
-                        <div>速度快回复时快捷的回复水电费客户多少</div>
-                    </van-col>
-                    <van-col span="6">
-                        <div>投诉内容：</div>
-                    </van-col>
-                    <van-col span="18">
-                        <div>速度快回复时快捷的回复水电费客户多少</div>
-                        <div class="userComlainImg" @click="imgView">
-                            <van-row gutter="10">
-                                <van-col span="8"><img :src="userInfo.userInfo.headImageUrl" alt=""></van-col>
-                                <van-col span="8"><img :src="userInfo.userInfo.headImageUrl" alt=""></van-col>
-                                <van-col span="8"><img :src="userInfo.userInfo.headImageUrl" alt=""></van-col>
-                            </van-row>
-                        </div>
-                    </van-col>
-                </van-row>
+            <div class="complainList">
+                <div class="handleList">
+                    <van-row gutter="10">
+                        <van-col span="4">
+                            <div class="headFace"><img :src="`${complainInfo.UserInfo.userHearImageUrl ? 'smartxd/smartxd/' + complainInfo.UserInfo.userHearImageUrl : require('@/assets/img/avatar.png')}`" alt=""></div>
+                        </van-col>
+                        <van-col span="16">
+                            <div class="userName">{{complainInfo.UserInfo.userName}}</div>
+                            <p class="userLocation"><van-icon name="location" color="#1A6DBD"/>{{complainInfo.UserInfo.atProperty}}</p>
+                        </van-col>
+                        <van-col span="4">
+                            <a :href="'tel:' + complainInfo.UserInfo.userMobileNo">
+                                <van-icon name="phone" color="#1A6DBD" size="0.4rem"/>
+                            </a>
+                        </van-col>
+                    </van-row>
+                    <van-row gutter="10">
+                        <van-col span="6">
+                            <div>投诉类型：</div>
+                        </van-col>
+                        <van-col span="18">
+                            <div>{{complainInfo.complainMap.complainType ? complainInfo.complainMap.complainType : '无'}}</div>
+                        </van-col>
+                        <van-col span="6">
+                            <div>紧急程度：</div>
+                        </van-col>
+                        <van-col span="18">
+                            <div>{{complainInfo.complainMap.emerg ? complainInfo.complainMap.emerg : '无'}}</div>
+                        </van-col>
+                        <van-col span="6">
+                            <div>投诉内容：</div>
+                        </van-col>
+                        <van-col span="18">
+                            <div>{{complainInfo.complainMap.content}}</div>
+                            <div class="userComlainImg" @click="imgView(complainInfo.complainMap.complainImageUrlList)">
+                                <van-row gutter="10">
+                                    <van-col span="8" v-for="(item, index) in complainInfo.complainMap.complainImageUrlList" :key="index"><img :src="'/smartxd/smartxd/' + item.url" alt=""></van-col>
+                                </van-row>
+                            </div>
+                            <p class="times">{{complainInfo.complainMap.complainDateTime}}</p>
+                        </van-col>
+                    </van-row>
+                </div>
+                <div class="handleList" v-for="(item, index) in complainInfo.Alllist" :key="index">
+                    <van-row gutter="10">
+                        <van-col span="4">
+                            <div class="headFace"><img :src="`${item.face ? 'smartxd/smartxd/' + item.face : require('@/assets/img/avatar.png')}`" alt=""></div>
+                        </van-col>
+                        <van-col span="16">
+                            <div class="userName">{{item.name}}</div>
+                            <p class="userLocation">{{item.handleUser.name}}</p>
+                        </van-col>
+                        <van-col span="4">
+                            <a :href="'tel:' + item.mobile">
+                                <van-icon name="phone" color="#1A6DBD" size="0.4rem"/>
+                            </a>
+                        </van-col>
+                    </van-row>
+                    <van-row gutter="10">
+                        <van-col span="18">
+                            <div>{{item.Content}}</div>
+                            <div class="userComlainImg" @click="imgView(item.pic)">
+                                <van-row gutter="10">
+                                    <van-col span="8" v-for="(img, index) in item.pic" :key="index"><img :src="'/smartxd/smartxd/' + img.url" alt=""></van-col>
+                                </van-row>
+                            </div>
+                            <p class="times">{{item.time}}</p>
+                        </van-col>
+                    </van-row>
+                </div>
+                
             </div>
             <!-- 进度 -->
             <van-popup
@@ -129,8 +158,9 @@
     </section>
 </template>
 <script>
-import {ImagePreview} from 'vant';
 import { mapGetters } from 'vuex'
+import { ImagePreview } from 'vant'
+
 export default {
     name: 'complaintDetail',
     components:{
@@ -143,7 +173,7 @@ export default {
             isSatisfied: false,
             isEvaluate: false,
             isRectification: false,
-            complainList: false,
+            list: false,
             grade: 5,
             commentContent: '',
             errorComment: '',
@@ -155,6 +185,7 @@ export default {
         this.$store.dispatch('getComplainInfo',{complainId: this.$route.query.complainId})
         this.isHandle = this.$route.query.jbpmOutcomes
         if(this.isHandle && this.isHandle.indexOf('评价') > -1){
+            this.list = false
             this.isEvaluate = true
         }else if(this.isHandle && this.isHandle.indexOf('是否接受') > -1){
             this.isAccept = true
@@ -163,7 +194,7 @@ export default {
         }else if(this.isHandle && this.isHandle.indexOf('业主是否接受整改') > -1){
             this.isRectification = true
         }else{
-            this.complainList = true
+            this.list = true
         }
     },
     methods: {
@@ -226,11 +257,12 @@ export default {
                 })
             }
         },
-        imgView(){
-            ImagePreview([
-                'http://222.240.37.83:9082/smartxd/upload/ownerFace/201907241709597576_4541.png',
-                'http://222.240.37.83:9082/smartxd/upload/ownerFace/201907241709597576_4541.png'
-            ]);
+        imgView(data){
+            let datas = [] 
+            data.forEach(item => {
+                datas.push('/smartxd/smartxd/' + item.url)
+            })
+            ImagePreview(datas);
         }
     },
     computed: {
@@ -261,7 +293,7 @@ export default {
             }
         }
         .complainList{
-            margin-top 10px;line-height .24rem;font-size .16rem
+            margin-top 10px;line-height .24rem;font-size .14rem
             .headFace{
                 img{
                     width .5rem;
@@ -277,8 +309,15 @@ export default {
             }
             .userComlainImg{
                 img{
-                    width 100%;max-height 1rem
+                    width 100%;max-height 1rem;margin-top 10px;
                 }
+            }
+            .times{
+                text-align right;font-size: .12rem;color #ccc
+            }
+            .handleList{
+                padding 10px 0;
+                border-bottom 1px solid #ccc
             }
         }
         .van-step__title{

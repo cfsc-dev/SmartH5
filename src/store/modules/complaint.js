@@ -19,7 +19,11 @@ const complaint = {
             { text: '可以忽略', id: 5 },
         ],
         complainDetailSteps: [],
-        complainInfo: {}
+        complainInfo: {
+            UserInfo: {},
+            complainMap: {},
+            Alllist: []
+        }
     },
     actions: {
         getComplainType({ commit, state }, params) {
