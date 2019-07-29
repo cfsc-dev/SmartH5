@@ -18,7 +18,8 @@ const complaint = {
             { text: '低', id: 4 },
             { text: '可以忽略', id: 5 },
         ],
-        complainDetailSteps: []
+        complainDetailSteps: [],
+        complainInfo: {}
     },
     actions: {
         getComplainType({ commit, state }, params) {
@@ -66,6 +67,18 @@ const complaint = {
                         reject(err)
                     })
             })
+        },
+        getComplainInfo({ commit, state }, params) {
+            return new Promise((resolve, reject) => {
+                axios.get('owner/complains/getComplainDetailH5.action', params)
+                    .then(res => {
+                        console.log(res)
+                        commit('GETCOMPLAININFO', res.data)
+                        resolve(res.data)
+                    }).catch(err => {
+                        reject(err)
+                    })
+            })
         }
     },
     mutations: {
@@ -82,6 +95,9 @@ const complaint = {
         },
         GETCOMPLAINSTEPS(state, list) {
             state.complainDetailSteps = list
+        },
+        GETCOMPLAININFO(state, list) {
+            state.complainInfo = list
         }
     }
 }

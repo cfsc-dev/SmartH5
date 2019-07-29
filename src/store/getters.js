@@ -3,7 +3,8 @@ const getters = {
     footerBarList: state => state.index.footerBarList,
     centerIcon: state => state.index.centerIcon,
     userInfo: state => state.index.userInfo,
-    isAuth:state=>state.index.isAuth,
+    isAuth: state => state.index.isAuth,
+    wxInfo: state => state.index.wxInfo,
     // 最新动态
     xfTabTitleInfo: state => state.xfdynamics.xfTabTitleInfo,
     //投诉建议
@@ -11,6 +12,7 @@ const getters = {
     complainList: state => state.complaint.complainList,
     complainEmerg: state => state.complaint.complainEmerg,
     complainDetailSteps: state => state.complaint.complainDetailSteps,
+    complainInfo: state => state.complaint.complainInfo,
     //报事报修
     repairType: state => state.repair.repairType,
     repairList: state => state.repair.repairList,

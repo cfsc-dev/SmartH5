@@ -75,12 +75,13 @@ export default {
                             faceImg: this.wxInfo.headimgurl,
                             type: '0'
                         }
+                        //console.log(params)
                         axios.post('linkPhoneNo.action',params)
                             .then(resdata => {
                                 if(resdata.resultCode === "0"){
                                     this.$toast(resdata.msg)
                                     this.$store.commit('SET_USERINFO',res.data.userInfo.userId)
-                                    this.$router.replace('/')
+                                    this.$router.push('/')
                                 }
                                 console.log(resdata)
                             }

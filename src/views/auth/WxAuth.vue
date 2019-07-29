@@ -22,12 +22,12 @@
                         }else{
                             this.$store.commit('SET_WXINFO',res.data.user)
                         }
-                        this.$router.replace('/')
+                        this.$router.push('/')
                     }).catch(err => {
                         console.log(err)
                     })
             } else {
-                this.$router.replace('/')
+                this.$router.push('/')
             }
         }
     }

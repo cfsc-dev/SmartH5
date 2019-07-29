@@ -41,6 +41,7 @@ export const constantRouterMap = [{
     name: '门禁开锁',
     meta: {
         slide: 1,
+        wxAuth: true,
         login: true
     },
     component: _import_('door/Unlock')
@@ -49,6 +50,7 @@ export const constantRouterMap = [{
     name: '访客邀约',
     meta: {
         slide: 1,
+        wxAuth: true,
         login: true
     },
     component: _import_('visitor/Index'),
@@ -57,6 +59,7 @@ export const constantRouterMap = [{
     name: '新增访客',
     meta: {
         slide: 1,
+        wxAuth: true,
         login: true
     },
     component: _import_('visitor/Add')
@@ -65,7 +68,8 @@ export const constantRouterMap = [{
     name: '访客详情',
     meta: {
         slide: 1,
-        login: false
+        wxAuth: true,
+        login: true
     },
     component: _import_('visitor/Detail')
 }, {
@@ -73,6 +77,7 @@ export const constantRouterMap = [{
     name: '智能锁车',
     meta: {
         slide: 1,
+        wxAuth: true,
         login: true
     },
     component: _import_('car/Lock')
@@ -80,42 +85,54 @@ export const constantRouterMap = [{
     path: '/complaint',
     name: '投诉建议',
     meta: {
-        slide: 1
+        slide: 1,
+        wxAuth: true,
+        login: true
     },
     component: _import_('complaint/Index')
 }, {
     path: '/complaint/add',
     name: '投诉',
     meta: {
-        slide: 1
+        slide: 1,
+        wxAuth: true,
+        login: true
     },
     component: _import_('complaint/Add')
 }, {
     path: '/complaint/detail',
     name: '投诉详情',
     meta: {
-        slide: 1
+        slide: 1,
+        wxAuth: true,
+        login: true
     },
     component: _import_('complaint/Detail')
 }, {
     path: '/repair',
     name: '报事报修',
     meta: {
-        slide: 1
+        slide: 1,
+        wxAuth: true,
+        login: true
     },
     component: _import_('repair/Index')
 }, {
     path: '/repair/add',
     name: '报修',
     meta: {
-        slide: 1
+        slide: 1,
+        wxAuth: true,
+        login: true
     },
     component: _import_('repair/Add')
 }, {
     path: '/repair/detail/:id',
     name: '报修详情',
     meta: {
-        slide: 1
+        slide: 1,
+        wxAuth: true,
+        login: true
     },
     component: _import_('repair/Detail')
 }, {

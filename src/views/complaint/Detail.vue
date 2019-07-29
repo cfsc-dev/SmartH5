@@ -9,7 +9,7 @@
             <span class="r-text" slot="right" @click="stepShow = true">进度</span>
         </van-nav-bar>
         <section class="main-content">
-            <div class="complainList">
+            <div class="complainList" v-if="complainList">
                 <van-row gutter="10">
                     <van-col span="4">
                         <div class="headFace"><img :src="userInfo.userInfo.headImageUrl" alt=""></div>
@@ -26,16 +26,29 @@
                 </van-row>
                 <van-row gutter="10">
                     <van-col span="6">
-                        <div>投诉类型</div>
+                        <div>投诉类型：</div>
                     </van-col>
                     <van-col span="18">
-                        <div>投诉类型：不接</div>
+                        <div>不接</div>
                     </van-col>
                     <van-col span="6">
-                        <div>投诉内容</div>
+                        <div>紧急程度：</div>
                     </van-col>
                     <van-col span="18">
                         <div>速度快回复时快捷的回复水电费客户多少</div>
+                    </van-col>
+                    <van-col span="6">
+                        <div>投诉内容：</div>
+                    </van-col>
+                    <van-col span="18">
+                        <div>速度快回复时快捷的回复水电费客户多少</div>
+                        <div class="userComlainImg" @click="imgView">
+                            <van-row gutter="10">
+                                <van-col span="8"><img :src="userInfo.userInfo.headImageUrl" alt=""></van-col>
+                                <van-col span="8"><img :src="userInfo.userInfo.headImageUrl" alt=""></van-col>
+                                <van-col span="8"><img :src="userInfo.userInfo.headImageUrl" alt=""></van-col>
+                            </van-row>
+                        </div>
                     </van-col>
                 </van-row>
             </div>
@@ -116,9 +129,13 @@
     </section>
 </template>
 <script>
+import {ImagePreview} from 'vant';
 import { mapGetters } from 'vuex'
 export default {
     name: 'complaintDetail',
+    components:{
+        [ImagePreview.name]: ImagePreview
+    },
     data() {
         return {
             stepShow: false,
@@ -126,6 +143,7 @@ export default {
             isSatisfied: false,
             isEvaluate: false,
             isRectification: false,
+            complainList: false,
             grade: 5,
             commentContent: '',
             errorComment: '',
@@ -134,6 +152,7 @@ export default {
     },
     created() {
         this.$store.dispatch('getComplainSteps',{complainId: this.$route.query.complainId})
+        this.$store.dispatch('getComplainInfo',{complainId: this.$route.query.complainId})
         this.isHandle = this.$route.query.jbpmOutcomes
         if(this.isHandle && this.isHandle.indexOf('评价') > -1){
             this.isEvaluate = true
@@ -143,6 +162,8 @@ export default {
             this.isSatisfied = true
         }else if(this.isHandle && this.isHandle.indexOf('业主是否接受整改') > -1){
             this.isRectification = true
+        }else{
+            this.complainList = true
         }
     },
     methods: {
@@ -204,12 +225,19 @@ export default {
                     console.log(err)
                 })
             }
+        },
+        imgView(){
+            ImagePreview([
+                'http://222.240.37.83:9082/smartxd/upload/ownerFace/201907241709597576_4541.png',
+                'http://222.240.37.83:9082/smartxd/upload/ownerFace/201907241709597576_4541.png'
+            ]);
         }
     },
     computed: {
         ...mapGetters([
             'userInfo',
-            'complainDetailSteps'
+            'complainDetailSteps',
+            'complainInfo'
         ])
     }
 }
@@ -233,7 +261,7 @@ export default {
             }
         }
         .complainList{
-            margin-top 10px;line-height .24rem
+            margin-top 10px;line-height .24rem;font-size .16rem
             .headFace{
                 img{
                     width .5rem;
@@ -246,6 +274,11 @@ export default {
             }
             .userLocation{
                 font-size .14rem;color #1A6DBD
+            }
+            .userComlainImg{
+                img{
+                    width 100%;max-height 1rem
+                }
             }
         }
         .van-step__title{
