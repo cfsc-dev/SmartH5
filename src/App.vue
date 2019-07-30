@@ -53,7 +53,6 @@
             }
         },
         mounted () {
-            console.log(111)
             window['testFun'] = this.testFun
             window['setUserInfo']=this.setUserInfo
         }
