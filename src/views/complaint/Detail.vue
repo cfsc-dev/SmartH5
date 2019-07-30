@@ -53,7 +53,7 @@
                     </van-row>
                 </div>
                 <div class="handleList" v-for="(item, index) in complainInfo.Alllist" :key="index">
-                    <van-row gutter="10">
+                    <van-row gutter="10" v-if="item.name">
                         <van-col span="4">
                             <div class="headFace"><img :src="`${item.face ? 'smartxd/smartxd/' + item.face : require('@/assets/img/avatar.png')}`" alt=""></div>
                         </van-col>
@@ -61,7 +61,7 @@
                             <div class="userName">{{item.name}}</div>
                             <p class="userLocation">{{item.handleUser.name}}</p>
                         </van-col>
-                        <van-col span="4">
+                        <van-col span="4" v-if="item.mobile">
                             <a :href="'tel:' + item.mobile">
                                 <van-icon name="phone" color="#1A6DBD" size="0.4rem"/>
                             </a>
@@ -94,13 +94,13 @@
                     </van-step>
                 </van-steps>
             </van-popup>
-            <!-- 是否接受 -->
+            <!-- 是否接受填写方案 -->
             <div class="accept mt10" v-if="isAccept">
                 <van-row type="flex" justify="center">
-                    <van-col span="6" @click="subAccept(0)">
+                    <van-col span="6" @click="subClick('accept', 0)">
                         <van-button type="default" size="small">不接受</van-button>
                     </van-col>
-                    <van-col span="4" @click="subAccept(1)">
+                    <van-col span="4" @click="subClick('accept', 1)">
                         <van-button type="info" size="small">接受</van-button>
                     </van-col>
                 </van-row>
@@ -108,10 +108,10 @@
             <!-- 是否满意 -->
             <div class="satisfied mt10" v-if="isSatisfied">
                 <van-row type="flex" justify="center">
-                    <van-col span="6" @click="subSatisfied(0)">
+                    <van-col span="6" @click="subClick('satisfied', 0)">
                         <van-button type="default" size="small">不满意</van-button>
                     </van-col>
-                    <van-col span="4" @click="subSatisfied(0)">
+                    <van-col span="4" @click="subClick('satisfied', 1)">
                         <van-button type="info" size="small">满意</van-button>
                     </van-col>
                 </van-row>
@@ -119,10 +119,10 @@
             <!-- 业主是否接受整改 -->
             <div class="rectification mt10" v-if="isRectification">
                 <van-row type="flex" justify="center">
-                    <van-col span="6" @click="subRectification(0)">
+                    <van-col span="6" @click="subClick('satisfied', 0)">
                         <van-button type="default" size="small">不接受</van-button>
                     </van-col>
-                    <van-col span="4" @click="subRectification(0)">
+                    <van-col span="4" @click="subClick('rectification', 1)">
                         <van-button type="info" size="small">接受</van-button>
                     </van-col>
                 </van-row>
@@ -229,8 +229,8 @@ export default {
             let data = {
                 complainid : this.$route.query.complainId,
                 ownerId: this.userInfo.userInfo.userId,
-                outcome: '评价',
-                taskId: this.$route.query.taskid
+                taskId: this.$route.query.taskid,
+                piid: this.$route.query.piid
             }
             let action = type === 'accept' 
                 ? 'owner/complains/customAcceptMeasureComplain.action' 
@@ -238,9 +238,14 @@ export default {
                 ? 'owner/complains/customIsSatisfactionSolutionComplain.action' 
                 : type === 'rectification' ? 'owner/complains/customIsAcceptSolutionComplain.action' : ''
             if(type === 'accept'){
+                data.outcome = '是否接受方案'
                 data.accept = state
             }else if(type === 'satisfied'){
+                data.outcome = '是否满意'
                 data.satisfaction = state
+            }else if(type === 'rectification'){
+                data.outcome = '是否接受整改'
+                data.accept = state
             }
             console.log(data)
             if(action) {
@@ -293,7 +298,7 @@ export default {
             }
         }
         .complainList{
-            margin-top 10px;line-height .24rem;font-size .14rem
+            margin-top 10px;line-height .25rem;font-size .14rem
             .headFace{
                 img{
                     width .5rem;
@@ -317,7 +322,6 @@ export default {
             }
             .handleList{
                 padding 10px 0;
-                border-bottom 1px solid #ccc
             }
         }
         .van-step__title{

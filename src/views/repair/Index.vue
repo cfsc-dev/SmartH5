@@ -27,14 +27,14 @@
                         :offset="offset"
                         @load="onLoad()"
                     >
-                        <div class="item" v-for="(item, index) in repairList.list" :key="index" @click="detail(item.complainId)">
+                        <div class="item" v-for="(item, index) in repairList.list" :key="index" @click="detail(item.repairsId)">
                             <van-row gutter="10">
                                 <van-col span="18">
-                                    <h4>{{item.complainTitle}}</h4>
-                                    <p>{{item.complainDateTime}}</p>
+                                    <h4>{{item.repairsTitle}}</h4>
+                                    <p>{{item.repairsTime}}</p>
                                 </van-col>
                                 <van-col span="6">
-                                    <div class="state">{{item.complainStatus}}</div>
+                                    <div class="state">{{item.repairsStatus}}</div>
                                 </van-col>
                             </van-row>
                         </div>
@@ -56,8 +56,8 @@ export default {
             finishedText: '没有更多了',
             errorText: '请求失败，点击重新加载',
             disposeStatus: [
-                { text: '进行中', value: 1 },
-                { text: '已完成', value: 2 }
+                { text: '进行中', value: 0 },
+                { text: '已完成', value: 1 }
             ]
         };
     },
@@ -69,16 +69,17 @@ export default {
             setTimeout(() => {
                 return new Promise ( async (resolve, reject) => {
                     let params = {
+                        appMobile: this.userInfo.userInfo.mobileNumber,
                         userId: this.userInfo.userInfo.userId,
                         page: isRefresh ? 1 : this.repairList.page ++,
                         pageSize: this.repairList.pageSize,
-                        disposeStatus : (type === 'state') ? value : 0
+                        handerstatu : (type === 'state') ? value : 0
                     }
                     if (isRefresh) {
                         this.repairList.list = []
                         this.repairList.page = 0
                     }
-                    if(type === 'type') params.complainTypeId = value
+                    if(type === 'type') params.workOrderType = value
                     await this.$store.dispatch('getRepairList', params)
                     resolve()
                 })

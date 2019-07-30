@@ -35,7 +35,7 @@ const repair = {
         getRepairList({ commit, state }, params) {
             const list = state.repairList
             return new Promise((resolve, reject) => {
-                axios.get('owner/complains/queryMyComplainList.action', params)
+                axios.get('owner/queryJobList.action', params)
                     .then(res => {
                         list.loading = true
                         list.finished = false
@@ -45,12 +45,12 @@ const repair = {
                             list.error = false
                         }
                         //console.log(res)
-                        if (res.data.complainEntityList.length < 10) {
+                        if (res.data.repairsEntityList.length < 10) {
                             list.finished = true
                         }
                         list.loading = false
-                        commit('GETREPAIRLIST', res.data.complainEntityList)
-                        resolve(res.data.complainEntityList)
+                        commit('GETREPAIRLIST', res.data.repairsEntityList)
+                        resolve(res.data.repairsEntityList)
                     }).catch(err => {
                         reject(err)
                     })
