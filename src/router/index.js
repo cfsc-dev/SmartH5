@@ -127,7 +127,7 @@ export const constantRouterMap = [{
     },
     component: _import_('repair/Add')
 }, {
-    path: '/repair/detail/:id',
+    path: '/repair/detail',
     name: '报修详情',
     meta: {
         slide: 1,

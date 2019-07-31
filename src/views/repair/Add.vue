@@ -198,7 +198,8 @@ export default {
                         this.$dialog.alert({
                             message: res.msg
                         }).then(() => {
-                            this.$router.push('/repair')
+                            this.repairList.reLoading = true
+                            this.$router.replace('/repair')
                         })
                     }
                 ).catch(err => {
@@ -213,7 +214,8 @@ export default {
     computed: {
         ...mapGetters([
             'userInfo',
-            'repairType'
+            'repairType',
+            'repairList'
         ])
     }
 }

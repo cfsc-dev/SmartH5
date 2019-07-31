@@ -9,7 +9,7 @@
             <span class="r-text" slot="right" @click="stepShow = true">进度</span>
         </van-nav-bar>
         <section class="main-content">
-            <div class="complainList">
+            <div class="complainList" v-if="list">
                 <div class="handleList">
                     <van-row gutter="10">
                         <van-col span="4">
@@ -36,7 +36,13 @@
                             <div>紧急程度：</div>
                         </van-col>
                         <van-col span="18">
-                            <div>{{complainInfo.complainMap.emerg ? complainInfo.complainMap.emerg : '无'}}</div>
+                            <div>{{filterEmerg ? filterEmerg : '无'}}</div>
+                        </van-col>
+                        <van-col span="6">
+                            <div>最新进度：</div>
+                        </van-col>
+                        <van-col span="18">
+                            <div>{{complainInfo.complainMap.complainStatus}}</div>
                         </van-col>
                         <van-col span="6">
                             <div>投诉内容：</div>
@@ -53,13 +59,13 @@
                     </van-row>
                 </div>
                 <div class="handleList" v-for="(item, index) in complainInfo.Alllist" :key="index">
-                    <van-row gutter="10" v-if="item.name">
+                    <van-row gutter="10" v-if="item.handleUser.name">
                         <van-col span="4">
                             <div class="headFace"><img :src="`${item.face ? 'smartxd/smartxd/' + item.face : require('@/assets/img/avatar.png')}`" alt=""></div>
                         </van-col>
                         <van-col span="16">
-                            <div class="userName">{{item.name}}</div>
-                            <p class="userLocation">{{item.handleUser.name}}</p>
+                            <div class="userName">{{item.handleUser.name}}</div>
+                            <p class="userLocation">{{item.handleUser.department.name}}</p>
                         </van-col>
                         <van-col span="4" v-if="item.mobile">
                             <a :href="'tel:' + item.mobile">
@@ -68,7 +74,7 @@
                         </van-col>
                     </van-row>
                     <van-row gutter="10">
-                        <van-col span="18">
+                        <van-col span="24">
                             <div>{{item.Content}}</div>
                             <div class="userComlainImg" @click="imgView(item.pic)">
                                 <van-row gutter="10">
@@ -97,33 +103,33 @@
             <!-- 是否接受填写方案 -->
             <div class="accept mt10" v-if="isAccept">
                 <van-row type="flex" justify="center">
-                    <van-col span="6" @click="subClick('accept', 0)">
-                        <van-button type="default" size="small">不接受</van-button>
+                    <van-col span="6">
+                        <van-button type="default" size="small" @click="subClick('accept', 0)">拒绝方案</van-button>
                     </van-col>
-                    <van-col span="4" @click="subClick('accept', 1)">
-                        <van-button type="info" size="small">接受</van-button>
+                    <van-col span="6">
+                        <van-button type="info" size="small" @click="subClick('accept', 1)">接受方案</van-button>
                     </van-col>
                 </van-row>
             </div>
             <!-- 是否满意 -->
             <div class="satisfied mt10" v-if="isSatisfied">
                 <van-row type="flex" justify="center">
-                    <van-col span="6" @click="subClick('satisfied', 0)">
-                        <van-button type="default" size="small">不满意</van-button>
+                    <van-col span="6">
+                        <van-button type="default" size="small" @click="subClick('satisfied', 0)">不满意</van-button>
                     </van-col>
-                    <van-col span="4" @click="subClick('satisfied', 1)">
-                        <van-button type="info" size="small">满意</van-button>
+                    <van-col span="4">
+                        <van-button type="info" size="small" @click="subClick('satisfied', 1)">满意</van-button>
                     </van-col>
                 </van-row>
             </div>
             <!-- 业主是否接受整改 -->
             <div class="rectification mt10" v-if="isRectification">
                 <van-row type="flex" justify="center">
-                    <van-col span="6" @click="subClick('satisfied', 0)">
-                        <van-button type="default" size="small">不接受</van-button>
+                    <van-col span="6">
+                        <van-button type="default" size="small" @click="subClick('rectification', 0)">拒绝整改</van-button>
                     </van-col>
-                    <van-col span="4" @click="subClick('rectification', 1)">
-                        <van-button type="info" size="small">接受</van-button>
+                    <van-col span="6">
+                        <van-button type="info" size="small" @click="subClick('rectification', 1)">接受整改</van-button>
                     </van-col>
                 </van-row>
             </div>
@@ -158,6 +164,7 @@
     </section>
 </template>
 <script>
+import axios from '@/utils/fetch'
 import { mapGetters } from 'vuex'
 import { ImagePreview } from 'vant'
 
@@ -177,7 +184,7 @@ export default {
             grade: 5,
             commentContent: '',
             errorComment: '',
-            isHandle:''
+            isHandle: ''
         }
     },
     created() {
@@ -188,10 +195,13 @@ export default {
             this.list = false
             this.isEvaluate = true
         }else if(this.isHandle && this.isHandle.indexOf('是否接受') > -1){
+            this.list = true
             this.isAccept = true
         }else if(this.isHandle && this.isHandle.indexOf('是否满意') > -1){
+            this.list = true
             this.isSatisfied = true
         }else if(this.isHandle && this.isHandle.indexOf('业主是否接受整改') > -1){
+            this.list = true
             this.isRectification = true
         }else{
             this.list = true
@@ -215,7 +225,8 @@ export default {
                         this.$dialog.alert({
                             message: res.msg
                         }).then(() => {
-                            this.$router.push('/complaint')
+                            this.complainList.reLoading = true
+                            this.$router.replace('/complaint')
                         })
                     }
                 ).catch(err => {
@@ -227,35 +238,41 @@ export default {
         },
         subClick(type,state){
             let data = {
+                appMobile: this.userInfo.userInfo.mobileNumber,
                 complainid : this.$route.query.complainId,
                 ownerId: this.userInfo.userInfo.userId,
                 taskId: this.$route.query.taskid,
                 piid: this.$route.query.piid
             }
             let action = type === 'accept' 
-                ? 'owner/complains/customAcceptMeasureComplain.action' 
+                ? 'owner/complains/customIsAcceptSolutionComplain.action' 
                 : type === 'satisfied' 
                 ? 'owner/complains/customIsSatisfactionSolutionComplain.action' 
-                : type === 'rectification' ? 'owner/complains/customIsAcceptSolutionComplain.action' : ''
+                : type === 'rectification' ? 'owner/complains/customAcceptMeasureComplain.action' : ''
             if(type === 'accept'){
-                data.outcome = '是否接受方案'
+                data.outcome = '是否接受'
                 data.accept = state
             }else if(type === 'satisfied'){
                 data.outcome = '是否满意'
                 data.satisfaction = state
             }else if(type === 'rectification'){
-                data.outcome = '是否接受整改'
+                data.outcome = '业主是否接受整改'
                 data.accept = state
             }
             console.log(data)
             if(action) {
                 axios.post(action, data)
                     .then(res => {
-                        this.$dialog.alert({
-                            message: res.msg
-                        }).then(() => {
-                            this.$router.push('/complaint')
-                        })
+                        console.log(res)
+                        if(res.resultCode === '0'){
+                            this.$dialog.alert({
+                                message: res.msg
+                            }).then(() => {
+                                this.complainList.reLoading = true
+                                this.$router.replace('/complaint')
+                            })
+                        }
+                        
                     }
                 ).catch(err => {
                     console.log(err)
@@ -274,8 +291,16 @@ export default {
         ...mapGetters([
             'userInfo',
             'complainDetailSteps',
-            'complainInfo'
-        ])
+            'complainInfo',
+            'complainEmerg',
+            'complainList'
+        ]),
+        filterEmerg(){
+            return this.complainInfo.complainMap.emerg === 1 ?  '非常紧急' :
+                        this.complainInfo.complainMap.emerg === 2 ?  '紧急' :
+                        this.complainInfo.complainMap.emerg === 3 ?  '一般' :
+                        this.complainInfo.complainMap.emerg ===  4 ?  '低' : '可以忽略'
+        }
     }
 }
 </script>

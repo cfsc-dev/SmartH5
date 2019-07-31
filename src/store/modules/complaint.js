@@ -2,11 +2,12 @@ import axios from '@/utils/fetch'
 const complaint = {
     state: {
         complainList: {
+            reLoading: false,
             refreshing: false,
             loading: false,
             error: false,
             finished: false,
-            page: 1,
+            page: 0,
             pageSize: 10,
             list: []
         },
@@ -53,7 +54,7 @@ const complaint = {
                             list.finished = true
                         }
                         list.loading = false
-                        console.log(res.data.complainEntityList)
+                            //console.log(res.data.complainEntityList)
                         commit('GETCOMPLAINLIST', res.data.complainEntityList)
                         resolve(res.data.complainEntityList)
                     }).catch(err => {
@@ -101,7 +102,9 @@ const complaint = {
             state.complainDetailSteps = list
         },
         GETCOMPLAININFO(state, list) {
-            state.complainInfo = list
+            state.complainInfo.UserInfo = list ? list.UserInfo : {}
+            state.complainInfo.Alllist = list ? list.Alllist : []
+            state.complainInfo.complainMap = list ? list.complainMap : {}
         }
     }
 }

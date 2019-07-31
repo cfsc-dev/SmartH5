@@ -65,19 +65,23 @@ export default {
     created(){
         this.$store.dispatch('getComplainType')
     },
+    activated(){
+        if(this.complainList.reLoading) this.onRefresh()
+    },
     methods: {
         onLoad(isRefresh, type, value) {
             setTimeout(() => {
                 return new Promise ( async (resolve, reject) => {
-                    let params = {
-                        userId: this.userInfo.userInfo.userId,
-                        page: isRefresh ? 1 : this.complainList.page ++,
-                        pageSize: this.complainList.pageSize,
-                        disposeStatus : (type === 'state') ? value : 0
-                    }
+                    this.complainList.page ++
                     if (isRefresh) {
                         this.complainList.list = []
                         this.complainList.page = 0
+                    }
+                    let params = {
+                        userId: this.userInfo.userInfo.userId,
+                        page: isRefresh ? 1 : this.complainList.page,
+                        pageSize: this.complainList.pageSize,
+                        disposeStatus : (type === 'state') ? value : 0
                     }
                     if(type === 'type') params.complainTypeId = value
                     await this.$store.dispatch('getComplainList', params)
@@ -89,6 +93,7 @@ export default {
             setTimeout(() => {
                 this.complainList.error = false
                 this.complainList.finished = true
+                this.complainList.reLoading = false
                 this.complainList.refreshing = false
                 this.onLoad(true);
             }, 500);

@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <transition :name="animate">
-            <keep-alive exclude="VisitorAdd,newsDetail,Unlock,VisitorDetail,complaintIndex,complaintAdd,complaintDetail,repairIndex,repairAdd,repairDetail">
+            <keep-alive exclude="VisitorAdd,newsDetail,Unlock,VisitorDetail,complaintAdd,complaintDetail,repairAdd,repairDetail">
                 <router-view id="view"></router-view>
             </keep-alive>
         </transition>

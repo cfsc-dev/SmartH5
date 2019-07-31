@@ -27,7 +27,7 @@
                         :offset="offset"
                         @load="onLoad()"
                     >
-                        <div class="item" v-for="(item, index) in repairList.list" :key="index" @click="detail(item.repairsId)">
+                        <div class="item" v-for="(item, index) in repairList.list" :key="index" @click="detail(item)">
                             <van-row gutter="10">
                                 <van-col span="18">
                                     <h4>{{item.repairsTitle}}</h4>
@@ -64,21 +64,26 @@ export default {
     created(){
         this.$store.dispatch('getRepairType',{appMobile: this.userInfo.userInfo.mobileNumber})
     },
+    activated(){
+        if(this.repairList.reLoading) this.onRefresh()
+    },
     methods: {
         onLoad(isRefresh, type, value) {
             setTimeout(() => {
                 return new Promise ( async (resolve, reject) => {
-                    let params = {
-                        appMobile: this.userInfo.userInfo.mobileNumber,
-                        userId: this.userInfo.userInfo.userId,
-                        page: isRefresh ? 1 : this.repairList.page ++,
-                        pageSize: this.repairList.pageSize,
-                        handerstatu : (type === 'state') ? value : 0
-                    }
+                    this.repairList.page ++
                     if (isRefresh) {
                         this.repairList.list = []
                         this.repairList.page = 0
                     }
+                    let params = {
+                        appMobile: this.userInfo.userInfo.mobileNumber,
+                        userId: this.userInfo.userInfo.userId,
+                        page: isRefresh ? 1 : this.repairList.page,
+                        pageSize: this.repairList.pageSize,
+                        handerstatu : (type === 'state') ? value : 0
+                    }
+                    
                     if(type === 'type') params.workOrderType = value
                     await this.$store.dispatch('getRepairList', params)
                     resolve()
@@ -99,8 +104,17 @@ export default {
         changeState(value) {
             this.onLoad(true, 'state', value)
         },
-        detail(id) {
-            this.$router.push('/repair/detail/' + id)
+        detail(item) {
+            this.$router.push({
+                path: '/repair/detail', 
+                query: {
+                    repairsId: item.repairsId,
+                    piid: item.piid,
+                    taskid: item.taskid,
+                    jobid: item.jobid,
+                    jbpmOutcomes: item.jbpmOutcomes
+                }
+            })
         }
     },
     computed: {

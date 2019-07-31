@@ -56,6 +56,7 @@
         methods: {
             onLoad (index, isRefresh) {
                 setTimeout(() => {
+                    this.xfTabTitleInfo[index].currentPage ++
                     if (isRefresh) {
                         this.xfTabTitleInfo[index].newsList = []
                         this.xfTabTitleInfo[index].currentPage = 0
@@ -64,7 +65,7 @@
                         await this.$store.dispatch('getHomeList', {
                             id: index,
                             receive: 1,
-                            currentPage: isRefresh ? 1 : this.xfTabTitleInfo[index].currentPage ++,
+                            currentPage: isRefresh ? 1 : this.xfTabTitleInfo[index].currentPage,
                             projectid: 0,
                             pageSize: this.xfTabTitleInfo[index].pageSize
                         })

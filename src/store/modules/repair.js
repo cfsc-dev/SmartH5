@@ -2,11 +2,12 @@ import axios from '@/utils/fetch'
 const repair = {
     state: {
         repairList: {
+            reLoading: false,
             refreshing: false,
             loading: false,
             error: false,
             finished: false,
-            page: 1,
+            page: 0,
             pageSize: 10,
             list: []
         },
@@ -44,7 +45,7 @@ const repair = {
                         } else {
                             list.error = false
                         }
-                        //console.log(res)
+                        console.log(res.data.repairsEntityList)
                         if (res.data.repairsEntityList.length < 10) {
                             list.finished = true
                         }

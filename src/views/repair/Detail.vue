@@ -39,6 +39,34 @@
                     </van-step>
                 </van-steps>
             </van-popup>
+
+            <!-- 评价 -->
+            <div class="comment" v-if="isEvaluate">
+                <van-cell-group>
+                    <van-cell title="评分" icon="star">
+                        <template slot="default">
+                            <van-rate v-model="grade" gutter="8px"/>
+                        </template>
+                    </van-cell>
+                </van-cell-group>
+                <van-cell-group>
+                    <van-field
+                        v-model="commentContent"
+                        label="评价"
+                        required
+                        type="textarea"
+                        left-icon="comment"
+                        placeholder="请说下您的想法吧!"
+                        :error-message="errorComment"
+                        clearable
+                        rows="2"
+                        autosize
+                    />
+                </van-cell-group>
+                <div class="subBtn" @click="subComment">
+                    <van-button type="info" size="large">评价</van-button>
+                </div>
+            </div>
         </section>
     </section>
 </template>
@@ -48,11 +76,65 @@ export default {
     name: 'complaintDetail',
     data() {
         return {
-            stepShow: false
+            stepShow: false,
+            isAccept: false,
+            isSure: false,
+            isEvaluate: false,
+            isPay: false,
+            grade: 5,
+            commentContent: '',
+            errorComment: '',
+            isHandle: ''
         }
     },
     created() {
-        this.$store.dispatch('getRepairSteps',{repairsId: this.$route.params.id})
+        this.$store.dispatch('getRepairSteps',{repairsId: this.$route.query.repairsId})
+        this.isHandle = this.$route.query.jbpmOutcomes
+        if(this.isHandle && this.isHandle.indexOf('评价') > -1){
+            this.list = false
+            this.isEvaluate = true
+        }else if(this.isHandle && this.isHandle.indexOf('是否接受价格') > -1){
+            this.list = true
+            this.isAccept = true
+        }else if(this.isHandle && this.isHandle.indexOf('客户确认') > -1){
+            this.list = true
+            this.isSure = true
+        }else if(this.isHandle && this.isHandle.indexOf('客户付费') > -1){
+            this.list = true
+            this.isPay = true
+        }else{
+            this.list = true
+        }
+    },
+    methods: {
+        subComment(){
+            if(this.commentContent){
+                this.errorComment = ''
+                let data = {
+                    complainid : this.$route.query.complainId,
+                    userId: this.userInfo.userInfo.userId,
+                    outcome: '评价',
+                    taskId: this.$route.query.taskid,
+                    commentContent: this.commentContent,
+                    commentLevel: this.grade
+                }
+                console.log(data)
+                axios.post('owner/complains/customCommentComplain.action', data)
+                    .then(res => {
+                        this.$dialog.alert({
+                            message: res.msg
+                        }).then(() => {
+                            this.complainList.reLoading = true
+                            this.$router.replace('/complaint')
+                        })
+                    }
+                ).catch(err => {
+                    console.log(err)
+                })
+            } else {
+                this.errorComment = '评价内容不能为空'
+            }
+        }
     },
     computed: {
         ...mapGetters([

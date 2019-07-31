@@ -106,7 +106,8 @@ export default {
                             this.$dialog.alert({
                                 message: res.msg
                             }).then(() => {
-                                this.$router.push('/complaint')
+                                this.complainList.reLoading = true
+                                this.$router.replace('/complaint')
                             })
                         }
                     }
@@ -122,6 +123,7 @@ export default {
     computed: {
         ...mapGetters([
             'userInfo',
+            'complainList',
             'complainEmerg'
         ])
     }
