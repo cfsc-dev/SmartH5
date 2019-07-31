@@ -40,6 +40,40 @@
                 </van-steps>
             </van-popup>
 
+            <!-- 接受价格 -->
+            <div class="accpet" v-if="isAccept">
+                <van-cell-group>
+                    <van-field
+                        v-model="handlePay"
+                        clearable
+                        type="number"
+                        label="人工费用"
+                    />
+                    <van-field
+                        v-model="metraiPay"
+                        type="number"
+                        clearable
+                        label="材料费用"
+                    />
+                    <van-field
+                        v-model="sumPay"
+                        type="number"
+                        readonly
+                        label="共计费用"
+                    />
+                </van-cell-group>
+                <div class="rectification mt10">
+                    <van-row type="flex" justify="center">
+                        <van-col span="6">
+                            <van-button type="default" size="small">拒绝整改</van-button>
+                        </van-col>
+                        <van-col span="6">
+                            <van-button type="info" size="small">接受整改</van-button>
+                        </van-col>
+                    </van-row>
+                </div>
+            </div>
+
             <!-- 评价 -->
             <div class="comment" v-if="isEvaluate">
                 <van-cell-group>
@@ -84,6 +118,8 @@ export default {
             grade: 5,
             commentContent: '',
             errorComment: '',
+            handlePay: 100,
+            metraiPay: 0,
             isHandle: ''
         }
     },
@@ -140,13 +176,19 @@ export default {
         ...mapGetters([
             'userInfo',
             'repairDetailSteps'
-        ])
+        ]),
+        sumPay(){
+            return parseInt(this.handlePay) + parseInt(this.metraiPay)
+        }
     }
 }
 </script>
 <style lang="stylus" scoped>
 .main-content{
     padding 46px 10px 10px
+    .mt10{
+        margin-top 10px
+    }
     .complainList{
         margin-top 10px;line-height .24rem
         .headFace{
