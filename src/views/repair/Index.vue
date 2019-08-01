@@ -11,7 +11,7 @@
         <section class="main-content">
             <van-sticky :offset-top="46">
                 <van-dropdown-menu>
-                    <van-dropdown-item title="投诉类别" v-model="valueType" :options="repairType" @change="changeType"/>
+                    <van-dropdown-item title="报修类别" v-model="valueType" :options="repairType" @change="changeType"/>
                     <van-dropdown-item title="状态" ref="item" v-model="valueStatus" :options="disposeStatus" @change="changeState">
                     </van-dropdown-item>
                 </van-dropdown-menu>
@@ -95,6 +95,7 @@ export default {
                 this.repairList.error = false
                 this.repairList.finished = true
                 this.repairList.refreshing = false
+                this.repairList.reLoading = false
                 this.onLoad(true);
             }, 500);
         },

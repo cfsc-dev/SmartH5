@@ -174,8 +174,11 @@ export default {
                 let data = new FormData()
                 let params = {
                     userId: this.userInfo.userInfo.userId,
+                    roomid: this.userInfo.roominfo[0].roomId,
+                    projectId: this.userInfo.userInfo.projectId,
                     address: this.address,
                     plandate: this.timeValue,
+                    appMobile: this.userInfo.userInfo.mobileNumber,
                     mobile: this.mobile,
                     problemdesc: this.content,
                     ownerName: this.username,
@@ -184,6 +187,7 @@ export default {
                         this.emergValue === '遗留问题' ?  9 :
                         this.emergValue === '其他类'?  14 : 1
                 }
+                console.log(params)
                 for(let i in params){
                     data.append(i, params[i])
                 }
@@ -193,7 +197,7 @@ export default {
                     })
                 }
                 
-                axios.postFile('owner/addJob.action', data)
+                axios.postFile('job/add.action', data)
                     .then(res => {
                         this.$dialog.alert({
                             message: res.msg
