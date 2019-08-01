@@ -65,10 +65,10 @@
                 <div class="rectification mt10">
                     <van-row type="flex" justify="center">
                         <van-col span="6">
-                            <van-button type="default" size="small">拒绝整改</van-button>
+                            <van-button type="default" size="small" @click="subAccept('accept', 0)">拒绝费用改</van-button>
                         </van-col>
                         <van-col span="6">
-                            <van-button type="info" size="small">接受整改</van-button>
+                            <van-button type="info" size="small" @click="subAccept('accept', 1)">接受费用</van-button>
                         </van-col>
                     </van-row>
                 </div>
@@ -147,7 +147,8 @@ export default {
             if(this.commentContent){
                 this.errorComment = ''
                 let data = {
-                    complainid : this.$route.query.complainId,
+                    workOrderId : this.$route.query.repairsId,
+                    appMobile: this.userInfo.userInfo.mobileNumber,
                     userId: this.userInfo.userInfo.userId,
                     outcome: '评价',
                     taskId: this.$route.query.taskid,
@@ -155,13 +156,13 @@ export default {
                     commentLevel: this.grade
                 }
                 console.log(data)
-                axios.post('owner/complains/customCommentComplain.action', data)
+                axios.post('owner/commentWorkOrder.action', data)
                     .then(res => {
                         this.$dialog.alert({
                             message: res.msg
                         }).then(() => {
-                            this.complainList.reLoading = true
-                            this.$router.replace('/complaint')
+                            this.repairList.reLoading = true
+                            this.$router.replace('/repair')
                         })
                     }
                 ).catch(err => {
@@ -170,12 +171,35 @@ export default {
             } else {
                 this.errorComment = '评价内容不能为空'
             }
+        },
+        subAccept(type,state){
+            let data = {
+                appMobile: this.userInfo.userInfo.mobileNumber,
+                userId: this.userInfo.userInfo.userId,
+                taskId: this.$route.query.taskid,
+                workOrderId: this.$route.query.repairsId,
+                accept: state,
+                outcome: '是否接受价格'
+            }
+            axios.post('owner/acceptPrice.action', data)
+                .then(res => {
+                    this.$dialog.alert({
+                        message: res.msg
+                    }).then(() => {
+                        this.repairList.reLoading = true
+                        this.$router.replace('/repair')
+                    })
+                }
+            ).catch(err => {
+                console.log(err)
+            })
         }
     },
     computed: {
         ...mapGetters([
             'userInfo',
-            'repairDetailSteps'
+            'repairDetailSteps',
+            'repairList'
         ]),
         sumPay(){
             return parseInt(this.handlePay) + parseInt(this.metraiPay)

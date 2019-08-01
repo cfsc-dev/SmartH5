@@ -268,11 +268,15 @@ export default {
                             this.$dialog.alert({
                                 message: res.msg
                             }).then(() => {
-                                this.complainList.reLoading = true
-                                this.$router.replace('/complaint')
+                                if(type === 'satisfied' && data.satisfaction === 1){
+                                    this.list = false
+                                    this.isEvaluate = true
+                                }else{
+                                    this.complainList.reLoading = true
+                                    this.$router.replace('/complaint')
+                                }
                             })
                         }
-                        
                     }
                 ).catch(err => {
                     console.log(err)
