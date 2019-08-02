@@ -144,6 +144,11 @@
                 </div>
             </div>
 
+            <!-- 客户确认 -->
+            <div class="subBtn" v-if="isSureInfo">
+                <van-button type="info" size="large" @click="isSure">确认</van-button>
+            </div>
+
             <!-- 评价 -->
             <div class="comment" v-if="isEvaluate">
                 <van-cell-group>
@@ -179,7 +184,7 @@
                 </div>
             </div>
             <div class="subBtn" @click="subPay" v-if="isShowPayBtn">
-                <van-button type="info" size="large">评价</van-button>
+                <van-button type="info" size="large">支付</van-button>
             </div>
         </section>
     </section>
@@ -197,7 +202,7 @@ export default {
         return {
             stepShow: false,
             isAccept: false,
-            isSure: false,
+            isSureInfo: false,
             isEvaluate: false,
             isPay: false,
             isShowPayBtn: false,
@@ -222,7 +227,7 @@ export default {
             this.isAccept = true
         }else if(this.isHandle && this.isHandle.indexOf('客户确认') > -1){
             this.list = true
-            this.isSure = true
+            this.isSureInfo = true
         }else if(this.isHandle && this.isHandle.indexOf('客户付费') > -1){
             this.list = true
             this.isShowPayBtn = true
@@ -300,6 +305,28 @@ export default {
             this.isShowPayBtn = false
             this.isEvaluate = true
             this.list = false
+        },
+        isSure(){
+            let data = {
+                workOrderId : this.$route.query.repairsId,
+                appMobile: this.userInfo.userInfo.mobileNumber,
+                userId: this.userInfo.userInfo.userId,
+                outcome: '客户确认',
+                taskId: this.$route.query.taskid
+            }
+            axios.post('/owner/confirmWorkOrderFinish.action', data)
+                .then(res => {
+                    console.log(res)
+                    this.$dialog.alert({
+                        message: '确认成功'
+                    }).then(() => {
+                        this.isShowPayBtn = true
+                        this.isSureInfo = false
+                    })
+                }
+            ).catch(err => {
+                console.log(err)
+            })
         }
     },
     computed: {
