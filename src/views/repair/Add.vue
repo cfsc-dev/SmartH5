@@ -136,6 +136,7 @@ export default {
         }
     },
     created(){
+        this.timeValue = dateTool.format(this.startTimePicker,'yyyy-MM-dd HH:mm:ss')
         this.$store.dispatch('getRepairType',{appMobile: this.userInfo.userInfo.mobileNumber})
         setTimeout(() => {
             this.repairValue = this.repairType[0].text
@@ -150,7 +151,7 @@ export default {
             this.repairSelectShow = false
         },
         confirmStartTime(value){
-            this.timeValue = dateTool.format(value,'yyyy-MM-dd HH:mm')
+            this.timeValue = dateTool.format(value,'yyyy-MM-dd HH:mm') + ':00'
             this.timeSelectShow = false
         },
         formatter(type, value) {
@@ -178,7 +179,7 @@ export default {
                     roomid: this.userInfo.roominfo[0].roomId,
                     projectId: this.userInfo.userInfo.projectId,
                     address: this.address,
-                    plandate: this.timeValue + ':00',
+                    plandate: this.timeValue,
                     appMobile: this.userInfo.userInfo.mobileNumber,
                     mobile: this.mobile,
                     problemdesc: this.content,
