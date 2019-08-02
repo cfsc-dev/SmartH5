@@ -270,10 +270,11 @@ export default {
                             }).then(() => {
                                 if(type === 'satisfied' && data.satisfaction === 1){
                                     this.list = false
+                                    this.isSatisfied = false
                                     this.isEvaluate = true
                                 }else{
                                     this.complainList.reLoading = true
-                                    this.$router.replace('/complaint')
+                                    this.$router.push('/complaint')
                                 }
                             })
                         }

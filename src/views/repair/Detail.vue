@@ -179,7 +179,7 @@
                 </div>
             </div>
             <div class="subBtn" @click="subPay" v-if="isShowPayBtn">
-                <van-button type="info" size="large">支付</van-button>
+                <van-button type="info" size="large">评价</van-button>
             </div>
         </section>
     </section>
@@ -251,7 +251,7 @@ export default {
                             message: res.msg
                         }).then(() => {
                             this.repairList.reLoading = true
-                            //this.$router.replace('/repair')
+                            this.$router.push('/repair')
                         })
                     }
                 ).catch(err => {

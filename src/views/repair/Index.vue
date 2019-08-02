@@ -63,8 +63,6 @@ export default {
     },
     created(){
         this.$store.dispatch('getRepairType',{appMobile: this.userInfo.userInfo.mobileNumber})
-    },
-    activated(){
         if(this.repairList.reLoading) this.onRefresh()
     },
     methods: {

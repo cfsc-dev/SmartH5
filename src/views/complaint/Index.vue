@@ -64,8 +64,6 @@ export default {
     },
     created(){
         this.$store.dispatch('getComplainType')
-    },
-    activated(){
         if(this.complainList.reLoading) this.onRefresh()
     },
     methods: {
