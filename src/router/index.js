@@ -142,6 +142,20 @@ export const constantRouterMap = [{
         slide: 1
     },
     component: _import_('auth/Login')
+}, {
+    path: '/pay',
+    name: '生活缴费',
+    meta: {
+        slide: 1
+    },
+    component: _import_('pay/Index')
+}, {
+    path: '/pay/parkingPayment',
+    name: '停车缴费',
+    meta: {
+        slide: 1
+    },
+    component: _import_('pay/ParkingPayment')
 }]
 
 export const router = new Router({

@@ -15,6 +15,7 @@
                         v-model="loading"
                         :finished="finished"
                         :finished-text="finishedText"
+                        :immediate-check="false"
                         :offset="80"
                         @load="onLoad">
                         <van-row v-for="(item, index) in list" @click.native="$router.push({name:'访客详情',params:{id:item.id}})" :key="index" class="visitor-list">
@@ -53,6 +54,9 @@
                 page:0,
                 pageSize:8,
             }
+        },
+        activated(){
+            this.onRefresh()
         },
         created(){
             this.title=this.$route.name

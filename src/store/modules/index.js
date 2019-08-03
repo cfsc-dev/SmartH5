@@ -9,7 +9,7 @@ const index = {
             { title: '智能锁车', path: '/car/lock', icon: 'lock.png' },
             { title: '投诉建议', path: '/complaint', icon: 'complaint.png' },
             { title: '报事报修', path: '/repair', icon: 'repair.png' },
-            { title: '生活缴费', path: '', icon: 'life.png' },
+            { title: '生活缴费', path: '/pay', icon: 'life.png' },
             { title: '全部功能', path: '', icon: 'all.png' }
         ],
         footerBarList: [

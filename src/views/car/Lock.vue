@@ -33,8 +33,10 @@
             </van-cell-group>
             <van-popup v-model="carSelectShow" position="bottom">
                 <van-picker
+                    show-toolbar
                     :columns="carList"
-                    @change="currentCarChange"
+                    @cancel="onCancel"
+                    @confirm="onConfirm"
                 />
             </van-popup>
             <div v-if="currentCar" class="_content-cross-record">
@@ -133,14 +135,20 @@
                 }
             },
             //车辆选择
-            currentCarChange(picker, value, index){
-                this.currentCar=value
-                this.getCarAlarm()
-                this.getCarCrossRecord()
+            onConfirm(value){
+                if(this.currentCar!==value){
+                    this.currentCar=value
+                    this.getCarAlarm()
+                    this.getCarCrossRecord()
+                    this.carSelectShow=false
+                    this.page=1
+                    this.loading=false
+                    this.finished=false
+                }
+            },
+            //取消车辆选择
+            onCancel(){
                 this.carSelectShow=false
-                this.page=1
-                this.loading=false
-                this.finished=false
             },
             //获取车辆布控信息
             getCarAlarm(){

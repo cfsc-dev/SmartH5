@@ -50,6 +50,7 @@
             weixin.wxConfig(['onMenuShareAppMessage'])
         },
         methods:{
+            //获取访客
             getVisitor(){
                 let params={
                     id:this.$route.params.id
@@ -69,8 +70,10 @@
                     }
                 )
             },
+            //分享
             visitorShare(){
-                weixin.shareToWeixin({title:'邀请码',desc:'邀请码',link:'',imgUrl:this.visitor.qrCodeUrl})
+                this.$toast('待开发');
+                // weixin.shareToWeixin({title:'邀请码',desc:'邀请码',link:'',imgUrl:this.visitor.qrCodeUrl})
             }
         }
     }

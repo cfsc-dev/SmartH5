@@ -57,28 +57,30 @@
             },
             //关注/取消关注
             thumbsUpEdit(){
+
                 // let params={
                 //     noticeId:this.$route.params.id
                 // }
                 // axios.post('/pointNumber.action',params).then(
                 //     res=>{
                 //         console.log(res)
+                //         this.$set(this.detail,'thumbsUp',this.detail.thumbsUp===1?0:1)
                 //     }
                 // ).catch(
                 //     err=>{
                 //         console.log(err)
                 //     }
                 // )
-                this.$set(this.detail,'thumbsUp',this.detail.thumbsUp===0?1:0)
-                if(this.detail.thumbsUp===0){
-                    this.$toast('取消点赞')
-                }else{
-                    this.$toast('点赞')
-                }
+                this.$set(this.detail,'thumbsUp',this.detail.thumbsUp===1?0:1)
+                // if(this.detail.thumbsUp===0){
+                //     this.$toast('取消点赞')
+                // }else{
+                //     this.$toast('点赞')
+                // }
             },
             //分享
             share(){
-                this.$toast('分享');
+                this.$toast('待开发');this.$toast('待开发');
             }
 
         }

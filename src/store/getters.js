@@ -16,7 +16,9 @@ const getters = {
     //报事报修
     repairType: state => state.repair.repairType,
     repairList: state => state.repair.repairList,
-    repairDetailSteps: state => state.repair.repairDetailSteps
+    repairDetailSteps: state => state.repair.repairDetailSteps,
+    //生活缴费
+    payCategory: state=>state.pay.payCategory
 }
 
 export default getters

@@ -10,8 +10,8 @@
         <section class="main-content">
             <img class="_content-img" :src="imgSrc"/>
             <div class="_content-tip">请将二维码对准摄像头</div>
-            <div v-if="timeOut===0" class="_content-time-out">
-                <Icon name="iconview" @click.native="getQrCode()"></Icon><span>重新获取二维码</span>
+            <div v-if="timeOut===0" class="_content-time-out" @click="getQrCode()">
+                <Icon name="iconshuaxin"></Icon><span>重新获取二维码</span>
             </div>
             <div v-else class="_content-time-out">
                 <span>{{timeOut}}秒后二维码失效</span>
@@ -39,19 +39,21 @@
                 'isAuth','userInfo'
             ])
         },
-        watch:{
-            isAuth(val){
-                if(val){
-                    this.getQrCode()
-                }
-            }
-        },
+        // watch:{
+        //     isAuth(val){
+        //         if(val){
+        //             this.getQrCode()
+        //         }
+        //     }
+        // },
         created() {
-            if(this.isAuth){
-                this.getQrCode()
-            }
+            // if(this.isAuth){
+            //     this.getQrCode()
+            // }
+            this.getQrCode()
         },
         methods:{
+            //获取门禁二维码
             getQrCode(){
                 let param={
                     userId:this.userInfo.userInfo.userId,
@@ -74,6 +76,7 @@
                     console.log(err)
                 })
             },
+            //二维码失效时间控制
             refreshTimeOut(){
                 if(this.timeOut===0){
                     this.timeOut=60
