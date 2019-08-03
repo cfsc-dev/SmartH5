@@ -19,7 +19,12 @@ const repair = {
             { text: '低', id: 4 },
             { text: '可以忽略', id: 5 },
         ],
-        repairDetailSteps: []
+        repairDetailSteps: [],
+        repairInfo: {
+            UserInfo: {},
+            jobDetailMap: {},
+            Alllist: []
+        }
     },
     actions: {
         getRepairType({ commit, state }, params) {
@@ -67,6 +72,18 @@ const repair = {
                         reject(err)
                     })
             })
+        },
+        getRepairInfo({ commit, state }, params) {
+            return new Promise((resolve, reject) => {
+                axios.get('job/queryJobDetailH5.action', params)
+                    .then(res => {
+                        console.log(res)
+                        commit('REPAIRINFO', res.data)
+                        resolve(res.data)
+                    }).catch(err => {
+                        reject(err)
+                    })
+            })
         }
     },
     mutations: {
@@ -83,6 +100,11 @@ const repair = {
         },
         GETREPAIRSTEPS(state, list) {
             state.repairDetailSteps = list
+        },
+        REPAIRINFO(state, list) {
+            state.repairInfo.UserInfo = list ? list.UserInfo : {}
+            state.repairInfo.Alllist = list ? list.Alllist : []
+            state.repairInfo.jobDetailMap = list ? list.jobDetailMap : {}
         }
     }
 }

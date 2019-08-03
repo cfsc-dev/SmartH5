@@ -17,6 +17,7 @@ const getters = {
     repairType: state => state.repair.repairType,
     repairList: state => state.repair.repairList,
     repairDetailSteps: state => state.repair.repairDetailSteps,
+    repairInfo: state => state.repair.repairInfo,
     //生活缴费
     payCategory: state=>state.pay.payCategory
 }

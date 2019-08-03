@@ -100,7 +100,6 @@ export default {
         },
         sendCode(){
             if(this.mobile){
-                const TIME_COUNT = 60;
                 axios.post('getLoginCode.action',{mobile: this.mobile, chid: ""})
                     .then(res => {
                         if(res.resultCode === "0"){

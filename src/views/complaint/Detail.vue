@@ -67,8 +67,8 @@
                             <div class="userName">{{item.handleUser.name}}</div>
                             <p class="userLocation">{{item.handleUser.department.name}}</p>
                         </van-col>
-                        <van-col span="4" v-if="item.mobile">
-                            <a :href="'tel:' + item.mobile">
+                        <van-col span="4" v-if="item.handleUser.mobile">
+                            <a :href="'tel:' + item.handleUser.mobile">
                                 <van-icon name="phone" color="#1A6DBD" size="0.4rem"/>
                             </a>
                         </van-col>
@@ -268,11 +268,16 @@ export default {
                             this.$dialog.alert({
                                 message: res.msg
                             }).then(() => {
-                                this.complainList.reLoading = true
-                                this.$router.replace('/complaint')
+                                if(type === 'satisfied' && data.satisfaction === 1){
+                                    this.list = false
+                                    this.isSatisfied = false
+                                    this.isEvaluate = true
+                                }else{
+                                    this.complainList.reLoading = true
+                                    this.$router.push('/complaint')
+                                }
                             })
                         }
-                        
                     }
                 ).catch(err => {
                     console.log(err)
