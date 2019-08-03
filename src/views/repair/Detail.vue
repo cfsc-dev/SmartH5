@@ -320,8 +320,10 @@ export default {
                     this.$dialog.alert({
                         message: '确认成功'
                     }).then(() => {
-                        this.isShowPayBtn = true
-                        this.isSureInfo = false
+                        /* this.isShowPayBtn = true
+                        this.isSureInfo = false */
+                        this.repairList.reLoading = true
+                        this.$router.replace('/repair')
                     })
                 }
             ).catch(err => {
