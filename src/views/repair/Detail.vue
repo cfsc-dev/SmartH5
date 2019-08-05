@@ -292,7 +292,7 @@ export default {
         imgView(data){
             let datas = [] 
             data.forEach(item => {
-                datas.push('/smartxd/smartxd/' + item.url)
+                datas.push(item.url)
             })
             ImagePreview(datas);
         },
