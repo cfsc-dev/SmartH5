@@ -178,13 +178,13 @@
                     res=>{
                         console.log(res)
                         if(res.code==='200'){
-                            let visitor={
-                                expireTime: dateTool.format(this.endTimePicker,'yyyy-MM-dd HH:mm'),
-                                openTimes: this.validCount===''?4:this.validCount,
-                                qrCodeUrl: res.data.qrCodeUrl,
-                                visitorName: this.visitorName
-                            }
-                            this.$router.replace({name:'访客详情',params:{visitor:visitor}})
+                            // let visitor={
+                            //     expireTime: dateTool.format(this.endTimePicker,'yyyy-MM-dd HH:mm'),
+                            //     openTimes: this.validCount===''?4:this.validCount,
+                            //     qrCodeUrl: res.data.qrCodeUrl,
+                            //     visitorName: this.visitorName
+                            // }
+                            this.$router.replace({name:'访客详情',params:{id:res.data.visitorId}})
                         }
                     }
                 ).catch(err=>{
