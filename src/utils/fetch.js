@@ -36,7 +36,7 @@ function checkCode(res) {
 }
 
 //const baseURL = 'https://easy-mock.com/mock/5c9c457d537b38624dcfaa60/example/'
-const baseURL = '/smartxd/smartxd/api/'
+const baseURL = '/api/'
 export default {
     get(url, params) {
         if (!url) return

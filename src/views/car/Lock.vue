@@ -139,6 +139,7 @@
                 if(this.currentCar!==value){
                     this.currentCar=value
                     this.getCarAlarm()
+                    this.currentCarCrossList.splice(0,this.currentCarCrossList.length)
                     this.getCarCrossRecord()
                     this.carSelectShow=false
                     this.page=1

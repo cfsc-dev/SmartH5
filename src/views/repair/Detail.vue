@@ -13,7 +13,7 @@
                 <div class="handleList">
                     <van-row gutter="10">
                         <van-col span="4">
-                            <div class="headFace"><img :src="`${repairInfo.UserInfo.userHearImageUrl ? 'smartxd/smartxd/' + repairInfo.UserInfo.userHearImageUrl : require('@/assets/img/avatar.png')}`" alt=""></div>
+                            <div class="headFace"><img :src="`${repairInfo.UserInfo.userHearImageUrl ? '/'+repairInfo.UserInfo.userHearImageUrl : require('@/assets/img/avatar.png')}`" alt=""></div>
                         </van-col>
                         <van-col span="16">
                             <div class="userName">{{repairInfo.UserInfo.userName}}</div>
@@ -57,7 +57,7 @@
                             <div>{{repairInfo.jobDetailMap.problemdesc}}</div>
                             <div class="userComlainImg" @click="imgView(repairInfo.jobDetailMap.piclist)">
                                 <van-row gutter="10">
-                                    <van-col span="8" v-for="(item, index) in repairInfo.jobDetailMap.piclist" :key="index"><img :src="'/smartxd/smartxd/' + item.url" alt=""></van-col>
+                                    <van-col span="8" v-for="(item, index) in repairInfo.jobDetailMap.piclist" :key="index"><img :src="'/'+item.url" alt=""></van-col>
                                 </van-row>
                             </div>
                             <p class="times">{{repairInfo.jobDetailMap.createTime}}</p>
@@ -67,7 +67,7 @@
                 <div class="handleList" v-for="(item, index) in repairInfo.Alllist" :key="index">
                     <van-row gutter="10" v-if="item.handleUser.name">
                         <van-col span="4">
-                            <div class="headFace"><img :src="`${item.face ? 'smartxd/smartxd/' + item.face : require('@/assets/img/avatar.png')}`" alt=""></div>
+                            <div class="headFace"><img :src="`${item.face ? '/'+item.face : require('@/assets/img/avatar.png')}`" alt=""></div>
                         </van-col>
                         <van-col span="16">
                             <div class="userName">{{item.handleUser.name}}</div>
@@ -84,7 +84,7 @@
                             <div>{{item.Content}}</div>
                             <div class="userComlainImg" @click="imgView(item.pic)">
                                 <van-row gutter="10">
-                                    <van-col span="8" v-for="(img, index) in item.pic" :key="index"><img :src="'/smartxd/smartxd/' + img.url" alt=""></van-col>
+                                    <van-col span="8" v-for="(img, index) in item.pic" :key="index"><img :src="'/'+img.url" alt=""></van-col>
                                 </van-row>
                             </div>
                             <p class="times">{{item.time}}</p>

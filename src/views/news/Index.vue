@@ -28,7 +28,7 @@
                                             <p>{{item.remark}}</p>
                                         </van-col>
                                         <van-col span="7">
-                                            <img :src="`${item.noticeImgUrl ? 'smartxd/smartxd/' + item.noticeImgUrl : require('@/assets/img/no-img.png')}`" alt="">
+                                            <img :src="`${item.noticeImgUrl ? item.noticeImgUrl : require('@/assets/img/no-img.png')}`" alt="">
                                         </van-col>
                                     </van-row>
                                 </li>

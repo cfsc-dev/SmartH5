@@ -5,7 +5,7 @@
             <li v-for="(item, index) in filteredItems" @click="detail(item.noticeId)" class="item" :key="index">
                 <van-row gutter="10">
                     <van-col span="7">
-                        <img :src="`${item.noticeImgUrl ? 'smartxd/smartxd/' + item.noticeImgUrl : require('@/assets/img/no-img.png')}`" alt="">
+                        <img :src="`${item.noticeImgUrl ? item.noticeImgUrl : require('@/assets/img/no-img.png')}`" alt="">
                     </van-col>
                     <van-col span="17">
                         <h4>{{item.title}}</h4>

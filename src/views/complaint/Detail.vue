@@ -13,7 +13,7 @@
                 <div class="handleList">
                     <van-row gutter="10">
                         <van-col span="4">
-                            <div class="headFace"><img :src="`${complainInfo.UserInfo.userHearImageUrl ? 'smartxd/smartxd/' + complainInfo.UserInfo.userHearImageUrl : require('@/assets/img/avatar.png')}`" alt=""></div>
+                            <div class="headFace"><img :src="`${complainInfo.UserInfo.userHearImageUrl ? '/'+complainInfo.UserInfo.userHearImageUrl : require('@/assets/img/avatar.png')}`" alt=""></div>
                         </van-col>
                         <van-col span="16">
                             <div class="userName">{{complainInfo.UserInfo.userName}}</div>
@@ -51,7 +51,7 @@
                             <div>{{complainInfo.complainMap.content}}</div>
                             <div class="userComlainImg" @click="imgView(complainInfo.complainMap.complainImageUrlList)">
                                 <van-row gutter="10">
-                                    <van-col span="8" v-for="(item, index) in complainInfo.complainMap.complainImageUrlList" :key="index"><img :src="'/smartxd/smartxd/' + item.url" alt=""></van-col>
+                                    <van-col span="8" v-for="(item, index) in complainInfo.complainMap.complainImageUrlList" :key="index"><img :src="'/' + item.url" alt=""></van-col>
                                 </van-row>
                             </div>
                             <p class="times">{{complainInfo.complainMap.complainDateTime}}</p>
@@ -61,7 +61,7 @@
                 <div class="handleList" v-for="(item, index) in complainInfo.Alllist" :key="index">
                     <van-row gutter="10" v-if="item.handleUser.name">
                         <van-col span="4">
-                            <div class="headFace"><img :src="`${item.face ? 'smartxd/smartxd/' + item.face : require('@/assets/img/avatar.png')}`" alt=""></div>
+                            <div class="headFace"><img :src="`${item.face ? '/'+item.face : require('@/assets/img/avatar.png')}`" alt=""></div>
                         </van-col>
                         <van-col span="16">
                             <div class="userName">{{item.handleUser.name}}</div>
@@ -78,7 +78,7 @@
                             <div>{{item.Content}}</div>
                             <div class="userComlainImg" @click="imgView(item.pic)">
                                 <van-row gutter="10">
-                                    <van-col span="8" v-for="(img, index) in item.pic" :key="index"><img :src="'/smartxd/smartxd/' + img.url" alt=""></van-col>
+                                    <van-col span="8" v-for="(img, index) in item.pic" :key="index"><img :src="'/'+img.url" alt=""></van-col>
                                 </van-row>
                             </div>
                             <p class="times">{{item.time}}</p>
