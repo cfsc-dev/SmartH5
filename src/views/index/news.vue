@@ -14,18 +14,18 @@
             <div class="panel">
                 <img :src="`${require('@/assets/img/1.jpg')}`" alt="">
                 <div class="panel-info">
-                    <h4>暑期大礼包，消暑冰点折扣</h4>
+                    <h4>亲自手工 爱与温暖夏天...</h4>
                     <p>地址：长房云西府物业活动大厅</p>
-                    <p>报名截止：2019年08月20日</p>
+                    <p>报名截止：2019年08月30日</p>
                     <p class="join"><span>去参加</span></p>
                 </div>
             </div>
             <div class="panel">
                 <img :src="`${require('@/assets/img/1.jpg')}`" alt="">
                 <div class="panel-info">
-                    <h4>暑期大礼包，消暑冰点折扣</h4>
+                    <h4>夏日缤纷 水上乐园 欢乐酷暑</h4>
                     <p>地址：长房云西府物业活动大厅</p>
-                    <p>报名截止：2019年08月20日</p>
+                    <p>报名截止：2019年09月20日</p>
                     <p class="join"><span>去参加</span></p>
                 </div>
             </div>
@@ -94,7 +94,7 @@
         display:none
     }
     .scroll{
-        overflow: hidden;height 2.35rem;
+        overflow: hidden;
         overflow-x: scroll;
         display: -webkit-box;display: -ms-flexbox;display: flex;
         -webkit-flex-wrap: nowrap;-ms-flex-wrap:nowrap;flex-wrap:nowrap
@@ -128,7 +128,7 @@
             }
             img{
                 width 100%;
-                max-height 1.3rem;
+                height 1rem;
                 display block
             }
         }

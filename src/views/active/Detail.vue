@@ -79,7 +79,7 @@ export default {
             contact: '黄先生',
             tel: '13888888888',
             expiry: '2019-06-01 14:00',
-            content: '大手拉小手的活动开始报名了',
+            content: '大手拉小手的活动开始报名了'
         }
     },
     methods: {
