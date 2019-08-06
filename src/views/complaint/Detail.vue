@@ -268,14 +268,8 @@ export default {
                             this.$dialog.alert({
                                 message: res.msg
                             }).then(() => {
-                                if(type === 'satisfied' && data.satisfaction === 1){
-                                    this.list = false
-                                    this.isSatisfied = false
-                                    this.isEvaluate = true
-                                }else{
-                                    this.complainList.reLoading = true
-                                    this.$router.push('/complaint')
-                                }
+                                this.complainList.reLoading = true
+                                this.$router.replace('/complaint')
                             })
                         }
                     }
