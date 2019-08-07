@@ -14,7 +14,7 @@
             <div class="panel">
                 <img :src="`${require('@/assets/img/1.jpg')}`" alt="">
                 <div class="panel-info">
-                    <h4>亲自手工 爱与温暖夏天...</h4>
+                    <h4>亲自手工 爱与温暖夏天</h4>
                     <p>地址：长房云西府物业活动大厅</p>
                     <p>报名截止：2019年08月30日</p>
                     <p class="join"><span>去参加</span></p>
@@ -104,12 +104,14 @@
             border-radius 5px;
             margin-top 10px;
             font-size .14rem;
-            width 50%;padding 0 5px;
+            -ms-flex-negative:0;flex-shrink:0;
+            width 50%;
+            padding 0 5px;
             -webkit-box-sizing:border-box;box-sizing:border-box
             .panel-info{
                 padding 5px;
                 h4{
-                    text-overflow: ellipsis;line-height .26rem;
+                    text-overflow: ellipsis;line-height .26rem;text-align center;
                     overflow: hidden;white-space: nowrap;
                 }
                 p{
