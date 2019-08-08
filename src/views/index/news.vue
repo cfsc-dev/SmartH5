@@ -2,78 +2,37 @@
     <section class="main-content-center">
         <h4 class="active">社区活动</h4>
         <div class="scroll">
-            <div class="panel" @click="detail()">
-                <img :src="`${require('@/assets/img/1.jpg')}`" alt="">
+            <div class="panel" v-for="(item, index) in activeList" :key="index" @click="detail(item.id)">
+                <img :src="`${item.pic ? item.pic : require('@/assets/img/1.jpg')}`" alt="">
                 <div class="panel-info">
-                    <h4>暑期大礼包，消暑冰点折扣</h4>
-                    <p>地址：长房云西府物业活动大厅</p>
-                    <p>报名截止：2019年08月20日</p>
-                    <p class="join"><span>去参加</span></p>
-                </div>
-            </div>
-            <div class="panel">
-                <img :src="`${require('@/assets/img/1.jpg')}`" alt="">
-                <div class="panel-info">
-                    <h4>亲自手工 爱与温暖夏天</h4>
-                    <p>地址：长房云西府物业活动大厅</p>
-                    <p>报名截止：2019年08月30日</p>
-                    <p class="join"><span>去参加</span></p>
-                </div>
-            </div>
-            <div class="panel">
-                <img :src="`${require('@/assets/img/1.jpg')}`" alt="">
-                <div class="panel-info">
-                    <h4>夏日缤纷 水上乐园 欢乐酷暑</h4>
-                    <p>地址：长房云西府物业活动大厅</p>
-                    <p>报名截止：2019年09月20日</p>
-                    <p class="join"><span>去参加</span></p>
-                </div>
-            </div>
-            <div class="panel">
-                <img :src="`${require('@/assets/img/1.jpg')}`" alt="">
-                <div class="panel-info">
-                    <h4>暑期大礼包，消暑冰点折扣</h4>
-                    <p>地址：长房云西府物业活动大厅</p>
-                    <p>报名截止：2019年08月20日</p>
-                    <p class="join"><span>去参加</span></p>
+                    <h4>{{item.title}}</h4>
+                    <p>地址：{{item.location}}</p>
+                    <p>报名截止：{{item.expiry}}</p>
+                    <p class="join" :class="[item.userId  ? 'isActive' : '']"><span disabled>{{item.userId ? '已报名' : '去参加'}}</span></p>
                 </div>
             </div>
         </div>
-        <!-- <ul>
-            <li v-for="(item, index) in filteredItems" @click="detail(item.noticeId)" class="item" :key="index">
-                <van-row gutter="10">
-                    <van-col span="7">
-                        <img :src="`${item.noticeImgUrl ? item.noticeImgUrl : require('@/assets/img/no-img.png')}`" alt="">
-                    </van-col>
-                    <van-col span="17">
-                        <h4>{{item.title}}</h4>
-                        <p>{{item.remark}}</p>
-                    </van-col>
-                </van-row>
-            </li>
-        </ul> -->
     </section>
 </template>
 <script>
     import { mapGetters } from 'vuex'
     export default {
         methods: {
-            detail () {
-                this.$router.push('/active/Detail')
+            detail (id) {
+                this.$router.push('/active/Detail/' + id)
             }
         },
         created () {
-            this.$store.dispatch('getHomeList', {
-                id: 0,
-                receive: 1,
-                currentPage: 1,
-                projectid: 0,
-                pageSize: this.xfTabTitleInfo[0].pageSize
+            this.$store.dispatch('queryActiveList',{
+                userId: this.userInfo.userInfo.userId,
+                currentPage: 0,
+                pageSize: 4
             })
         },
         computed: {
             ...mapGetters([
-                'xfTabTitleInfo'
+                'userInfo',
+                'activeList'
             ]),
             filteredItems: function () {
                 return this.xfTabTitleInfo[0].newsList.slice(0, 3)
@@ -111,7 +70,7 @@
             .panel-info{
                 padding 5px;
                 h4{
-                    text-overflow: ellipsis;line-height .26rem;text-align center;
+                    text-overflow: ellipsis;line-height .26rem;
                     overflow: hidden;white-space: nowrap;
                 }
                 p{
@@ -123,8 +82,11 @@
                             color: #5B6DFD;
                             border-radius 8px;
                             padding 1px 10px;
-                        }
-                        
+                        }                        
+                    }
+                    &.isActive span{
+                        color #BBBBBB
+                        border 1px solid #BBBBBB;
                     }
                 }
             }

@@ -82,6 +82,9 @@ export default {
             content: '大手拉小手的活动开始报名了'
         }
     },
+    created() {
+        console.log(this.$route.params)
+    },
     methods: {
         subInfo(){
             this.$router.push('/active/sub')

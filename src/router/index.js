@@ -157,7 +157,7 @@ export const constantRouterMap = [{
     },
     component: _import_('pay/ParkingPayment')
 }, {
-    path: '/active/detail',
+    path: '/active/detail/:id',
     name: '活动详情',
     meta: {
         slide: 1,
