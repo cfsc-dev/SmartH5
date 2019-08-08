@@ -144,7 +144,7 @@ export default {
             overflow: hidden;
         }
         .state{
-            padding 10px;font-size .14rem
+            padding 10px;font-size .14rem;word-break: break-all;
         }
     }
 }

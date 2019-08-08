@@ -5,6 +5,7 @@ const getters = {
     userInfo: state => state.index.userInfo,
     isAuth: state => state.index.isAuth,
     wxInfo: state => state.index.wxInfo,
+    activeList: state => state.index.activeList,
     // 最新动态
     xfTabTitleInfo: state => state.xfdynamics.xfTabTitleInfo,
     //投诉建议
@@ -19,7 +20,7 @@ const getters = {
     repairDetailSteps: state => state.repair.repairDetailSteps,
     repairInfo: state => state.repair.repairInfo,
     //生活缴费
-    payCategory: state=>state.pay.payCategory
+    payCategory: state => state.pay.payCategory
 }
 
 export default getters

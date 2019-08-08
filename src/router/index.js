@@ -164,6 +164,24 @@ export const constantRouterMap = [{
         slide: 1
     },
     component: _import_('pay/ParkingPayment')
+}, {
+    path: '/active/detail/:id',
+    name: '活动详情',
+    meta: {
+        slide: 1,
+        wxAuth: true,
+        login: true
+    },
+    component: _import_('active/Detail')
+}, {
+    path: '/active/sub',
+    name: '填写报名信息',
+    meta: {
+        slide: 1,
+        wxAuth: true,
+        login: true
+    },
+    component: _import_('active/Sub')
 }]
 
 export const router = new Router({

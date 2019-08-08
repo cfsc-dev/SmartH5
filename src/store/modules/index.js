@@ -1,3 +1,4 @@
+import axios from '@/utils/fetch'
 import { Cookie } from '@/utils/storage'
 const index = {
     state: {
@@ -52,10 +53,22 @@ const index = {
                 "commonAddress": null
             }
         },
-        wxInfo: []
+        wxInfo: [],
+        activeList: []
     },
     actions: {
-
+        queryActiveList({ commit, state }, params) {
+            return new Promise((resolve, reject) => {
+                axios.get('active/queryActiveList.action', params)
+                    .then(res => {
+                        console.log(params, res)
+                        commit('QUERYACTIVELIST', res.data)
+                        resolve(res.data)
+                    }).catch(err => {
+                        reject(err)
+                    })
+            })
+        }
     },
     mutations: {
         SET_ISAUTH(state, auth) {
@@ -72,6 +85,9 @@ const index = {
             Cookie.set({
                 userInfo: userInfo
             })
+        },
+        QUERYACTIVELIST(state, data) {
+            state.activeList = data
         }
     }
 }
