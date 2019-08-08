@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <transition :name="animate">
-            <keep-alive exclude="VisitorAdd,newsDetail,Unlock,VisitorDetail,complaintIndex,complaintAdd,complaintDetail,repairIndex,repairAdd,repairDetail">
+            <keep-alive exclude="Appendix,VisitorAdd,newsDetail,Unlock,VisitorDetail,complaintIndex,complaintAdd,complaintDetail,repairIndex,repairAdd,repairDetail">
                 <router-view id="view"></router-view>
             </keep-alive>
         </transition>
@@ -21,7 +21,7 @@
         },
         methods: {
             setUserInfo(userInfoStr){
-                this.$store.commit('SET_ISAUTH',true)
+                this.$store.commit('SET_ISAUTH_TEL',true)
                 this.$store.commit('SET_USERINFO',JSON.parse(userInfoStr))
             },
             reward() {

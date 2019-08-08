@@ -17,9 +17,10 @@
                     .then(res => {
                         console.log(res)
                         if(res.resultCode === "0"){
-                            this.$store.commit('SET_ISAUTH',true)
+                            this.$store.commit('SET_ISAUTH','tel')
                             this.$store.commit('SET_USERINFO',res.data)
                         }else{
+                            this.$store.commit('SET_ISAUTH','wx')
                             this.$store.commit('SET_WXINFO',res.data.user)
                         }
                         this.$router.push('/')

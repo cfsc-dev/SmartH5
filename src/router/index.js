@@ -36,7 +36,15 @@ export const constantRouterMap = [{
         login: false
     },
     component: _import_('news/Detail')
-}, {
+},  {
+    path: '/news/appendix',
+    name: '附件',
+    meta: {
+        slide: 1,
+        login: false
+    },
+    component: _import_('news/Appendix')
+},{
     path: '/unlock',
     name: '门禁开锁',
     meta: {

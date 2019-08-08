@@ -1,7 +1,7 @@
 import { Cookie } from '@/utils/storage'
 const index = {
     state: {
-        isAuth: false,
+        isAuth: '',
         centerIcon: [
             { title: '最新动态', path: '/news', icon: 'news.png' },
             { title: '门禁开锁', path: '/unlock', icon: 'unlocking.png' },
@@ -58,8 +58,8 @@ const index = {
 
     },
     mutations: {
-        SET_ISAUTH(state, isAuth) {
-            state.isAuth = isAuth
+        SET_ISAUTH(state, auth) {
+            state.isAuth = auth
         },
         SET_WXINFO(state, info) {
             state.wxInfo = info

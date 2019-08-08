@@ -39,18 +39,18 @@
                 'isAuth','userInfo'
             ])
         },
-        // watch:{
-        //     isAuth(val){
-        //         if(val){
-        //             this.getQrCode()
-        //         }
-        //     }
-        // },
+        watch:{
+            isAuth(val){
+                if(val){
+                    this.getQrCode()
+                }
+            }
+        },
         created() {
-            // if(this.isAuth){
-            //     this.getQrCode()
-            // }
-            this.getQrCode()
+            if(this.isAuth){
+                this.getQrCode()
+            }
+            // this.getQrCode()
         },
         methods:{
             //获取门禁二维码

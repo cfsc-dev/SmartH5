@@ -80,8 +80,10 @@ export default {
                             .then(resdata => {
                                 if(resdata.resultCode === "0"){
                                     this.$toast(resdata.msg)
+                                    this.$store.commit('SET_ISAUTH','tel')
                                     this.$store.commit('SET_USERINFO',res.data.userInfo.userId)
-                                    this.$router.push('/')
+                                    // this.$router.push('/')
+                                    this.$router.history.go(-1)
                                 }
                                 console.log(resdata)
                             }
