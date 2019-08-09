@@ -185,6 +185,6 @@ export const constantRouterMap = [{
 }]
 
 export const router = new Router({
-    mode: 'history',
+    // mode: 'history',//涉及到分享和App打开关闭history模式
     routes: constantRouterMap
 })

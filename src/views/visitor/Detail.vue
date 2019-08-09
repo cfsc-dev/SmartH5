@@ -24,7 +24,7 @@
                 </div>
                 <div class="_content-li-final">请在门岗出示二维码，即可进入</div>
             </div>
-            <van-button type="primary" size="large" @click="visitorShare">分享</van-button>
+            <van-button v-if="showShareButton" type="primary" size="large" @click="visitorShare">分享</van-button>
         </section>
     </section>
 </template>
@@ -38,6 +38,7 @@
             return{
                 title:'邀请码',
                 zindex:999,
+                showShareButton:false,
                 visitor:{}
             }
         },
@@ -47,7 +48,13 @@
             }else{
                 this.$router.replace('/visitor')
             }
-            weixin.wxConfig(['onMenuShareAppMessage'])
+            //判断是否App打开，App打开则放开分享按钮
+            let ua=navigator.userAgent
+            if(/smart_android/i.test(ua)||/smart_ios/i.test(ua)){
+                this.showShareButton=true
+            }else{
+                this.showShareButton=false
+            }
         },
         methods:{
             //获取访客
@@ -60,6 +67,10 @@
                         console.log(res)
                         if(res.resultCode==='0'){
                             this.visitor=res.data
+                            weixin.share({title:'邀请码',
+                                desc:'邀请码',
+                                link:`http://fe5p3s.natappfree.cc/share.html?url=visitor/detail/${this.$route.params.id}`,
+                                imgUrl:this.visitor.qrCodeUrl})
                         }else{
                             this.$toast(res.msg)
                         }
@@ -72,8 +83,7 @@
             },
             //分享
             visitorShare(){
-                this.$toast('待开发');
-                // weixin.shareToWeixin({title:'邀请码',desc:'邀请码',link:'',imgUrl:this.visitor.qrCodeUrl})
+                this.$bridge.callhandler('showToast', '待开发');
             }
         }
     }

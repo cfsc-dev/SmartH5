@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>微信授权</title>
+</head>
+<body>
+    <script>
+        window.location.href="/#/auth?code="+getQuery('code')
+        function getQuery(name) {
+            let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+            let r = window.location.search.substr(1).match(reg)
+            if (r != null) {
+                return unescape(r[2])
+            }
+            return null
+        }
+    </script>
+</body>
+</html>

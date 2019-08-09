@@ -6,20 +6,23 @@ router.beforeEach((to, from, next) => {
     if(/smart_android/i.test(ua)||/smart_ios/i.test(ua)){
         next()
     }else if(/MicroMessenger/i.test(ua)) {
-        if (to.name === '授权') {
+        if (to.name === '授权' || to.name === '访客详情'||to.name === '最新动态详情') {
             next()
         } else {
             if (!store.getters.isAuth) {
                 //请求微信授权,并跳转到 /WxAuth 路由
                 let appId = 'wx89b7e6f058aca118'
-                let redirectUrl = encodeURIComponent(`http://ysx3fr.natappfree.cc/auth`)
+                let redirectUrl = encodeURIComponent(`http://fe5p3s.natappfree.cc/auth.html`)
                 //判断是否为正式环境
                 window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect`
             } else {
                 if (store.getters.isAuth === 'tel') {
                     next()
                 } else {
-                    if (to.name === '智慧社区' || to.name === '最新动态' || to.name === '最新动态详情' || to.name === '附件' || to.name === '绑定信息') {
+                    if (to.name === '智慧社区' ||
+                        to.name === '最新动态' ||
+                        to.name === '附件' ||
+                        to.name === '绑定信息') {
                         next()
                     } else {
                         Vue.prototype.$dialog.confirm({

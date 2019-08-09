@@ -10,6 +10,7 @@
 </template>
 
 <script>
+    import weixin from '@/utils/weixinHelper'
     export default {
         data () {
             return {
@@ -17,7 +18,7 @@
             }
         },
         created () {
-
+            weixin.wxConfig(['hideAllNonBaseMenuItem','showMenuItems','updateAppMessageShareData'])
         },
         methods: {
             setUserInfo(userInfoStr){

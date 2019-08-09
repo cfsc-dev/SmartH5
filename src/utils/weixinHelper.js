@@ -1,6 +1,10 @@
 import wx from 'weixin-js-sdk'
 import axios from '@/utils/fetch'
 export default{
+    /**
+     * 微信H5开发-注入权限验证配置
+     * @param jsApiList
+     */
     wxConfig (jsApiList){
         let url = encodeURI(window.location.href.split('#')[0])
         console.log("url",url)
@@ -13,7 +17,7 @@ export default{
                 console.log('wxConfig', res)
                 if(res.resultCode==='0'){
                     wx.config({
-                        debug: true,
+                        debug: false,//是否开启调试
                         appId: res.data.appid, // 必填，公众号的唯一标识
                         timestamp: res.data.timestamp, // 必填，生成签名的时间戳
                         nonceStr: res.data.noncestr, // 必填，生成签名的随机串
@@ -30,12 +34,19 @@ export default{
             }
         )
     },
+    /**
+     * 微信H5-分享
+     * @param data
+     */
     share(data){
         wx.ready(()=>{
+            //隐藏所有非基础按钮
             wx.hideAllNonBaseMenuItem()
+            //显示分享功能按钮
             wx.showMenuItems({
-                menuList: ['menuItem:share:appMessage','menuItem:share:timeline','menuItem:share:qq'] // 要显示的菜单项，所有menu项见附录3
+                menuList: ['menuItem:share:appMessage','menuItem:share:timeline','menuItem:share:qq']
             })
+            //自定义“分享给朋友”及“分享到QQ”按钮的分享内容
             wx.updateAppMessageShareData({
                 title: data.title, // 分享标题
                 desc: data.desc, // 分享描述
@@ -48,19 +59,4 @@ export default{
         });
 
     },
-    //分享到微信好友
-    shareToWeixin(data){
-        wx.onMenuShareAppMessage({
-            title: data.title, // 分享标题
-            desc: data.desc, // 分享描述
-            link: data.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-            imgUrl: data.imgUrl, // 分享图标
-            type: '', // 分享类型,music、video或link，不填默认为link
-            dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-            success: function () {
-                // 用户点击了分享后执行的回调函数
-                console.log('123')
-            }
-        });
-    }
 }

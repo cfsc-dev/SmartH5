@@ -16,7 +16,7 @@
             <div v-html="detail.content" class="detail-content"></div>
             <div class="detail-action">
                 <span v-show="detail.resources" @click="showAppendix">查看附件</span>
-                <span><Icon @click.native="share" name="iconshare" ></Icon></span>
+                <span v-if="showShareButton"><Icon @click.native="share" name="iconshare" ></Icon></span>
                 <span><Icon @click.native="thumbsUpEdit" name="iconzan" :class="{thumbsUp: detail.praises===1}"></Icon>{{detail.upNO}}</span>
                 <span><Icon name="iconview"></Icon>{{detail.reads}}</span>
             </div>
@@ -26,22 +26,29 @@
 
 <script>
     import axios from '@/utils/fetch'
+    import weixin from '@/utils/weixinHelper'
     import {mapGetters} from 'vuex'
     export default {
         name: "newsDetail",
         data(){
             return{
                 zindex:999,
-                height:0,
+                showShareButton:false,
                 detail:{},
             }
         },
         created(){
-            console.log(this.$route.params.id)
             if(this.$route.params.id){
                 this.getData()
             }else{
                 this.$router.replace('/news')
+            }
+            //判断是否App打开，App打开则放开分享按钮
+            let ua=navigator.userAgent
+            if(/smart_android/i.test(ua)||/smart_ios/i.test(ua)){
+                this.showShareButton=true
+            }else{
+                this.showShareButton=false
             }
         },
         computed:{
@@ -62,17 +69,40 @@
                     res=>{
                         console.log(res)
                         this.detail=res.data
+                        weixin.share({title:this.detail.title,
+                            desc:this.detail.remark,
+                            link:`http://fe5p3s.natappfree.cc/share.html?url=news/detail/${this.$route.params.id}`,
+                            imgUrl:`http://fe5p3s.natappfree.cc/${this.detail.noticeImgUrl}`})
                     }
                 ).catch(err=>{
                     console.log(err)
                 })
             },
+            //跳转到附件
             showAppendix(){
                 this.$router.push({name:'附件', params:{ fileList:this.detail.resourceList }})
             },
             //关注/取消关注
             thumbsUpEdit(){
-                if(this.isAuth !== 'tel'){
+                if(this.isAuth === 'tel'){
+                    let params={
+                        noticeId:this.$route.params.id,
+                        ownerId:this.userInfo.userInfo.userId
+                    }
+                    let action=this.detail.praises===0?'NoticesUp.action':'deleteNoticesUp.action'
+                    axios.post(action,params).then(
+                        res=>{
+                            console.log(res)
+                            this.$set(this.detail,'upNO',this.detail.praises===0?this.detail.upNO+1:this.detail.upNO-1)
+                            this.$set(this.detail,'praises',this.detail.praises===0?1:0)
+                        }
+                    ).catch(
+                        err=>{
+                            console.log(err)
+                        }
+                    )
+
+                }else{
                     this.$dialog.confirm({
                         message: '请先绑定用户信息'
                     }).then(() => {
@@ -80,30 +110,7 @@
                     }).catch(()=>{
 
                     })
-                    return
                 }
-                let params={
-                    noticeId:this.$route.params.id,
-                    ownerId:this.userInfo.userInfo.userId
-                }
-                let action=this.detail.praises===0?'NoticesUp.action':'deleteNoticesUp.action'
-                axios.post(action,params).then(
-                    res=>{
-                        console.log(res)
-                        this.$set(this.detail,'upNO',this.detail.praises===0?this.detail.upNO+1:this.detail.upNO-1)
-                        this.$set(this.detail,'praises',this.detail.praises===0?1:0)
-                    }
-                ).catch(
-                    err=>{
-                        console.log(err)
-                    }
-                )
-                // this.$set(this.detail,'thumbsUp',this.detail.thumbsUp===1?0:1)
-                // if(this.detail.thumbsUp===0){
-                //     this.$toast('取消点赞')
-                // }else{
-                //     this.$toast('点赞')
-                // }
             },
             //分享
             share(){

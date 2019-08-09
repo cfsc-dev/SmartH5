@@ -21,7 +21,7 @@
                             this.$store.commit('SET_USERINFO',res.data)
                         }else{
                             this.$store.commit('SET_ISAUTH','wx')
-                            this.$store.commit('SET_WXINFO',res.data.user)
+                            this.$store.commit('SET_WXINFO',res.data.User)
                         }
                         this.$router.push('/')
                     }).catch(err => {
