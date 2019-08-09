@@ -61,7 +61,6 @@ const index = {
             return new Promise((resolve, reject) => {
                 axios.get('active/queryActiveList.action', params)
                     .then(res => {
-                        console.log(params, res)
                         commit('QUERYACTIVELIST', res.data)
                         resolve(res.data)
                     }).catch(err => {

@@ -17,6 +17,7 @@
 <script>
     import { mapGetters } from 'vuex'
     export default {
+        name: 'indexActiveList',
         methods: {
             detail (id) {
                 this.$router.push('/active/Detail/' + id)
@@ -33,10 +34,7 @@
             ...mapGetters([
                 'userInfo',
                 'activeList'
-            ]),
-            filteredItems: function () {
-                return this.xfTabTitleInfo[0].newsList.slice(0, 3)
-            }
+            ])
         }
     }
 </script>
@@ -95,30 +93,6 @@
                 height 1rem;
                 display block
             }
-        }
-    }
-    .item {
-        padding: 0.1rem 0;
-        h4 {
-            color: black;
-            font-size: 0.16rem;
-            word-break: break-all;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            overflow: hidden;
-        }
-        p {
-            font-size: 0.16rem;
-            line-height: 0.2rem;
-            margin: 0.05rem 0;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
-        img {
-            width: 100%;height .58rem
         }
     }
 }
