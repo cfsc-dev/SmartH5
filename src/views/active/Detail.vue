@@ -8,50 +8,50 @@
             @click-left="back($router)"
         />
         <section class="main-content">
-            <h3 class="title">{{title}}</h3>
+            <h3 class="title">{{detail.title}}</h3>
             <van-cell-group>
                 <van-field
-                    v-model="startTime"
+                    v-model="detail.startTime"
                     readonly
                     label="开始时间:"
                 />
                 <van-field
-                    v-model="endTime"
+                    v-model="detail.endTime"
                     readonly
                     label="结束时间:"
                 />
                 <van-field
-                    v-model="location"
+                    v-model="detail.location"
                     readonly
                     label="活动地点:"
                 />
                 <van-field
-                    v-model="numbers"
+                    v-model="detail.nums"
                     readonly
                     label="参加人数:"
                 />
                 <van-field
-                    v-model="cost"
+                    v-model="detail.cost"
                     readonly
                     label="活动费用:"
                 />
                 <van-field
-                    v-model="contact"
+                    v-model="detail.contact"
                     readonly
                     label="联系人:"
                 />
                 <van-field
-                    v-model="tel"
+                    v-model="detail.tel"
                     readonly
                     label="联系电话:"
                 />
                  <van-field
-                    v-model="expiry"
+                    v-model="detail.expiry"
                     readonly
                     label="报名截止:"
                 />
                 <van-field
-                    v-model="content"
+                    v-model="detail.content"
                     label="活动详情:"
                     readonly
                     type="textarea"
@@ -60,36 +60,76 @@
                 />
             </van-cell-group>
             <div class="subBtn">
-                <van-button type="info" size="large" @click="subInfo">报名参加</van-button>
+                <van-button type="info" size="large" @click="subInfo(detail.userId)">
+                    {{detail.userId ? '取消报名' : '报名参加'}}
+                </van-button>
             </div>
         </section>
     </section>
 </template>
 <script>
+import axios from '@/utils/fetch'
+import { mapGetters } from 'vuex'
 export default {
     name: "activeDetail",
     data() {
         return {
-            title: '长房云西府-亲自手工',
-            startTime: '2019-06-01 14:00',
-            endTime: '2019-06-01 14:00',
-            location: '长房云西府',
-            numbers: '60人',
-            cost: '60人',
-            contact: '黄先生',
-            tel: '13888888888',
-            expiry: '2019-06-01 14:00',
-            content: '大手拉小手的活动开始报名了'
+            detail:{}
         }
     },
     created() {
-        console.log(this.$route.params)
+        this.detail = {}
+        axios.post('active/queryActive.action',{
+            id: this.$route.params.id,
+            userId: this.userInfo.userInfo.userId
+        }).then(res => {
+            if(res.data.id){
+                this.detail = res.data
+            }
+        }).catch(err => {
+            console.log(err)
+        })
     },
     methods: {
-        subInfo(){
-            this.$router.push('/active/sub')
+        subInfo(userid){
+            if(userid){
+                this.$dialog.confirm({
+                    message: '您确定取消该活动的报名？'
+                }).then(() => {
+                    axios.post('active/subActiveInfo.action',{
+                        activeId: this.$route.params.id,
+                        userId: this.userInfo.userInfo.userId
+                    }).then(res => {
+                        if(res.resultCode === '0'){
+                            this.$dialog.alert({
+                                message: res.msg
+                            }).then(() => {
+                                this.$store.dispatch('queryActiveList',{
+                                    userId: this.userInfo.userInfo.userId,
+                                    currentPage: 0,
+                                    pageSize: 4
+                                })
+                                this.$router.go(-1)
+                            })
+                        }else{
+                            this.$toast(res.msg)
+                        }
+                        console.log(res)
+                    }).catch(err=>{
+                        console.log(err)
+                    })
+                }).catch(() => {
+                })
+            }else{
+                this.$router.push('/active/sub/' + this.$route.params.id)
+            }
         }
         
+    },
+    computed: {
+        ...mapGetters([
+            'userInfo'
+        ]),
     }
 }
 </script>
