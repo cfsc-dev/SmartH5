@@ -73,6 +73,7 @@
 
 <script>
     import axios from '@/utils/fetch'
+    import { mapGetters } from 'vuex'
     export default {
         name: "CarLock",
         data(){
@@ -98,11 +99,16 @@
         created(){
             this.getCarList()
         },
+        computed: {
+            ...mapGetters([
+                'userInfo'
+            ]),
+        },
         methods:{
             //获取车辆信息
             getCarList(){
                 let params={
-                    ownerid:4541
+                    ownerid:this.userInfo.userInfo.userId
                 }
                 axios.post('/vehicleinfo/query.action',params).then(
                     res=>{

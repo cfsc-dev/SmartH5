@@ -39,6 +39,7 @@
 
 <script>
     import axios from '@/utils/fetch'
+    import { mapGetters } from 'vuex'
     export default {
         name: "VisitorIndex",
         data(){
@@ -62,6 +63,11 @@
             this.title=this.$route.name
             this.listHeight=(document.documentElement.clientHeight-116)+'px'
         },
+        computed: {
+            ...mapGetters([
+                'userInfo'
+            ]),
+        },
         methods: {
             //下拉刷新
             onRefresh(){
@@ -79,7 +85,7 @@
             getData(){
                 this.loading=true
                 let params={
-                    userId:'4541',
+                    userId:this.userInfo.userInfo.userId,
                     pageNo:this.page,
                     pageSize:this.pageSize
                 }

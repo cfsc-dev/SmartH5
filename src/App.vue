@@ -22,7 +22,7 @@
         },
         methods: {
             setUserInfo(userInfoStr){
-                this.$store.commit('SET_ISAUTH_TEL',true)
+                this.$store.commit('SET_ISAUTH','tel')
                 this.$store.commit('SET_USERINFO',JSON.parse(userInfoStr))
             },
             reward() {
