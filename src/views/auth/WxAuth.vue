@@ -25,10 +25,11 @@
                         }
                         this.$router.push('/')
                     }).catch(err => {
-                        console.log(err)
+                        this.$toast('微信授权失败:'+err)
                     })
             } else {
-                this.$router.push('/')
+                this.$toast('微信授权失败')
+                // this.$router.push('/')
             }
         }
     }
