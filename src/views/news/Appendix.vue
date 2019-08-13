@@ -35,6 +35,10 @@
                 // window.location.href=`http://222.240.37.83:9082/smartxd${item.url}`
                 window.location.href=item.url
             }
+        },
+        beforeRouteLeave(to, from, next) {
+            this.$router.animate = 2
+            next();
         }
     }
 </script>

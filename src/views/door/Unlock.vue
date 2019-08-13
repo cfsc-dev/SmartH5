@@ -51,6 +51,10 @@
                 this.getQrCode()
             }
         },
+        beforeRouteLeave(to, from, next) {
+            this.$router.animate = 2
+            next();
+        },
         methods:{
             //获取门禁二维码
             getQrCode(){

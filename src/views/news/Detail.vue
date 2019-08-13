@@ -117,6 +117,10 @@
                 this.$toast('待开发');this.$toast('待开发');
             }
 
+        },
+        beforeRouteLeave(to, from, next) {
+            this.$router.animate = 2
+            next();
         }
     }
 </script>
