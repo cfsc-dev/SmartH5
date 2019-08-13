@@ -41,16 +41,15 @@
         },
         watch:{
             isAuth(val){
-                if(val){
+                if(val === 'tel'){
                     this.getQrCode()
                 }
             }
         },
         created() {
-            if(this.isAuth){
+            if(this.isAuth === 'tel'){
                 this.getQrCode()
             }
-            // this.getQrCode()
         },
         beforeRouteLeave(to, from, next) {
             this.$router.animate = 2
@@ -62,8 +61,6 @@
                 let param={
                     userId:this.userInfo.userInfo.userId,
                     cardNo:this.userInfo.userInfo.cardNo,
-                    // userId:'4541',
-                    // cardNo:'10000031',
                     effectTime:dateTool.format(new Date(),'yyMMddHHmmss'),
                     expireTime:dateTool.format(new Date(new Date().getTime()+60*1000),'yyMMddHHmmss'),
                     openTimes:1

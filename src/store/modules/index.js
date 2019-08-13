@@ -2,7 +2,7 @@ import axios from '@/utils/fetch'
 import { Cookie } from '@/utils/storage'
 const index = {
     state: {
-        isAuth: '',
+        isAuth: 'tel',
         centerIcon: [
             { title: '最新动态', path: '/news', icon: 'news.png' },
             { title: '门禁开锁', path: '/unlock', icon: 'unlocking.png' },
