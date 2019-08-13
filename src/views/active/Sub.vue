@@ -104,6 +104,10 @@ export default {
         ...mapGetters([
             'userInfo'
         ])
+    },
+    beforeRouteLeave(to, from, next) {
+        this.$router.animate = 2
+        next();
     }
 }
 </script>

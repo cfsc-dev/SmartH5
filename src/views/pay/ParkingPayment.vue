@@ -73,6 +73,10 @@
                 payment:{}
             }
         },
+        beforeRouteLeave(to, from, next) {
+            this.$router.animate = 2
+            next();
+        },
         methods:{
             //组件点击事件--当点击虚拟键盘或车牌窗口之外关闭虚拟键盘
             mainClick(event){

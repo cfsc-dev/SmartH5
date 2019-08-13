@@ -145,6 +145,10 @@ export default {
             this.mobile = this.userInfo.userInfo.mobileNumber
         },500)
     },
+    beforeRouteLeave(to, from, next) {
+        this.$router.animate = 2
+        next();
+    },
     methods: {
         onConfirm(value, index) {
             this.repairValue = value.text

@@ -110,6 +110,10 @@
                 let now=new Date().getTime()
                 return now>expireTime?'已作废':''
             }
+        },
+        beforeRouteLeave(to, from, next) {
+            this.$router.animate = 2
+            next();
         }
     }
 </script>

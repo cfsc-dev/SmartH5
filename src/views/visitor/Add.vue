@@ -98,6 +98,10 @@
                 loading:false,
             }
         },
+        beforeRouteLeave(to, from, next) {
+            this.$router.animate = 2
+            next();
+        },
         methods:{
             //选择生效时间
             confirmStartTime(value){

@@ -34,6 +34,7 @@ router.beforeEach((to, from, next) => {
             message: '请通过微信公众号或App访问'
         })
     }
+    //next()
 })
 
 router.afterEach((to, from) => {
